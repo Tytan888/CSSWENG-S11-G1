@@ -14,4 +14,4 @@ document.getElementById('donate').addEventListener('click', async (e) => {
     const data = await res.json();
     console.log(data)
     window.location.href = data;
-}); 
+});

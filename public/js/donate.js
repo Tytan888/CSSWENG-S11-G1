@@ -1,5 +1,5 @@
 
-/* NOTE: TEST CODE FOR PAYMONGO API
+/* NOTE: TEST CODE FOR PAYMONGO API */
 document.getElementById('donate').addEventListener('click', async (e) => {
     e.preventDefault();
     const amount = document.getElementById('amount').value;
@@ -14,4 +14,4 @@ document.getElementById('donate').addEventListener('click', async (e) => {
     const data = await res.json();
     console.log(data)
     window.location.href = data;
-}); */
+}); 

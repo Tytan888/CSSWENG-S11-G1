@@ -72,4 +72,9 @@ router.post('/uploadImage', fileMiddleWare.fields([{name: 'image', maxCount:1}])
 */
 router.get('/imageByName', imageController.getByName);
 
+router.get('/', async (req, res) => {
+
+    res.render('index', {});
+});
+
 module.exports = router;

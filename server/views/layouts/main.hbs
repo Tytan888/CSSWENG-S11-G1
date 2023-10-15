@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+    <head>
+        <!--
+            TO DO: USE JAVASCRIPT TO CHECK WHAT DIRECTORY
+            WE'RE IN TO TELL THE HANDLEBAR WHICH CSS
+            FILE WE WANT TO USE BRO
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            {{#each css}}
+                <link rel="stylesheet" href="/css/{{this}}">
+            {{/each}}
+        -->
+        {{> head}}
+
+    </head>
+
+    <body>
+        {{> navbar}}
+        
+        {{{body}}}
+
+        {{> footer}}
+    </body>
+</html>

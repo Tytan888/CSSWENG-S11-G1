@@ -1,4 +1,5 @@
 const fs = require('gridfs-stream');
+const db = require('../config/db.js');
 const mongoose = require('mongoose');
 
 

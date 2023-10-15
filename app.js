@@ -4,7 +4,8 @@ require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const connectDB = require('./server/config/db.js');
+const db = require('./server/config/db.js');
+const gfs = require('./server/config/gfs.js');
 const exphbs = require('express-handlebars');
 const hbs = require('handlebars');
 
@@ -20,7 +21,8 @@ app.set("views", "./server/views");
 
 app.use('/', require('./server/routes/main.js'));
 
-connectDB();
+db.connect();
+gfs.connect(db.conn);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}.`);

@@ -1,10 +1,13 @@
 const express = require('express');
 const crypto = require('crypto');
-
 const router = express.Router();
-
 const Donation = require('../models/donation.js');
 const imageController = require('../controller/image_controller.js');
+
+//test for image upload
+const gfs = require('../config/gfs.js');
+const Test = require('../models/test.js');
+const file_upload = require('../controller/middleware/file_upload.js');
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
 router.post('/donate', async (req, res) => {
     const fetch = require('node-fetch');
@@ -72,9 +75,32 @@ router.post('/uploadImage', fileMiddleWare.fields([{name: 'image', maxCount:1}])
 */
 router.get('/imageByName', imageController.getByName);
 
+// testing image
+
+router.post('/',file_upload.single('photo'), async(req, res) =>{
+    var filename = req.file.filename;
+    await Test.create({title: filename, code: 'test'});
+    res.render('index', {});
+});
+router.get('/fileName',async(req,res)=>{
+    var filename =[];
+    filename = await Test.find({code: 'test'}, "title");
+    console.log({filename});
+    if(filename!=null){
+        res.set('Content-Type', 'application/json');
+        res.send({filename:filename});
+    }else
+        res.send(null);
+});
+
+//end of testing image
+
+
 router.get('/', async (req, res) => {
 
     res.render('index', {});
 });
+
+
 
 module.exports = router;

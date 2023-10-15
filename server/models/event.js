@@ -19,8 +19,12 @@ const eventSchema = new Schema({
     author: {
         type: String,
         required: true
-    }
+    },
     // TODO: Add a field for all images associated with an event.
+    image: {
+        type: String,
+        required: false
+    },
 });
 
 module.exports = mongoose.model('Event', eventSchema);

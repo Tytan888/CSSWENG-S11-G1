@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const gfs = require('../config/gfs.js');
 const connectDB = async () => {
 
     try {
@@ -7,6 +7,7 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
+        gfs.connect(mongoose.connection);
         console.log(`MongoDB Connected: mongodb://${conn.connection.host}:27017/pearsbuck`);
     }
     catch (err) {

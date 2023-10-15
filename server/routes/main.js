@@ -3,8 +3,8 @@ const crypto = require('crypto');
 
 const router = express.Router();
 
-const Donation = require('../models/donation.js')
-
+const Donation = require('../models/donation.js');
+const imageController = require('../controller/image_controller.js');
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
 router.post('/donate', async (req, res) => {
     const fetch = require('node-fetch');
@@ -65,5 +65,11 @@ router.post('/log', async (req, res) => {
         res.status(401).json({ status: 'Unauthorized Access' });
     }
 });
+
+
+/* routers for uploading images or files in general
+router.post('/uploadImage', fileMiddleWare.fields([{name: 'image', maxCount:1}]),postEventController.postEventPhoto);
+*/
+router.get('/imageByName', imageController.getByName);
 
 module.exports = router;

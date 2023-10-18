@@ -3,12 +3,12 @@ const crypto = require('crypto');
 const router = express.Router();
 const Donation = require('../models/donation.js');
 const imageController = require('../controller/image_controller.js');
+const projectController = require('../controller/project_controller.js');
+const file_upload = require('../controller/middleware/file_upload.js');
 
 //test for image upload
-const gfs = require('../config/gfs.js');
 const Test = require('../models/test.js');
-const Project = require('../models/project.js');
-const file_upload = require('../controller/middleware/file_upload.js');
+
 
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
 router.post('/donate', async (req, res) => {
@@ -97,72 +97,16 @@ router.get('/fileName', async (req, res) => {
 });
 
 //end of testing image 
+
+
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
 // TODO: When editing and deleting projects, the old image should be deleted from the database.
-router.get("/get_project", async (req, res) => {
-    const result = await Project.findOne({ id: req.query.id });
-    if (result == null) {
-        res.status(400);
-        res.end();
-    }
-    else {
-        res.status(200);
-        res.json(result);
-    }
-});
-
-router.post("/add_project", file_upload.single('mainPhoto'), async (req, res) => {
-    let last = await Project.find().sort({ $natural: -1 }).limit(1);
-    let newID = 1;
-    const suffix = "Project-"
-    if (last.length == 1)
-        newID = parseInt(last[0].id.substring(suffix.length)) + 1;
-    newID = suffix + newID.toString().padStart(7, "0");
-    
-    const result = await Project.create({ id: newID, name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename })
-
-    if(result == null){
-        res.status(400);
-        res.end();
-    }else{
-        res.status(200);
-        // TODO: Redirect to the correct page.
-        res.redirect('/html/test_view_project.html?id=' + newID);
-    }
-
-});
-
+router.get("/get_project", projectController.getProject);
+router.post("/add_project", file_upload.single('mainPhoto'), projectController.createProject);
 // TODO: Change from post to put once finalized (rn the frontend is using post cuz vanilla html forms can't use put)
-router.post("/edit_project", file_upload.single('mainPhoto'), async (req, res) => {
-    let result;
+router.post("/edit_project", file_upload.single('mainPhoto'), projectController.updateProject);
+router.delete("/delete_project",  projectController.deleteProject);
 
-    if(req.file == null)
-        result = await Project.updateOne({id: req.body.id}, {  $set: {name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status}})
-    else
-        result = await Project.updateOne({id: req.body.id}, { $set: {name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename }})
-    
-        if(result == null){
-        res.status(400);
-        res.end();
-    }else{
-        res.status(200);
-        // TODO: Redirect to the correct page.
-        res.redirect('/html/test_view_project.html?id=' + req.body.id);
-    }
-
-});
-
-router.delete("/delete_project", async (req, res) => {
-    const result = await Project.deleteOne({ id: req.body.id });
-    if (result == null) {
-        res.status(400);
-        res.end();
-    }
-    else {
-        res.status(200);
-        res.json(result);
-    }
-});
 
 router.get('/', async (req, res) => {
     res.render('index', {});

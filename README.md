@@ -3,7 +3,7 @@
 
 :trident: ***for developers***
 ```
-npm -test
+npm test
 ```
 - run this to automatically test functions
 - alternatively, vscode has a jest extension that automatically checks the tests when code is updated

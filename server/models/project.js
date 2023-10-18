@@ -2,18 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const projectSchema = new Schema({
-    title: {
+    id: {
         type: String,
         required: true,
         unique: true
     },
-    body: {
+    name: {
         type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now(),
         required: true
     },
     category: {
@@ -21,12 +16,31 @@ const projectSchema = new Schema({
         enum: ['Education', 'Health', 'Livelihood', 'Psychosocial'],
         required: true
     },
-    state: {
+    description: {
         type: String,
-        enum: ['Past', 'Ongoing', 'Completed'],
+        required: true
+    },
+    location:{
+        type: String,
+        required: true
+    },
+    raisedDonations:{
+        type: Number,
+        required: true
+    },
+    requiredBudget:{
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['Past', 'Ongoing', 'Upcoming'],
+        required: true
+    },
+    mainPhoto: {
+        type: String,
         required: true
     }
-    // TODO: Add a field for all images associated with a project.
 });
 
 module.exports = mongoose.model('Project', projectSchema);

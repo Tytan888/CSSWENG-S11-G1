@@ -7,7 +7,9 @@ const imageController = require('../controller/image_controller.js');
 //test for image upload
 const gfs = require('../config/gfs.js');
 const Test = require('../models/test.js');
+const Project = require('../models/project.js');
 const file_upload = require('../controller/middleware/file_upload.js');
+
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
 router.post('/donate', async (req, res) => {
     const fetch = require('node-fetch');
@@ -58,7 +60,7 @@ router.post('/log', async (req, res) => {
     data = hmac.update(t + "." + JSON.stringify(req.body));
     gen_hmac = data.digest('hex');
     if (te == gen_hmac) {
-        const donation = new Donation({donation: req.body.data});
+        const donation = new Donation({ donation: req.body.data });
         const donationData = await donation.save();
 
         res.status(200);
@@ -77,27 +79,92 @@ router.get('/imageByName', imageController.getByName);
 
 // testing image
 
-router.post('/',file_upload.single('photo'), async(req, res) =>{
+router.post('/', file_upload.single('photo'), async (req, res) => {
     var filename = req.file.filename;
-    await Test.create({title: filename, code: 'test'});
+    await Test.create({ title: filename, code: 'test' });
     res.render('index', {});
 });
-router.get('/fileName',async(req,res)=>{
-    var filename =[];
-    filename = await Test.find({code: 'test'}, "title");
-    console.log({filename});
-    if(filename!=null){
+
+router.get('/fileName', async (req, res) => {
+    var filename = [];
+    filename = await Test.find({ code: 'test' }, "title");
+    console.log({ filename });
+    if (filename != null) {
         res.set('Content-Type', 'application/json');
-        res.send({filename:filename});
-    }else
+        res.send({ filename: filename });
+    } else
         res.send(null);
 });
 
-//end of testing image
+//end of testing image 
+// TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
+// TODO: When editing and deleting projects, the old image should be deleted from the database.
+router.get("/get_project", async (req, res) => {
+    const result = await Project.findOne({ id: req.query.id });
+    if (result == null) {
+        res.status(400);
+        res.end();
+    }
+    else {
+        res.status(200);
+        res.json(result);
+    }
+});
 
+router.post("/add_project", file_upload.single('mainPhoto'), async (req, res) => {
+    let last = await Project.find().sort({ $natural: -1 }).limit(1);
+    let newID = 1;
+    const suffix = "Project-"
+    if (last.length == 1)
+        newID = parseInt(last[0].id.substring(suffix.length)) + 1;
+    newID = suffix + newID.toString().padStart(7, "0");
+    
+    const result = await Project.create({ id: newID, name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename })
+
+    if(result == null){
+        res.status(400);
+        res.end();
+    }else{
+        res.status(200);
+        // TODO: Redirect to the correct page.
+        res.redirect('/html/test_view_project.html?id=' + newID);
+    }
+
+});
+
+// TODO: Change from post to put once finalized (rn the frontend is using post cuz vanilla html forms can't use put)
+router.post("/edit_project", file_upload.single('mainPhoto'), async (req, res) => {
+    let result;
+
+    if(req.file == null)
+        result = await Project.updateOne({id: req.body.id}, {  $set: {name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status}})
+    else
+        result = await Project.updateOne({id: req.body.id}, { $set: {name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename }})
+    
+        if(result == null){
+        res.status(400);
+        res.end();
+    }else{
+        res.status(200);
+        // TODO: Redirect to the correct page.
+        res.redirect('/html/test_view_project.html?id=' + req.body.id);
+    }
+
+});
+
+router.delete("/delete_project", async (req, res) => {
+    const result = await Project.deleteOne({ id: req.body.id });
+    if (result == null) {
+        res.status(400);
+        res.end();
+    }
+    else {
+        res.status(200);
+        res.json(result);
+    }
+});
 
 router.get('/', async (req, res) => {
-
     res.render('index', {});
 });
 

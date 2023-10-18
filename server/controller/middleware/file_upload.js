@@ -1,23 +1,23 @@
 
 const multer = require('multer');
 const path = require('path');
-const{GridFsStorage} = require('multer-gridfs-storage');
+const { GridFsStorage } = require('multer-gridfs-storage');
 
 storage = new GridFsStorage({
-    url : process.env.MONGODB_URI,
-    file: (req, file) => {
-      return new Promise((resolve, reject) => {
-          const filename = file.originalname;
-          const fileInfo = {
+  url: process.env.MONGODB_URI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      const filename = file.originalname;
+      const fileInfo = {
 
-            //can change filename to something more appropriate
-            
-            filename: file.fieldname+"_"+Date.now()+"_"+filename,
-            bucketName: 'uploads'
-          };
-          resolve(fileInfo);
-      });
-    }
+        //can change filename to something more appropriate
+
+        filename: file.fieldname + "_" + Date.now() + "_" + filename,
+        bucketName: 'uploads'
+      };
+      resolve(fileInfo);
+    });
+  }
 
 });
 
@@ -25,7 +25,7 @@ storage = new GridFsStorage({
 
 const checkFileType = function (file, cb) {
   //Allowed file extensions
-  if(file!=null){
+  if (file != null) {
     const fileTypes = /jpeg|jpg|png|gif|svg/;
 
     //check extension names
@@ -34,22 +34,22 @@ const checkFileType = function (file, cb) {
     const mimeType = fileTypes.test(file.mimetype);
 
     if (mimeType && extName) {
-        return cb(null, true);
+      return cb(null, true);
     } else {
-        cb("Error: You can Only Upload Images!!",false);
+      cb("Error: You can Only Upload Images!!", false);
     }
-    }else{
-        cb("No file uploaded",false);
-    }
+  } else {
+    cb("No file uploaded", false);
+  }
 };
 
 // Create the multer instance
 const upload = multer({
-    storage: storage,
-    limits: { fileSize: 10000000 },
-    fileFilter: (req, file, cb) => {
-      checkFileType(file, cb);
-    },
-  });
+  storage: storage,
+  limits: { fileSize: 10000000 },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
+});
 
 module.exports = upload;

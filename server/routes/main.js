@@ -7,7 +7,7 @@ const projectController = require('../controller/project_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
 
 //test for image upload
-const Test = require('../models/test.js');
+const Test = require('../models/test_img.js');
 
 
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */

@@ -18,11 +18,6 @@ const aboutSchema = new Schema({
         type: String,
         required: true
     }
-    /* Add image.
-    icon: {
-        type: String,
-        required: true
-    }*/
 });
 
 module.exports = mongoose.model('About', aboutSchema);

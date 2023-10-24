@@ -14,6 +14,10 @@ const Proj = {
             res.json(result);
         }
     },
+    getProjects: async function(req, res, page, limit){
+        const result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+        return result;
+    },
     createProject: async function(req, res){
         let last = await Project.find().sort({ $natural: -1 }).limit(1);
         let newID = 1;

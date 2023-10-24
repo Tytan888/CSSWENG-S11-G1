@@ -105,13 +105,50 @@ router.get("/get_project", projectController.getProject);
 router.post("/add_project", file_upload.single('mainPhoto'), projectController.createProject);
 // TODO: Change from post to put once finalized (rn the frontend is using post cuz vanilla html forms can't use put)
 router.post("/edit_project", file_upload.single('mainPhoto'), projectController.updateProject);
-router.delete("/delete_project",  projectController.deleteProject);
+router.delete("/delete_project", projectController.deleteProject);
 
 
 router.get('/', async (req, res) => {
     res.render('index', {});
 });
 
+router.get('/donation-selection-project', async (req, res) => {
+    let displayLimit = 12
+    let page = parseInt(req.query.page);
+    console.log(page)
+    if(Number.isNaN(page) || page < 1){
+        console.log("page is null")
+        page = 1
+    }
+    let pages = [page];
+    let min, max = false;
+
+    if (page == null || page < 1)
+        page = 1;
+
+    let projects = await projectController.getProjects(req, res, page, displayLimit);
+    if (page == 1) {
+        min = true
+        let projectsNextNext = await projectController.getProjects(req, res, page + 2, displayLimit);
+        if (projectsNextNext.length != 0) {
+            pages.push(page + 2)
+        }
+    } else {
+        pages.push(page - 1)
+    }
+
+    let projectsNext = await projectController.getProjects(req, res, page + 1, displayLimit);
+    if (projectsNext.length == 0) {
+        max = true
+    } else {
+        pages.push(page + 1)
+    }
+
+
+    console.log(pages)
+    pages.sort()
+    res.render('donation-selection-project', { projects, pages, min, max });
+});
 
 
 module.exports = router;

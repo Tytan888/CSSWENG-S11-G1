@@ -14,17 +14,22 @@ const Grid = {
                 bucketName: 'uploads'
             });
 
-            gfs = fs(conn.db, mongoose.mongo);
+            this.gfs = fs(conn.db, mongoose.mongo);
             this.stream = gridfsBucket;
-            this.grid = gfs.collection('uploads');
+            this.grid = this.gfs.collection('uploads');
         });
     },
 
+    gfs: null,
     grid: null,
     stream: null,
 
     findOne: async function (query) {
         return await this.grid.findOne(query);
+    },
+
+    delete: async function (query) {
+        return await this.stream.delete(query);
     },
 
     createReadStream: async function (query) {

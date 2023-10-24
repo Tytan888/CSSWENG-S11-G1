@@ -1,14 +1,19 @@
 
 <div class="container selection-container my-3">
     <div class="row">
-        {{#each projects}}
+        {{#each elements}}
         <div class="col-xl-3 col-lg-4 col-md-6 my-3">
             <div class="card selection-animation">
-                <img class = "selection-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
+                <img class = "selection-img-{{../type}}" src="/imageByName?name={{this.mainPhoto}}" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text">{{this.description}}</p>
-                    <a href="donation-details-project/{{this.id}}" class="btn btn-primary">Donate to This Project</a>
+                    {{#if this.description}}
+                        <p class="card-text">{{this.description}}</p>
+                    {{/if}}
+                    {{#if this.gradelevel}}
+                        <p class="card-text">{{this.gradelevel}}</p>
+                    {{/if}}
+                    <a href="donation-details-project/{{this.id}}" class="btn btn-primary">{{../message}}</a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,25 @@
+<h1>ID</h1>
+<p id="id"></p>
+
+<h1>Event Name:</h1>
+<p id="name"></p>
+
+<div id="photoDisplay">
+
+</div>
+
+<script>
+    // Get the child data from the server
+    const eventID = new URLSearchParams(window.location.search).get('id');
+    fetch(`/get_event?id=${eventID}`)
+        .then(response => { return response.json()})
+        .then(event => {
+            // Set the child data to the HTML elements
+            document.getElementById('id').textContent = event.id;
+            document.getElementById('name').textContent = event.name;
+            for(let i = 0; i < event.photos.length; i++){
+                document.getElementById("photoDisplay").innerHTML += "<img src='/imageByName?name=" + event.photos[i] + "' style='width: 50%; height: auto;'><br/>";
+            }
+        })
+        .catch(error => console.error(error));
+</script>

@@ -1,4 +1,4 @@
-<form method='POST' enctype="multipart/form-data" action="/edit_project">
+<form id="form" method='POST' enctype="multipart/form-data" action="/edit_project">
     <label for="name">Project Name/Title:</label>
     <input type="text" id="name" name="name" required><br>
 
@@ -35,7 +35,7 @@
 
     <input type="text" id="id" name="id" style="display:none">
 
-    <input type="submit" value="Submit">
+    <input id="submit" type="submit" value="Submit">
 
     <script>
         // Retrieve project details from server using project id
@@ -68,5 +68,19 @@
                 reader.readAsDataURL(file);
             }
         });
+        document.getElementById("submit").addEventListener("click", async (e) => {
+            e.preventDefault();
+            var formData = new FormData(document.getElementById("form"));
+            const res = await fetch("/edit_project", {
+                method: "PUT",
+                body: formData
+            })
+            console.log(res);
+            if(res.status == 200){
+                // TODO: Redirect to the correct page.
+                json = await res.json();
+                window.location.replace("/html/test_view_project.html?id=" + json);
+            }
+        })
     </script>
 </form>

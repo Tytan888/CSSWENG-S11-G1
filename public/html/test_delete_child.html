@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Delete Project</title>
+</head>
+<body>
+    <h1>TEST</h1>
+</body>
+
+<script>
+    // Get the project data from the server
+    const childID = new URLSearchParams(window.location.search).get('id');
+
+    fetch("/delete_child", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: childID
+        })
+    })
+</script>
+
+</html>

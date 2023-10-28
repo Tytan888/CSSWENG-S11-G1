@@ -8,7 +8,7 @@
 
 .confirmation-text {
     font-family: "Inter", Helvetica;
-    font-size: 110px;
+    font-size: 70px;
     font-weight: 800;
     text-align: center;
 }
@@ -22,5 +22,6 @@
     cursor: pointer; 
     font-family: "Inter", Helvetica;
     font-weight: 800;
-    margin-top: 10px;
+    font-size: 24px;
+    margin-top: 25px;
 }

@@ -1,0 +1,60 @@
+<form id="form" method='POST' enctype="multipart/form-data">
+    <label for="name">Child Name:</label>
+    <input type="text" id="name" name="name" required><br>
+    
+    <label for="photos">Main Photo:</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple required><br>
+
+    <input type="text" id="id" name="id" style="display:none">
+    <div id="photoDisplay">
+    
+
+    </div>
+    <br/>
+
+    <input id="submit" type="submit" value="Submit">
+
+    <script>
+        // Retrieve project details from server using project id
+        const eventID = new URLSearchParams(window.location.search).get('id');
+        fetch(`/get_event?id=${eventID}`)
+            .then(response => response.json())
+            .then(event => {
+                // Set default values for form fields
+                console.log(event)
+                document.getElementById("id").value = event.id;
+                document.getElementById("name").value = event.name;
+                for(let i = 0; i < event.photos.length; i++){
+                    document.getElementById("photoDisplay").innerHTML += "<img src='/imageByName?name=" + event.photos[i] + "' style='width: 50%; height: auto;'><br/>";
+                }
+            });
+
+        // Preview main photo
+        document.getElementById("photos").addEventListener("change", function() {
+            console.log(this.files);
+            for(let i = 0; i < this.files.length; i++){
+                if (this.files[i]) {
+                    const reader = new FileReader();
+                    document.getElementById("photoDisplay").innerHTML = "";
+                    reader.addEventListener("load", function() {
+                        document.getElementById("photoDisplay").innerHTML += "<img src='" + this.result + "' style='width: 50%; height: auto;'><br/>";
+                    });
+                    reader.readAsDataURL(this.files[i]);
+                }
+            }
+        });
+        
+        document.getElementById("submit").addEventListener("click", async (e) => {
+            e.preventDefault();
+            const res = await fetch("/edit_event", {
+                method: "PUT",
+                body: new FormData(document.getElementById("form"))
+            })
+            if(res.status == 200){
+                // TODO: Redirect to the correct page.
+                json = await res.json();
+                window.location.replace("/html/test_view_event.html?id=" + json);
+            }
+        })
+    </script>
+</form>

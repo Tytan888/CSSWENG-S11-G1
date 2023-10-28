@@ -2,7 +2,16 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const childSchema = new Schema({
+    id: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
+        type: String,
+        required: true
+    },
+    location: {
         type: String,
         required: true
     },
@@ -10,15 +19,14 @@ const childSchema = new Schema({
         type: Date,
         required: true
     },
-    about: {
+    gradelevel: {
         type: String,
         required: true
     },
-    location: {
+    mainPhoto: {
         type: String,
         required: true
     }
-    // TODO: Add image.
 });
 
 module.exports = mongoose.model('Child', childSchema);

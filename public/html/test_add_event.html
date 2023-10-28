@@ -1,0 +1,42 @@
+<form id="form" method='post' enctype="multipart/form-data">
+    <label for="name">Event Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="photos">Main Photo:</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple required><br>
+    <div id="photoDisplay">
+    
+    </div>
+    <br/>
+
+    <input id="submit" type="submit" value="Submit">
+
+    <script>
+        document.getElementById("photos").addEventListener("change", function() {
+            console.log(this.files);
+            for(let i = 0; i < this.files.length; i++){
+                if (this.files[i]) {
+                    const reader = new FileReader();
+                    document.getElementById("photoDisplay").innerHTML = "";
+                    reader.addEventListener("load", function() {
+                        document.getElementById("photoDisplay").innerHTML += "<img src='" + this.result + "' style='width: 50%; height: auto;'><br/>";
+                    });
+                    reader.readAsDataURL(this.files[i]);
+                }
+            }
+        });
+
+        document.getElementById("submit").addEventListener("click", async (e) => {
+            e.preventDefault();
+            const res = await fetch("/add_event", {
+                method: "POST",
+                body: new FormData(document.getElementById("form"))
+            })
+            if(res.status == 200){
+                // TODO: Redirect to the correct page.
+                json = await res.json();
+                window.location.replace("/html/test_view_event.html?id=" + json);
+            }
+        })
+    </script>
+</form>

@@ -4,6 +4,8 @@ const router = express.Router();
 const Donation = require('../models/donation.js');
 const imageController = require('../controller/image_controller.js');
 const projectController = require('../controller/project_controller.js');
+const childController = require('../controller/child_controller.js');
+const eventController = require('../controller/event_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
 
 //test for image upload
@@ -76,6 +78,7 @@ router.post('/log', async (req, res) => {
 router.post('/uploadImage', fileMiddleWare.fields([{name: 'image', maxCount:1}]),postEventController.postEventPhoto);
 */
 router.get('/imageByName', imageController.getByName);
+router.delete('/deleteByName', imageController.deleteByName);
 
 // testing image
 
@@ -88,7 +91,6 @@ router.post('/', file_upload.single('photo'), async (req, res) => {
 router.get('/fileName', async (req, res) => {
     var filename = [];
     filename = await Test.find({ code: 'test' }, "title");
-    console.log({ filename });
     if (filename != null) {
         res.set('Content-Type', 'application/json');
         res.send({ filename: filename });
@@ -100,18 +102,79 @@ router.get('/fileName', async (req, res) => {
 
 
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
-// TODO: When editing and deleting projects, the old image should be deleted from the database.
 router.get("/get_project", projectController.getProject);
-router.post("/add_project", file_upload.single('mainPhoto'), projectController.createProject);
-// TODO: Change from post to put once finalized (rn the frontend is using post cuz vanilla html forms can't use put)
-router.post("/edit_project", file_upload.single('mainPhoto'), projectController.updateProject);
-router.delete("/delete_project",  projectController.deleteProject);
+router.post("/add_project", file_upload.single('mainPhoto'), projectController.addProject);
+router.put("/edit_project", file_upload.single('mainPhoto'), projectController.updateProject, imageController.deleteByName);
+router.delete("/delete_project", projectController.deleteProject, imageController.deleteByName);
 
+// TODO: Also for adding, editing, and deleting children, make sure only admins can access these pages and authenticate them.
+router.get("/get_child", childController.getChild);
+router.post("/add_child",  file_upload.single('mainPhoto'), childController.addChild)
+router.put("/edit_child", file_upload.single('mainPhoto'), childController.updateChild, imageController.deleteByName);
+router.delete("/delete_child", childController.deleteChild, imageController.deleteByName);
+
+// TODO: Also for adding, editing, and deleting events, make sure only admins can access these pages and authenticate them.
+router.get("/get_event", eventController.getEvent);
+router.post("/add_event", file_upload.array('photos', 10), eventController.addEvent);
+router.put("/edit_event", file_upload.array('photos', 10), eventController.updateEvent, imageController.deleteByNames);
+router.delete("/delete_event", eventController.deleteEvent, imageController.deleteByNames);
 
 router.get('/', async (req, res) => {
     res.render('index', {});
 });
 
+router.get('/donate/select-:type', async (req, res) => {
+    let displayLimit = 12
+    let page = parseInt(req.query.page);
+    if (Number.isNaN(page) || page < 1) {
+        page = 1
+    }
+    let pages = [page];
+    let min, max = false;
+    let elements, message
+
+    if (req.params.type == 'project') {
+        elements = await projectController.getProjects(req, res, page, displayLimit);
+        if (page == 1) {
+            min = true
+            let projectsNextNext = await projectController.getProjects(req, res, page + 2, displayLimit);
+            if (projectsNextNext.length != 0) {
+                pages.push(page + 2)
+            }
+        } else {
+            pages.push(page - 1)
+        }
+
+        let projectsNext = await projectController.getProjects(req, res, page + 1, displayLimit);
+        if (projectsNext.length == 0) {
+            max = true
+        } else {
+            pages.push(page + 1)
+        }
+        message = "Fund this Project!"
+    } else if (req.params.type == 'child') {
+        elements = await childController.getChildren(req, res, page, displayLimit);
+        if (page == 1) {
+            min = true
+            let childrenNextNext = await childController.getChildren(req, res, page + 2, displayLimit);
+            if (childrenNextNext.length != 0) {
+                pages.push(page + 2)
+            }
+        } else {
+            pages.push(page - 1)
+        }
+
+        let childrenNext = await childController.getChildren(req, res, page + 1, displayLimit);
+        if (childrenNext.length == 0) {
+            max = true
+        } else {
+            pages.push(page + 1)
+        }
+        message = "Sponsor Me!"
+    }
+    pages.sort()
+    res.render('donate-select', { elements, pages, min, max, type: req.params.type, message });
+});
 
 
 module.exports = router;

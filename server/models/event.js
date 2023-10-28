@@ -2,29 +2,19 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const eventSchema = new Schema({
-    title: {
+    id: {
         type: String,
         required: true,
         unique: true
     },
-    body: {
+    name: {
         type: String,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now(),
-        required: true
-    },
-    author: {
-        type: String,
-        required: true
-    },
-    // TODO: Add a field for all images associated with an event.
-    image: {
-        type: String,
-        required: false
-    },
+    photos: {
+        type: [String],
+        validate: v => Array.isArray(v) && v.length > 0,
+    }
 });
 
 module.exports = mongoose.model('Event', eventSchema);

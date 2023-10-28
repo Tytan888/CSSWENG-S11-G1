@@ -18,6 +18,12 @@ const Chi = {
             res.json(result);
         }
     },
+    getChildById: async function (req, res, id) {
+        let result = await Child.findOne({ id });
+        result = JSON.parse(JSON.stringify(result));
+        result.age = moment().diff(result.birthdate, 'years');
+        return result;
+    },
     getChildren: async function (req, res, page, limit) {
         const result = await Child.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         result.forEach(element => {

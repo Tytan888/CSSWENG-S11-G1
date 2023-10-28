@@ -33,11 +33,11 @@ router.post('/donate', async (req, res) => {
                     send_email_receipt: false,
                     show_description: true,
                     show_line_items: true,
-                    success_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                    cancel_url: 'https://music.youtube.com/watch?v=f9_dmfwIuKY',
-                    line_items: [{ currency: 'PHP', amount: Number(req.body.amount), name: req.body.name, quantity: 1 }],
+                    success_url: process.env.WEBSITE_URL + '/donate/thanks',
+                    cancel_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    line_items: [{ currency: 'PHP', amount: Number(req.body.amount), name: req.body.description, quantity: 1 }],
                     payment_method_types: ['card', 'gcash', 'paymaya', 'dob', 'dob_ubp'],
-                    description: 'DESC HERE'
+                    description: 'Pearl S. Buck Philippines'
                 }
             }
         })
@@ -109,7 +109,7 @@ router.delete("/delete_project", projectController.deleteProject, imageControlle
 
 // TODO: Also for adding, editing, and deleting children, make sure only admins can access these pages and authenticate them.
 router.get("/get_child", childController.getChild);
-router.post("/add_child",  file_upload.single('mainPhoto'), childController.addChild)
+router.post("/add_child", file_upload.single('mainPhoto'), childController.addChild)
 router.put("/edit_child", file_upload.single('mainPhoto'), childController.updateChild, imageController.deleteByName);
 router.delete("/delete_child", childController.deleteChild, imageController.deleteByName);
 
@@ -176,5 +176,29 @@ router.get('/donate/select-:type', async (req, res) => {
     res.render('donate-select', { elements, pages, min, max, type: req.params.type, message });
 });
 
+router.get('/donate/details/:id', async (req, res) => {
+    let id = req.params.id
+    let type = id.substring(0, id.indexOf('-'));
+    let element
+    if (type == 'Project') {
+        element = await projectController.getProjectById(req, res, id)
+        if(element == null){
+            res.render('404', {});
+            return;
+        }
+        res.render('donate-details', { name: element.name, description: element.description, mainPhoto: element.mainPhoto, id: element.id });
+    } else if (type == 'Child') {
+        element = await childController.getChildById(req, res, id)
+        if(element == null){
+            res.render('404', {});
+            return;
+        }
+        res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel, mainPhoto: element.mainPhoto, id: element.id, location: element.location });
+    }
+});
+
+router.get('/donate/thanks', async (req, res) => {
+    res.render('donate-thanks');
+});
 
 module.exports = router;

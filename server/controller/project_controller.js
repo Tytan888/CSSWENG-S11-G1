@@ -14,6 +14,10 @@ const Proj = {
             res.json(result);
         }
     },
+    getProjectById: async function (req, res, id) {
+        const result = await Project.findOne({ id });
+        return result;
+    },
     getProjects: async function (req, res, page, limit) {
         const result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         return result;

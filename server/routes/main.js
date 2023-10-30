@@ -123,6 +123,14 @@ router.get('/', async (req, res) => {
     res.render('index', {});
 });
 
+router.get("/donate", async (req, res) => {
+    res.redirect('/donate/type'); 
+});
+
+router.get("/donate/type", async (req, res) => {
+    res.render('donate-type', {});
+});
+
 router.get('/donate/select-:type', async (req, res) => {
     let displayLimit = 12
     let page = parseInt(req.query.page);

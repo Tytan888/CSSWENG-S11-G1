@@ -388,11 +388,132 @@
     outline: 2px solid #4a90e2 !important;
     outline: -webkit-focus-ring-color auto 5px !important;
     }
-    a {
-    text-decoration: none;
+    a, a:link {
+        text-decoration: none !important;
     }
+    
     @import url("https://fonts.googleapis.com/css?family=Inter:400");
 
+    .type-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+        top: 0;
+    }
+
+    .background-green{
+        background-color: var(--foreground);
+    }
+
+    .type-row {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        height: 100%
+    }
+
+    .type-col{
+        font-family: "Inter", Helvetica  !important;
+        font-weight: 800  !important;
+        margin: 10px  !important;
+        margin-bottom: 40px;
+        padding: 0  !important; 
+    }
+
+    .type-img{
+        width: 80% !important;
+        margin-left: auto; 
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .type-div{
+        display: flex;
+        padding:25px 0;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .text-col-1 {
+        color: black !important;
+    }
+
+
+    .text-col-2 {
+        color: white !important;
+    }
+
+    #right-half-background {
+    background-color: #007F55;
+    position: fixed;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+    }
+
+    .type-zoom-in-1 img{
+        animation: fadeInLeft 0.5s ease-in-out;
+        transition: transform .2s, box-shadow .2s; 
+        box-shadow: 0 5px 5px rgba(0,0,0,0.3);
+    }
+
+    .type-zoom-in-1 img:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 10px rgba(0,40,75,0.3);
+    }
+
+    .type-zoom-in-2 img{
+        animation: fadeInRight 0.5s ease-in-out;
+        transition: transform .2s, box-shadow .2s; 
+        box-shadow: 0 5px 5px rgba(0,0,0,0.3);
+    }
+
+    .type-zoom-in-2 img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 10px rgba(0,40,75,0.3);
+    }
+
+    .type-zoom-in-1 p{
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: black !important;
+        text-shadow: 0 5px 5px rgba(0,0,0,0.3);
+        text-decoration: none !important;
+    }
+    
+    .type-zoom-in-1 p:hover{
+        color: var(--foreground) !important;
+        text-decoration: none !important;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        text-shadow: 0 10px 10px rgba(0,40,75,0.3);
+    }
+
+    .type-zoom-in-2 p{
+        animation: fadeInRight 0.5s ease-in-out;
+        color: white !important;
+        text-shadow: 0 5px 5px rgba(255, 255, 255, 0.3);
+        text-decoration: none !important;
+    }
+    
+    .type-zoom-in-2 p:hover{
+        color: var(--highlighted) !important;
+        text-decoration: none !important;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+    }
     
 </script>
 </style>

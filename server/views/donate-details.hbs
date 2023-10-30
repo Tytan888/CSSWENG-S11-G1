@@ -54,7 +54,7 @@
         }else{
             description = "Sponsor for " + description
         }
-        const res = await fetch('/donate', {
+        const res = await fetch('/donate/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

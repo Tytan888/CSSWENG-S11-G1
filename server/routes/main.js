@@ -13,7 +13,7 @@ const Test = require('../models/test_img.js');
 
 
 /* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
-router.post('/donate', async (req, res) => {
+router.post('/donate/submit', async (req, res) => {
     const fetch = require('node-fetch');
 
     // TODO: Change both urls, success_url and cancel_url, to the actual urls of the website.
@@ -45,11 +45,11 @@ router.post('/donate', async (req, res) => {
 
     const checkout = await fetch(url, options)
         .then(ress => ress.json())
-        .then(json => { res.json(json.data.attributes.checkout_url) })
+        .then(json => { console.log(res); res.json(json.data.attributes.checkout_url) })
         .catch(err => console.error('error:' + err));
 });
 
-router.post('/log', async (req, res) => {
+router.post('/donate/log', async (req, res) => {
 
     // Verify webhook signature...
     // TODO: Change form te to li on deployment.

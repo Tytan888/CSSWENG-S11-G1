@@ -1,6 +1,4 @@
 const gfs = require('../config/gfs.js');
-const db = require('../config/db.js');
-const Event = require('../models/event.js');
 
 const Img = {
 

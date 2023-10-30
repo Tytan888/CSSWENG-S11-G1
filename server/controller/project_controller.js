@@ -1,5 +1,5 @@
 const Project = require('../models/project.js');
-const db = require('../config/db.js');
+
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
 // TODO: When editing and deleting projects, the old image should be deleted from the database.
 const Proj = {
@@ -18,7 +18,7 @@ const Proj = {
         const result = await Project.findOne({ id });
         return result;
     },
-    getProjects: async function (req, res, page, limit) {
+    getProjectsByPage: async function (req, res, page, limit) {
         const result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         return result;
     },

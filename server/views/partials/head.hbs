@@ -516,6 +516,75 @@
         text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
     }
     
+    .project-view-bg {
+        background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), center center/cover no-repeat;
+        min-height: 90vh;
+        overflow: hidden !important;
+        z-index: 8000;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .project-name{
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: white;
+        font-family: var(--font-menu-text);
+        transform: scale(1.9);
+        font-weight: 700;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+    }
+
+    .project-detail{
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: white;
+        font-family: var(--font-menu-text);
+        transform: scale(1.05);
+        font-weight: 600;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+    }
+    
+    .project-small{
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: white;
+        font-family: var(--font-menu-text);
+        transform: scale(1.0);
+        font-weight: 550;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+    }
+
+    .project-progress{
+        height: 20px !important;
+        padding: 0 !important;
+    }
+
+    .project-description{
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: white;
+        font-family: var(--font-menu-text);
+        transform: scale(1.0);
+        font-weight: 500;
+        white-space: break-spaces;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+        transition: transform .2s; 
+    }
+
+    .project-description:hover{
+        transform: scale(1.03);
+    }
+
+    .project-name:hover, .project-detail:hover, .project-small:hover{
+        color: var(--highlighted);
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        text-shadow: 0 10px 10px rgba(255, 231, 211, 0.3);
+    }
+
+
 </script>
 </style>
 <!-- 

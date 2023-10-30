@@ -1,5 +1,4 @@
 const Child = require('../models/child.js');
-const db = require('../config/db.js');
 const moment = require('moment');
 
 // TODO: Also for adding, editing, and deleting children, make sure only admins can access these pages and authenticate them.
@@ -20,11 +19,15 @@ const Chi = {
     },
     getChildById: async function (req, res, id) {
         let result = await Child.findOne({ id });
-        result = JSON.parse(JSON.stringify(result));
-        result.age = moment().diff(result.birthdate, 'years');
-        return result;
+        if(result == null)
+            return null;
+        else{
+            result = JSON.parse(JSON.stringify(result));
+            result.age = moment().diff(result.birthdate, 'years');
+            return result;
+        }
     },
-    getChildren: async function (req, res, page, limit) {
+    getChildrenByPage: async function (req, res, page, limit) {
         const result = await Child.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         result.forEach(element => {
             element.age = moment().diff(element.birthdate, 'years')

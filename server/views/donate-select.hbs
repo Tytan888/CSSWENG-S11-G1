@@ -11,9 +11,9 @@
                         <p class="card-text">{{this.description}}</p>
                     {{/if}}
                     {{#if this.gradelevel}}
-                        <p class="card-text">{{this.gradelevel}}</p>
+                        <p class="card-text"><span class="dark-green">Age:</span> {{age}} | <span class="dark-green">Grade:</span> {{gradelevel}} <br><span class="dark-green">Location:</span> {{location}}<p></p>
                     {{/if}}
-                    <a href="donation-details-project/{{this.id}}" class="btn btn-primary">{{../message}}</a>
+                    <a href="/donate/details/{{this.id}}" class="btn btn-primary">{{../message}}</a>
                 </div>
             </div>
         </div>

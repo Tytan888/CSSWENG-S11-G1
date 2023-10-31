@@ -1,0 +1,66 @@
+    <div class="main-container">
+        <div class="info-container">
+            {{#if description}}
+            <div class="row justify-content-center mx-0" style="width:100%">
+                <div class="img-container col-xs-12 col-sm-10 col-md-7 col-lg-6 my-3">
+                    <img src="/imageByName?name={{mainPhoto}}" class="project-image" alt="...">
+                </div>
+                <div class="text-container col-xs-12 col-sm-10 col-md-3 col-lg-4 my-3">
+                    <div class="title-container"><h1>{{name}}</h1></div>
+                    <div class="body-container"><p>{{description}}<p></div>
+                </div>
+            </div>
+            {{/if}}
+            {{#if gradelevel}}
+            <div class="row justify-content-center mx-4" style="width:80%">
+                <div class="img-container col-xs-10 col-sm-9 col-md-5 col-lg-4 col-xl-3 my-3">
+                    <img src="/imageByName?name={{mainPhoto}}" class="project-image" alt="...">
+                </div>
+                <div class="text-container col-xs-10 col-sm-9 col-md-5 col-lg-4 col-lg-3 my-3">
+                    <div class="title-container"><h1>{{name}}</h1></div>
+                    <div class="body-container"><p>Age: {{age}}<br>Grade: {{gradelevel}}<br>Location: {{location}}<p></div>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+        <div class="donation-container">
+            <div class="container align-items-center">
+                <div class="row justify-content-center mx-4 align-items-center">
+                    <label for="quantity" class="donation-label col-sm-11">Donation Amount (₱)</label>
+                </div>
+                <div class="row justify-content-center mx-4 align-items-center">
+                    <input type="number" id='amount' class="quantity col-sm-10 col-lg-5" name="quantity" min="0" step="1" inputmode="numeric">
+                </div>
+                <input type="text" id="id" value="{{id}}" hidden></input>
+                <input type="text" id="description" value="{{name}} ({{id}})" hidden></input>
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="proceed-button" id="proceed-button">
+                Proceed to Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('proceed-button').addEventListener('click', async (e) => {
+        e.preventDefault();
+        const amount = document.getElementById('amount').value * 100;
+        let description = document.getElementById('description').value;
+        const id = document.getElementById('id').value;
+        if(id.substring(0, 2) == 'Pr') {
+            description = "Funding for " + description
+        }else{
+            description = "Sponsor for " + description
+        }
+        const res = await fetch('/donate/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ amount, description })
+        })
+        const data = await res.json();
+        window.location.href = data;
+    });
+    </script>

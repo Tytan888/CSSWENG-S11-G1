@@ -1,84 +1,16 @@
 const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
-const Donation = require('../models/donation.js');
 const imageController = require('../controller/image_controller.js');
 const projectController = require('../controller/project_controller.js');
 const childController = require('../controller/child_controller.js');
 const eventController = require('../controller/event_controller.js');
+const donationController = require('../controller/donation_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
 
 //test for image upload
 const Test = require('../models/test_img.js');
-
-
-/* NOTE: TEST CODE FOR PAYMONGO CHECKOUT API */
-router.post('/donate', async (req, res) => {
-    const fetch = require('node-fetch');
-
-    // TODO: Change both urls, success_url and cancel_url, to the actual urls of the website.
-    // TODO: Change the authorization key to the actual secret key of the website.
-    // TODO: Change name and description to match the donation.
-    const url = 'https://api.paymongo.com/v1/checkout_sessions';
-    const options = {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            authorization: 'Basic c2tfdGVzdF9ReXByUVNBdXZRcm5zWEtoZDI1SFhybjc6'
-        },
-        body: JSON.stringify({
-            data: {
-                attributes: {
-                    send_email_receipt: false,
-                    show_description: true,
-                    show_line_items: true,
-                    success_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                    cancel_url: 'https://music.youtube.com/watch?v=f9_dmfwIuKY',
-                    line_items: [{ currency: 'PHP', amount: Number(req.body.amount), name: req.body.name, quantity: 1 }],
-                    payment_method_types: ['card', 'gcash', 'paymaya', 'dob', 'dob_ubp'],
-                    description: 'DESC HERE'
-                }
-            }
-        })
-    };
-
-    const checkout = await fetch(url, options)
-        .then(ress => ress.json())
-        .then(json => { res.json(json.data.attributes.checkout_url) })
-        .catch(err => console.error('error:' + err));
-});
-
-router.post('/log', async (req, res) => {
-
-    // Verify webhook signature...
-    // TODO: Change form te to li on deployment.
-    const signature = req.get('Paymongo-Signature');
-    const t = signature.substring(signature.indexOf("t=") + 2, signature.indexOf(","));
-    const te = signature.substring(signature.indexOf("te=") + 3, signature.indexOf(",", signature.indexOf(",") + 1));
-    const li = signature.substring(signature.indexOf("li=") + 3);
-
-    var hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET_KEY);
-    data = hmac.update(t + "." + JSON.stringify(req.body));
-    gen_hmac = data.digest('hex');
-    if (te == gen_hmac) {
-        const donation = new Donation({ donation: req.body.data });
-        const donationData = await donation.save();
-
-        res.status(200);
-        res.json({ status: 'OK' });
-
-    } else {
-        res.status(401).json({ status: 'Unauthorized Access' });
-    }
-});
-
-
-/* routers for uploading images or files in general
-router.post('/uploadImage', fileMiddleWare.fields([{name: 'image', maxCount:1}]),postEventController.postEventPhoto);
-*/
-router.get('/imageByName', imageController.getByName);
-router.delete('/deleteByName', imageController.deleteByName);
+const donation = require('../models/donation.js');
 
 // testing image
 
@@ -100,6 +32,16 @@ router.get('/fileName', async (req, res) => {
 
 //end of testing image 
 
+router.get('/', async (req, res) => {
+    res.render('index', {});
+});
+
+router.get('/404', async (req, res) => {
+    res.render('404', {});
+});
+
+router.get('/imageByName', imageController.getByName);
+router.delete('/deleteByName', imageController.deleteByName);
 
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
 router.get("/get_project", projectController.getProject);
@@ -109,7 +51,7 @@ router.delete("/delete_project", projectController.deleteProject, imageControlle
 
 // TODO: Also for adding, editing, and deleting children, make sure only admins can access these pages and authenticate them.
 router.get("/get_child", childController.getChild);
-router.post("/add_child",  file_upload.single('mainPhoto'), childController.addChild)
+router.post("/add_child", file_upload.single('mainPhoto'), childController.addChild)
 router.put("/edit_child", file_upload.single('mainPhoto'), childController.updateChild, imageController.deleteByName);
 router.delete("/delete_child", childController.deleteChild, imageController.deleteByName);
 
@@ -119,62 +61,29 @@ router.post("/add_event", file_upload.array('photos', 10), eventController.addEv
 router.put("/edit_event", file_upload.array('photos', 10), eventController.updateEvent, imageController.deleteByNames);
 router.delete("/delete_event", eventController.deleteEvent, imageController.deleteByNames);
 
-router.get('/', async (req, res) => {
-    res.render('index', {});
+router.get("/donate", donationController.donationRedirect);
+router.get("/donate/type", donationController.donationType);
+router.get('/donate/select-:type', donationController.donationSelect);
+router.get('/donate/details/:id', donationController.donationDetails);
+router.post('/donate/submit', donationController.submitDonation);
+router.post('/donate/log', donationController.logDonation);
+router.get('/donate/thanks', donationController.donationThanks);
+router.get("/donate/fail", donationController.donationFail);
+
+router.get("/project/view/:id", async (req, res) => {
+    let id = req.params.id
+    let element = await projectController.getProjectById(req, res, id)
+    console.log(element)
+    if (element == null) {
+        res.redirect('/404');
+        return;
+    }
+    res.render('project-view', { name: element.name, description: element.description, category: element.category, location: element.location, status: element.status, mainPhoto: element.mainPhoto, progress: element.raisedDonations / element.requiredBudget * 100, raisedDonations: element.raisedDonations.toLocaleString("en-US"), requiredBudget: element.requiredBudget.toLocaleString("en-US"), id: element.id });
+
 });
 
-router.get('/donate/select-:type', async (req, res) => {
-    let displayLimit = 12
-    let page = parseInt(req.query.page);
-    if (Number.isNaN(page) || page < 1) {
-        page = 1
-    }
-    let pages = [page];
-    let min, max = false;
-    let elements, message
-
-    if (req.params.type == 'project') {
-        elements = await projectController.getProjects(req, res, page, displayLimit);
-        if (page == 1) {
-            min = true
-            let projectsNextNext = await projectController.getProjects(req, res, page + 2, displayLimit);
-            if (projectsNextNext.length != 0) {
-                pages.push(page + 2)
-            }
-        } else {
-            pages.push(page - 1)
-        }
-
-        let projectsNext = await projectController.getProjects(req, res, page + 1, displayLimit);
-        if (projectsNext.length == 0) {
-            max = true
-        } else {
-            pages.push(page + 1)
-        }
-        message = "Fund this Project!"
-    } else if (req.params.type == 'child') {
-        elements = await childController.getChildren(req, res, page, displayLimit);
-        if (page == 1) {
-            min = true
-            let childrenNextNext = await childController.getChildren(req, res, page + 2, displayLimit);
-            if (childrenNextNext.length != 0) {
-                pages.push(page + 2)
-            }
-        } else {
-            pages.push(page - 1)
-        }
-
-        let childrenNext = await childController.getChildren(req, res, page + 1, displayLimit);
-        if (childrenNext.length == 0) {
-            max = true
-        } else {
-            pages.push(page + 1)
-        }
-        message = "Sponsor Me!"
-    }
-    pages.sort()
-    res.render('donate-select', { elements, pages, min, max, type: req.params.type, message });
-});
-
+router.use((req, res, next) => {
+    res.redirect('/404');
+})
 
 module.exports = router;

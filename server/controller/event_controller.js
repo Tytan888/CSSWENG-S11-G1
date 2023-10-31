@@ -1,5 +1,5 @@
 const Event = require('../models/event.js');
-const db = require('../config/db.js');
+
 // TODO: Also for adding, editing, and deleting events, make sure only admins can access these pages and authenticate them.
 // TODO: When editing and deleting events, the old image should be deleted from the database.
 const Eve = {

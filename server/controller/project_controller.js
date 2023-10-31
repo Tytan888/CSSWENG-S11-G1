@@ -19,7 +19,25 @@ const Proj = {
         return result;
     },
     getProjectsByPage: async function (req, res, page, limit) {
-        const result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+        const cutoffLength = 140;
+        var result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+        result.forEach(element => {
+            if (element.description.length > cutoffLength) {
+                element.description = element.description.substring(0, cutoffLength) + "...";
+            }
+        });
+        return result;
+    },
+    getProjectsByFilters: async function (req, res, filters, limit) {
+        const cutoffLength = 140;
+        if(limit == null)
+            limit = 100000000;
+        var result = await Project.find(filters).sort({ $natural: -1 }).limit(limit).lean();
+        result.forEach(element => {
+            if (element.description.length > cutoffLength) {
+                element.description = element.description.substring(0, cutoffLength) + "...";
+            }
+        });
         return result;
     },
     addProject: async function (req, res) {
@@ -58,7 +76,7 @@ const Proj = {
                 res.status(400);
                 res.end();
             } else {
-                if(req.file != null){
+                if (req.file != null) {
                     res.locals.id = req.body.id;
                     next();
                 }

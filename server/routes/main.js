@@ -73,13 +73,43 @@ router.get("/donate/fail", donationController.donationFail);
 router.get("/project/view/:id", async (req, res) => {
     let id = req.params.id
     let element = await projectController.getProjectById(req, res, id)
-    console.log(element)
     if (element == null) {
         res.redirect('/404');
         return;
     }
     res.render('project-view', { name: element.name, description: element.description, category: element.category, location: element.location, status: element.status, mainPhoto: element.mainPhoto, progress: element.raisedDonations / element.requiredBudget * 100, raisedDonations: element.raisedDonations.toLocaleString("en-US"), requiredBudget: element.requiredBudget.toLocaleString("en-US"), id: element.id });
 
+});
+
+router.get("/project/explore", async (req, res) => {
+    const healthProject = await projectController.getProjectsByFilters(req, res, { category: 'Health' }, 1);
+    const livelihoodProject = await projectController.getProjectsByFilters(req, res, { category: 'Livelihood' }, 1);
+    const psychosocialProject = await projectController.getProjectsByFilters(req, res, { category: 'Psychosocial' }, 1);
+    const educationProject = await projectController.getProjectsByFilters(req, res, { category: 'Education' }, 1);
+    if(healthProject.length == 1){
+        healthPhoto = healthProject[0].mainPhoto;
+    }else{
+        healthPhoto = "default.jpg";
+    }
+    if(livelihoodProject.length == 1){
+        livelihoodPhoto = livelihoodProject[0].mainPhoto;
+    }else{
+        livelihoodPhoto = "default.jpg";
+    }
+    if(psychosocialProject.length == 1){
+        psychosocialPhoto = psychosocialProject[0].mainPhoto;
+    }else{
+        psychosocialPhoto = "default.jpg";
+    }
+    if(educationProject.length == 1){
+        educationPhoto = educationProject[0].mainPhoto;
+    }else{
+        educationPhoto = "default.jpg";
+    }
+    const ongoingProjects = await projectController.getProjectsByFilters(req, res, { status: 'Ongoing' }, 3);
+    const pastProjects = await projectController.getProjectsByFilters(req, res, { status: 'Past' }, 3);
+    const upcomingProjects = await projectController.getProjectsByFilters(req, res, { status: 'Upcoming' }, 3);
+    res.render('project-explore', {healthPhoto, livelihoodPhoto, psychosocialPhoto, educationPhoto, ongoingProjects, ongoing3: ongoingProjects.length == 3, ongoing2: ongoingProjects.length == 2, ongoing1: ongoingProjects.length == 1, pastProjects, past3: pastProjects.length == 3, past2: pastProjects.length == 2, past1: pastProjects.length == 1, upcomingProjects, upcoming3: upcomingProjects.length == 3, upcoming2: upcomingProjects.length == 2, upcoming1: upcomingProjects.length == 1});
 });
 
 router.use((req, res, next) => {

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-const url = process.env.MONGODB_URI;
 
 // Additional Connection Options
 const options = {
@@ -11,12 +10,13 @@ const options = {
 const database = {
 
     conn: null,
+    url: null,
 
     /*
         This function connects to the database.
     */
     connect: function () {
-        mongoose.connect(url, options);
+        mongoose.connect(this.url, options);
         conn = mongoose.connection;
         console.log(`MongoDB Connected: mongodb://27017/pearsbuck`);
         this.conn = conn;

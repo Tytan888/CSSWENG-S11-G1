@@ -1,3 +1,6 @@
+const app = require('../app');
+const supertest = require('supertest');
+const request = supertest(app);
 
 const db = require('../server/config/db');
 const gfs = require('../server/config/gfs');

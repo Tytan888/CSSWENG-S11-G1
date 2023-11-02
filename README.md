@@ -1,7 +1,7 @@
 "# CSSWENG-S11-G1" 
 
 
-trident: ***to run server:*** 
+:moon: ***to run server:*** 
 ```
 node start.js
 ```

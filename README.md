@@ -1,6 +1,11 @@
 "# CSSWENG-S11-G1" 
 
 
+trident: ***to run server:*** 
+```
+node start.js
+```
+
 :trident: ***for developers***
 ```
 npm test

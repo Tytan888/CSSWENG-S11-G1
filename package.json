@@ -6,7 +6,7 @@
   "scripts": {
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "test": "jest --verbose --testTimeout=5000  --watchAll --detectOpenHandles",
+    "test": "jest --verbose --testTimeout=5000  --watchAll --detectOpenHandles --coverage",
     "testRunner": "jest-jasmine2",
     "start": "app.js",
     "dev": "nodemon app.js"

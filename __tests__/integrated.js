@@ -54,11 +54,16 @@ describe("CRUD Project", () => {
         console.log(project.status);
         console.log(project);
         await request.post('/add_project').attach('mainPhoto', project.mainPhoto).field("id", project.id).field("name", project.name).field("category", project.category).field("description", project.description).field("location", project.location).field("raisedDonations", project.raisedDonations).field("requiredBudget", project.requiredBudget).field("status", project.status).expect(200);
-        const obj =  await db.findOne(Project, {category: "Education"});
+        const obj =  await db.findOne(Project, {name: "test project"});
         console.log("test add project: "+ obj);
         expect(obj.name).toBeTruthy();
         return obj;
     });
+
+    test.todo('should update project in the database');
+    test.todo('should delete project in the database');
+    test.todo('should get project in the database');
+    test.todo('should have unique id');
 });
 
 describe("CRUD Child", () => {
@@ -74,17 +79,30 @@ describe("CRUD Child", () => {
         const res = await request.post('/add_child').attach('mainPhoto', child.mainPhoto).field("id", child.id).field("name", child.name).field("birthdate", child.birthdate).field("gradelevel", child.gradelevel).field("location", child.location).expect(200);
         return res;
     });
+    test.todo('should update child in the database');
+    test.todo('should delete child in the database');
+    test.todo('should get child in the database');
+    test.todo('should have unique id');
 });
 
 describe("CRUD About", () => {
     test.todo('should add About to database');
+    test.todo('should update About in the database');
+    test.todo('should delete About in the database');
+    test.todo('should get About in the database');
 });
 
 describe("CRUD Contact", () => {
     test.todo('should add Contact to database');
+    test.todo('should update Contact in the database');
+    test.todo('should delete Contact in the database');
+    test.todo('should get Contact in the database');
 });
 describe("CRUD Event", () => {
     test.todo('should add Event to database');
+    test.todo('should update Event in the database');
+    test.todo('should delete Event in the database');
+    test.todo('should get Event in the database');
 });
 
 
@@ -93,4 +111,9 @@ describe("Donate", () => {
         await request.post('/donate').send({name:"tester: rlaph", amount: 1000});
         return;
     });
+    test.todo('should update donate in the database');
+    test.todo('should delete donate in the database');
+    test.todo('should get donate in the database');
+    test.todo('should have unique id');
+    
 }); 

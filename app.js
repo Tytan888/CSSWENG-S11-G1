@@ -25,7 +25,6 @@ app.engine("hbs", exphbs.engine({
             return value.charAt(0).toUpperCase() + value.slice(1);
         },
         tw_len: function (value) {
-            console.log(value)
             return 12 / Math.min(value.length, 3);
         }
     }

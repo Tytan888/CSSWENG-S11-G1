@@ -13,7 +13,6 @@ const Test = require('../models/test_img.js');
 const donation = require('../models/donation.js');
 
 // testing image
-
 router.post('/', file_upload.single('photo'), async (req, res) => {
     var filename = req.file.filename;
     await Test.create({ title: filename, code: 'test' });

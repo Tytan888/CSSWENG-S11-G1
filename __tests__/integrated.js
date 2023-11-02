@@ -12,13 +12,6 @@ const Donation = require('../server/models/donation.js');
 const Event = require('../server/models/event.js');
 const Project = require('../server/models/project.js');
 
-//controller functions
-const projectController = require('../server/controller/project_controller.js');
-const childController = require('../server/controller/child_controller.js');
-const donationController= require('../server/controller/donation_controller.js');
-const eventController = require('../server/controller/event_controller.js');
-const imageController = require('../server/controller/image_controller.js');
-
 // setup of database connection
 beforeAll(() => {
     db.url = "mongodb://localhost/test_pearldb";
@@ -64,6 +57,7 @@ describe("CRUD Project", () => {
     test.todo('should delete project in the database');
     test.todo('should get project in the database');
     test.todo('should have unique id');
+    test.todo('should not be able to send with non image file upload');
 });
 
 describe("CRUD Child", () => {
@@ -83,6 +77,7 @@ describe("CRUD Child", () => {
     test.todo('should delete child in the database');
     test.todo('should get child in the database');
     test.todo('should have unique id');
+    test.todo('should not be able to send with non image file upload');
 });
 
 describe("CRUD About", () => {
@@ -103,6 +98,7 @@ describe("CRUD Event", () => {
     test.todo('should update Event in the database');
     test.todo('should delete Event in the database');
     test.todo('should get Event in the database');
+    test.todo('should not be able to send with non image file upload');
 });
 
 
@@ -115,5 +111,7 @@ describe("Donate", () => {
     test.todo('should delete donate in the database');
     test.todo('should get donate in the database');
     test.todo('should have unique id');
+    test.todo('should not be able to send negative amount');
+    test.todo('should not be able to send 0 amount');
     
 }); 

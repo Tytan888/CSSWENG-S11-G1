@@ -6,7 +6,6 @@ const request = supertest(app);
 //database models
 const db = require('../server/config/db.js');
 const gfs = require('../server/config/gfs.js');
-const About = require('../server/models/about.js');
 const Child = require('../server/models/child.js');
 const Donation = require('../server/models/donation.js');
 const Event = require('../server/models/event.js');
@@ -44,11 +43,8 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         }
-        console.log(project.status);
-        console.log(project);
         await request.post('/add_project').attach('mainPhoto', project.mainPhoto).field("id", project.id).field("name", project.name).field("category", project.category).field("description", project.description).field("location", project.location).field("raisedDonations", project.raisedDonations).field("requiredBudget", project.requiredBudget).field("status", project.status).expect(200);
         const obj =  await db.findOne(Project, {name: "test project"});
-        console.log("test add project: "+ obj);
         expect(obj.name).toBeTruthy();
         return obj;
     });
@@ -80,13 +76,6 @@ describe("CRUD Child", () => {
     test.todo('should not be able to send with non image file upload');
 });
 
-describe("CRUD About", () => {
-    test.todo('should add About to database');
-    test.todo('should update About in the database');
-    test.todo('should delete About in the database');
-    test.todo('should get About in the database');
-});
-
 describe("CRUD Contact", () => {
     test.todo('should add Contact to database');
     test.todo('should update Contact in the database');
@@ -99,12 +88,26 @@ describe("CRUD Event", () => {
             id: 1,
             name: "test event",
             mainPhoto: "__tests__/test_assets/image_asset.png",
+            category: "Health",
+            status: "Ongoing",
+            location:"test location",
+            startDate: new Date(2023, 2),
+            endDate: new Date(2024, 6),
         };
-        await request.post('/add_event').attach('photos', event.mainPhoto).attach('photos', event.mainPhoto).field("id", event.id).field("name", event.name).expect(200);
+        event.startDate = event.startDate.toString();
+        event.endDate = event.endDate.toString();
+        console.log("enddate "+event.endDate);
+        await request.post('/add_event').attach('mainPhoto', event.mainPhoto).field("id", event.id).field("name", event.name).field("category", event.category).field("status", event.status).field("location", event.location).field("startdate", event.startDate).field("enddate", event.endDate).expect(200);
         const obj =  await db.findOne(Event, {name: "test event"});
         expect(obj.name).toBeTruthy();
-        expect(obj.photos.length).toBe(2);
         expect(obj.id).toBeTruthy();
+        expect(obj.category).toBeTruthy();
+        expect(obj.status).toBeTruthy();
+        expect(obj.location).toBeTruthy();
+        expect(obj.startDate).toBeTruthy();
+        expect(obj.endDate).toBeTruthy();
+        expect(obj.name).toBe(event.name);
+        expect(obj.mainPhoto).toBeTruthy();
         return obj;
     
     });

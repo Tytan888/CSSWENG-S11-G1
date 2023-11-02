@@ -5,7 +5,7 @@ const moment = require('moment');
 // TODO: When editing and deleting children, the old image should be deleted from the database.
 const Chi = {
     getChild: async function (req, res) {
-        let result = await Child.findOne({ id: req.query.id });
+        let result = await Child.findOne({ id: req.query.id, sponsor: null });
         if (result == null) {
             res.status(400);
             res.end();
@@ -18,17 +18,17 @@ const Chi = {
         }
     },
     getChildById: async function (req, res, id) {
-        let result = await Child.findOne({ id });
-        if(result == null)
+        let result = await Child.findOne({ id, sponsor: null });
+        if (result == null)
             return null;
-        else{
+        else {
             result = JSON.parse(JSON.stringify(result));
             result.age = moment().diff(result.birthdate, 'years');
             return result;
         }
     },
     getChildrenByPage: async function (req, res, page, limit) {
-        const result = await Child.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+        const result = await Child.find({sponsor: null}).sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         result.forEach(element => {
             element.age = moment().diff(element.birthdate, 'years')
         });
@@ -79,6 +79,18 @@ const Chi = {
                     res.json(req.body.id);
             }
         }
+    },
+
+    updateSponsor: async function (req, res, id) {
+        let sponsor = { name: req.body.name, email: req.body.email, phone: req.body.phone };
+        result = await Child.updateOne({ id: req.body.id }, { $set: { sponsor } })
+        if (result == null) {
+            res.status(400);
+            res.end();
+        } else {
+            res.json("/donate/thanks");
+        }
+
     },
 
     deleteChild: async function (req, res, next) {

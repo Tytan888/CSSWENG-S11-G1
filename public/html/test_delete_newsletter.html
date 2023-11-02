@@ -11,10 +11,10 @@
 </body>
 
 <script>
-    // Get the project data from the server
+    // Get the newsletter data from the server
     const projectID = new URLSearchParams(window.location.search).get('id');
 
-    fetch("/delete_project", {
+    fetch("/delete_newsletter", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

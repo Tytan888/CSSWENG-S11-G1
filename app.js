@@ -16,7 +16,19 @@ const URL = process.env.MONGODB_URI;
 app.use(express.static('public'));
 app.use(express.json());
 app.set('layout', './layouts/main');
-app.engine("hbs", exphbs.engine({extname: 'hbs', defaultLayout: 'main'}));
+app.engine("hbs", exphbs.engine({
+    extname: 'hbs', defaultLayout: 'main', helpers: {
+        inc: function (value) {
+            return parseInt(value) + 1;
+        },
+        cap: function (value) {
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        },
+        tw_len: function (value) {
+            return 12 / Math.min(value.length, 3);
+        }
+    }
+}));
 app.set("view engine", "hbs");
 app.set("views", "./server/views");
 

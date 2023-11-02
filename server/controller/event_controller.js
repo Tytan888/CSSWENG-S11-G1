@@ -14,8 +14,24 @@ const Eve = {
             res.json(result);
         }
     },
-    getEvents: async function (req, res, page, limit) {
-        const result = await Event.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+    getEventById: async function (req, res, id) {
+        const result = await Event.findOne({ id });
+        return result;
+    },
+    getEventsByPage: async function (req, res, page, limit) {
+        const cutoffLength = 140;
+        var result = await Event.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+        result.forEach(element => {
+            if (element.description.length > cutoffLength) {
+                element.description = element.description.substring(0, cutoffLength) + "...";
+            }
+        });
+        return result;
+    },
+    getEventsByFilters: async function (req, res, filters, limit) {
+        if (limit == null)
+            limit = 100000000;
+        var result = await Event.find(filters).sort({ $natural: -1 }).limit(limit).lean();
         return result;
     },
     addEvent: async function (req, res) {
@@ -25,11 +41,8 @@ const Eve = {
         if (last.length == 1)
             newID = parseInt(last[0].id.substring(suffix.length)) + 1;
         newID = suffix + newID.toString().padStart(7, "0");
-        let photos = [];
-        req.files.forEach(element => {
-            photos.push(element.filename);
-        });
-        const result = await Event.create({ id: newID, name: req.body.name, photos })
+
+        const result = await Event.create({ id: newID, name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename })
 
         if (result == null) {
             res.status(400);
@@ -39,30 +52,25 @@ const Eve = {
             res.json(newID);
         }
     },
-    //TODO BELOW
     updateEvent: async function (req, res, next) {
         const resultFind = await Event.findOne({ id: req.body.id });
         if (resultFind == null) {
             res.status(400);
             res.end();
         } else {
-            res.locals.names = resultFind.photos;
+            res.locals.name = resultFind.mainPhoto;
+
             let result;
-            if (req.files == null)
-                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name } })
-            else {
-                let photos = [];
-                req.files.forEach(element => {
-                    photos.push(element.filename);
-                });
-                
-                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name, photos } })
-            }
+            if (req.file == null)
+                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate } })
+            else
+                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename } })
+
             if (result == null) {
                 res.status(400);
                 res.end();
             } else {
-                if (req.files != null) {
+                if (req.file != null) {
                     res.locals.id = req.body.id;
                     next();
                 }
@@ -79,7 +87,7 @@ const Eve = {
             res.end();
         }
         else {
-            res.locals.names = resultFind.photos;
+            res.locals.name = resultFind.mainPhoto;
             const result = await Event.deleteOne({ id: req.body.id });
             if (result == null) {
                 res.status(400);

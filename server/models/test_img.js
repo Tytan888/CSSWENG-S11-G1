@@ -12,7 +12,7 @@ const testSchema = new Schema({
         default: Date.now(),
         required: true
     },
-    code:{
+    code: {
         type: String,
         required: true,
     }

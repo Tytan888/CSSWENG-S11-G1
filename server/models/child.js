@@ -11,7 +11,7 @@ const childSchema = new Schema({
         type: String,
         required: true
     },
-    location: {
+    gradelevel: {
         type: String,
         required: true
     },
@@ -19,13 +19,18 @@ const childSchema = new Schema({
         type: Date,
         required: true
     },
-    gradelevel: {
+    location: {
         type: String,
         required: true
     },
     mainPhoto: {
         type: String,
         required: true
+    },
+    sponsor: {
+        name: { type: String},
+        email: { type: String },
+        phone: { type: String }
     }
 });
 

@@ -21,7 +21,7 @@ const Don = {
         }
         let pages = [page];
         let min, max = false;
-        let elements, message
+        let elements, message, noneMessage;
 
         if (req.params.type == 'project') {
             elements = await projectController.getProjectsByPage(req, res, page, displayLimit);
@@ -42,6 +42,7 @@ const Don = {
                 pages.push(page + 1)
             }
             message = "Fund this Project!"
+            noneMessage = "No projects available for funding at the moment."
         } else if (req.params.type == 'child') {
             elements = await childController.getChildrenByPage(req, res, page, displayLimit);
             if (page == 1) {
@@ -61,12 +62,13 @@ const Don = {
                 pages.push(page + 1)
             }
             message = "Sponsor Me!"
-        }else{
+            noneMessage = "No children available for sponsorship at the moment."
+        } else {
             res.redirect('/404');
             return;
         }
         pages.sort()
-        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message });
+        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message, noneMessage});
     },
 
     donationDetails: async function (req, res) {
@@ -149,6 +151,17 @@ const Don = {
 
         } else {
             res.status(401).json({ status: 'Unauthorized Access' });
+        }
+    },
+
+    registerSponsor: async function (req, res, next) {
+        let id = req.body.id;
+        const element = await childController.getChildById(req, res, id);
+        if (element == null) {
+            res.json("/donate/fail");
+            return;
+        }else{
+            next();
         }
     },
 

@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const projectSchema = new Schema({
+const newsletterSchema = new Schema({
     id: {
         type: String,
         required: true,
         unique: true
     },
     name: {
-        type: String,
-        required: true
-    },
-    description: {
         type: String,
         required: true
     },
@@ -25,22 +21,10 @@ const projectSchema = new Schema({
         enum: ['Past', 'Ongoing', 'Upcoming'],
         required: true
     },
-    location: {
-        type: String,
-        required: true
-    },
-    raisedDonations: {
-        type: Number,
-        required: true
-    },
-    requiredBudget: {
-        type: Number,
-        required: true
-    },
-    mainPhoto: {
-        type: String,
-        required: true
+    photos: {
+        type: [String],
+        validate: v => Array.isArray(v) && v.length > 0,
     }
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Newsletter', newsletterSchema);

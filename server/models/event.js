@@ -11,9 +11,31 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    photos: {
-        type: [String],
-        validate: v => Array.isArray(v) && v.length > 0,
+    category: {
+        type: String,
+        enum: ['Education', 'Health', 'Livelihood', 'Psychosocial'],
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['Past', 'Ongoing', 'Upcoming'],
+        required: true
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
+        type: Date,
+        required: true
+    },
+    mainPhoto: {
+        type: String,
+        required: true
     }
 });
 

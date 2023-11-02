@@ -1,0 +1,46 @@
+<div class="container newsletter-view-bg">
+  <div class="row">
+    <h1 class="newsletter-name my-4">{{name}}</h1>
+  </div>
+  <div class="row">
+    <h2 class="newsletter-detail my-0">Category: {{category}}</h1>
+  </div>
+  <div class="row">
+    <h2 class="newsletter-detail my-0">Status: {{status}}</h1>
+  </div>
+</div>
+
+<div class="background-green py-4 px-2">
+  <div id="newsletter-carousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      {{#each photos}}
+      <button class="carousel-button" type="button" data-bs-target="#newsletter-carousel" data-bs-slide-to="{{@index}}"
+        aria-label="Slide {{inc @index}}"></button>
+      {{/each}}
+
+    </div>
+    <div class="carousel-inner rounded-5">
+      {{#each photos}}
+      <div class="carousel-item newsletter-carousel-item">
+        <div class="newsletter-carousel-item-container">
+          <img src="/imageByName?name={{this}}" class="d-block w-100">
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#newsletter-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#newsletter-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.getElementsByClassName('carousel-item')[0].classList.add('active')
+  document.getElementsByClassName('carousel-button')[0].classList.add('active')
+  document.getElementsByClassName('carousel-button')[0].setAttribute('aria-current', 'true')
+</script>

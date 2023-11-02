@@ -1,0 +1,150 @@
+<div>
+  <h1 class="explore-h1">Our {{cap type}}s</h1>
+</div>
+<div class="row p-0 m-0" style=" max-width:100vw;">
+  <div class="col-xl-1 col-lg-1 col-sm-0 p-0"></div>
+  <div class="col-xl-4 col-lg-4 col-sm-12 p-0">
+    <h2 class="explore-h2">Explore by Category</h2>
+  </div>
+  <div class="col-xl-7 col-lg-7 col-sm-0 p-0"></div>
+</div>
+
+<div class="container-fluid w-75 explore-container my-2">
+  <div class="row g-xl-5 g-lg-4 g-md-3 g-sm-3 g-3 p-md-0 p-lg-2 ">
+    <div class="col-lg-6 col-md-12">
+      <a href="/{{type}}/search?category=education">
+        <div class="explore-category"
+          style="background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{educationPhoto}}') center center/cover no-repeat;">
+          <h3>Education</h3>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <a href="/{{type}}/search?category=health">
+        <div class="explore-category"
+          style="background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{healthPhoto}}') center center/cover no-repeat;')">
+          <h3>Health</h3>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <a href="/{{type}}/search?category=livelihood">
+        <div class="explore-category"
+          style="background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{livelihoodPhoto}}') center center/cover no-repeat;')">
+          <h3>Livelihood</h3>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <a href="/{{type}}/search?category=psychosocial">
+        <div class="explore-category"
+          style="background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{psychosocialPhoto}}') center center/cover no-repeat;')">
+          <h3>Psychosocial</h3>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="explore-ongoing">
+  <h1 class="explore-ongoing-h1">Ongoing {{cap type}}s</h1>
+  <div class="container w-75">
+    <div class="row gx-5">
+
+      {{#each ongoing}}
+      <div class="col-lg-{{tw_len ../ongoing}} col-md-12 my-sm-12 my-12">
+        <div class="card selection-animation explore-card my-3 my-md-5">
+          {{#if this.mainPhoto}}
+          <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
+          {{/if}}
+          {{#if this.photos}}
+          <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
+          {{/if}}
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            {{#if this.description}}
+            <p class="card-text">{{this.description}}</p>
+            {{/if}}
+            <a href="/{{../type}}/view/{{this.id}}" class="btn btn-primary">Read More...</a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless ongoing}}<h2 class="explore-ongoing-h2">No Ongoing {{cap type}}s Right Now...</h2>{{/unless}}
+    </div>
+  </div>
+  {{#if ongoing}}
+  <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;"><a
+      href="/{{type}}/search?status=ongoing"
+      class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 btn btn-light explore-ongoing-see my-4">See More...</a></div>
+  {{/if}}
+</div>
+
+<div class="explore-past">
+  <h1 class="explore-past-h1">Past {{cap type}}s</h1>
+  <div class="container w-75">
+    <div class="row gx-5">
+
+      {{#each past}}
+      <div class="col-lg-{{tw_len ../past}} col-md-12 my-sm-12 my-12">
+        <div class="card selection-animation explore-card my-3 my-md-5 explore-past-card">
+          {{#if this.mainPhoto}}
+          <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
+          {{/if}}
+          {{#if this.photos}}
+          <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
+          {{/if}}
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            {{#if this.description}}
+            <p class="card-text">{{this.description}}</p>
+            {{/if}}
+            <a href="/{{../type}}/view/{{this.id}}" class="btn btn-light">Read More...</a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless past}}<h2 class="explore-past-h2">No Past {{cap type}}s Right Now...</h2>{{/unless}}
+    </div>
+  </div>
+  {{#if past}}
+  <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;">
+    <a href="/{{type}}/search?status=past"
+      class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 btn btn-success explore-ongoing-see my-4">See More...</a>
+  </div>
+  {{/if}}
+</div>
+
+<div class="explore-ongoing">
+  <h1 class="explore-ongoing-h1">Upcoming {{cap type}}s</h1>
+  <div class="container w-75">
+    <div class="row gx-5">
+
+      {{#each upcoming}}
+      <div class="col-lg-{{tw_len ../upcoming}} col-md-12 my-sm-12 my-12">
+        <div class="card selection-animation explore-card my-3 my-md-5">
+          {{#if this.mainPhoto}}
+          <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
+          {{/if}}
+          {{#if this.photos}}
+          <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
+          {{/if}}
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            {{#if this.description}}
+            <p class="card-text">{{this.description}}</p>
+            {{/if}}
+            <a href="/{{../type}}/view/{{this.id}}" class="btn btn-primary">Read More...</a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless upcoming}}<h2 class="explore-ongoing-h2">No Upcoming {{cap type}}s Right Now...</h2>{{/unless}}
+    </div>
+  </div>
+  {{#if upcoming}}
+  <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;"><a
+      href="/{{type}}/search?status=upcoming"
+      class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 btn btn-light explore-ongoing-see my-4">See More...</a></div>
+  {{/if}}
+</div>

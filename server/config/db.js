@@ -18,10 +18,15 @@ const database = {
     connect: function () {
         mongoose.connect(this.url, options);
         conn = mongoose.connection;
-        console.log(`MongoDB Connected: mongodb://27017/pearsbuck`);
+        console.log(`MongoDB Connected: ${this.url}}`);
         this.conn = conn;
     },
-
+    testConnect: function () {
+        mongoose.createConnection(this.url, options);
+        conn = mongoose.connection;
+        console.log(`MongoDB Connected: ${this.url}`);
+        this.conn = conn;
+    },
     /*
         This function inserts a single `doc` to the database based on the model `model`.
     */

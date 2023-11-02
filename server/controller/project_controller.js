@@ -30,7 +30,7 @@ const Proj = {
     },
     getProjectsByFilters: async function (req, res, filters, limit) {
         const cutoffLength = 140;
-        if(limit == null)
+        if (limit == null)
             limit = 100000000;
         var result = await Project.find(filters).sort({ $natural: -1 }).limit(limit).lean();
         result.forEach(element => {

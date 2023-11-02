@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Test Delete Project</title>
+    <title>Test Delete Event</title>
 </head>
+
 <body>
     <h1>TEST</h1>
 </body>
 
 <script>
     // Get the event data from the server
-    const projectID = new URLSearchParams(window.location.search).get('id');
+    const eventID = new URLSearchParams(window.location.search).get('id');
 
     fetch("/delete_event", {
         method: "DELETE",
@@ -18,7 +20,7 @@
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            id: projectID
+            id: eventID
         })
     })
 </script>

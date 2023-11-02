@@ -20,7 +20,7 @@
     // Get the child data from the server
     const childID = new URLSearchParams(window.location.search).get('id');
     fetch(`/get_child?id=${childID}`)
-        .then(response => { return response.json()})
+        .then(response => { return response.json() })
         .then(child => {
             // Set the child data to the HTML elements
             document.getElementById('id').textContent = child.id;

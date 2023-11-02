@@ -9,7 +9,7 @@
         <option value="Livelihood">Livelihood</option>
         <option value="Psychosocial">Psychosocial</option>
     </select><br>
-    
+
     <label for="description">Description:</label><br>
     <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
 
@@ -31,7 +31,7 @@
 
     <label for="mainPhoto">Main Photo:</label>
     <input type="file" id="mainPhoto" name="mainPhoto" accept="image/*"><br>
-    <img id = "thePhoto"  style="width: 50%; height: auto; display: none"><br/>
+    <img id="thePhoto" style="width: 50%; height: auto; display: none"><br />
 
     <input type="text" id="id" name="id" style="display:none">
 
@@ -57,11 +57,11 @@
             });
 
         // Preview main photo
-        document.getElementById("mainPhoto").addEventListener("change", function() {
+        document.getElementById("mainPhoto").addEventListener("change", function () {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.addEventListener("load", function() {
+                reader.addEventListener("load", function () {
                     document.getElementById("thePhoto").src = this.result;
                     document.getElementById("thePhoto").style = "width: 50%; height: auto";
                 });
@@ -76,7 +76,7 @@
                 body: formData
             })
             console.log(res);
-            if(res.status == 200){
+            if (res.status == 200) {
                 // TODO: Redirect to the correct page.
                 json = await res.json();
                 window.location.replace("/html/test_view_project.html?id=" + json);

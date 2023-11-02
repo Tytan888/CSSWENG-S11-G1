@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const projectSchema = new Schema({
-    id: {
+const singletonSchema = new Schema({
+    mission: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    name: {
+    vision: {
         type: String,
         required: true
     },
@@ -15,32 +14,38 @@ const projectSchema = new Schema({
         type: String,
         required: true
     },
-    category: {
-        type: String,
-        enum: ['Education', 'Health', 'Livelihood', 'Psychosocial'],
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ['Past', 'Ongoing', 'Upcoming'],
-        required: true
-    },
-    location: {
+    email:{
         type: String,
         required: true
     },
-    raisedDonations: {
-        type: Number,
+    facebook:{
+        type: String,
         required: true
     },
-    requiredBudget: {
-        type: Number,
+    instagram:{
+        type: String,
         required: true
     },
-    mainPhoto: {
+    twitter:{
+        type: String,
+        required: true
+    },
+    address:{
+        type: String,
+        required: true
+    },
+    phone:{
+        type: String,
+        required: true
+    },
+    frontpagePhoto: {
+        type: String,
+        required: true
+    },
+    staffPhoto: {
         type: String,
         required: true
     }
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Singleton', singletonSchema);

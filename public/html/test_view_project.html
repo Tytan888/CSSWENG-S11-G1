@@ -29,7 +29,7 @@
     // Get the project data from the server
     const projectID = new URLSearchParams(window.location.search).get('id');
     fetch(`/get_project?id=${projectID}`)
-        .then(response => { return response.json()})
+        .then(response => { return response.json() })
         .then(project => {
             console.log(project)
             // Set the project data to the HTML elements

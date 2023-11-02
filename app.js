@@ -11,6 +11,7 @@ const hbs = require('handlebars');
 
 const app = express();
 const PORT = process.env.PORT;
+const URL = process.env.MONGODB_URI;
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -34,12 +35,10 @@ app.set("views", "./server/views");
 
 app.use('/', require('./server/routes/main.js'));
 
+db.url = URL;
 db.connect();
 gfs.connect(db.conn);
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}.`);
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+module.exports = app;
 
 // TODO: When deploying, change Mongopay Secret Key and Webhook Secret Key to production keys.

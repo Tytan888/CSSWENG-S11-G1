@@ -1,5 +1,13 @@
 "# CSSWENG-S11-G1" 
 
+:book: ***to check test coverage report***
+- open this file: [CSSWENG-S11-G1/coverage/Icov-report/index.html](/coverage/lcov-report/index.html) with a browser
+
+
+:moon: ***to run server:*** 
+```
+node start.js
+```
 
 :trident: ***for developers***
 ```

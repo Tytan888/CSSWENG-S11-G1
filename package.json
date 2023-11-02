@@ -4,7 +4,10 @@
   "description": "\"# CSSWENG-S11-G1\"",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "jest --verbose --testTimeout=5000  --watchAll --detectOpenHandles --coverage",
+    "testRunner": "jest-jasmine2",
     "start": "app.js",
     "dev": "nodemon app.js"
   },
@@ -21,13 +24,14 @@
     "js-confetti": "^0.11.0",
     "moment": "^2.29.4",
     "mongoose": "^7.5.3",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^1.4.4",
     "multer-gridfs-storage": "^5.0.2",
     "node-fetch": "^2.7.0",
     "nodemon": "^3.0.1",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   }
 }

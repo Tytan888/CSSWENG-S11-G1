@@ -94,7 +94,20 @@ describe("CRUD Contact", () => {
     test.todo('should get Contact in the database');
 });
 describe("CRUD Event", () => {
-    test.todo('should add Event to database');
+    test('should add Event to database', async () =>{
+        const event = {
+            id: 1,
+            name: "test event",
+            mainPhoto: "__tests__/test_assets/image_asset.png",
+        };
+        await request.post('/add_event').attach('photos', event.mainPhoto).attach('photos', event.mainPhoto).field("id", event.id).field("name", event.name).expect(200);
+        const obj =  await db.findOne(Event, {name: "test event"});
+        expect(obj.name).toBeTruthy();
+        expect(obj.photos.length).toBe(2);
+        expect(obj.id).toBeTruthy();
+        return obj;
+    
+    });
     test.todo('should update Event in the database');
     test.todo('should delete Event in the database');
     test.todo('should get Event in the database');

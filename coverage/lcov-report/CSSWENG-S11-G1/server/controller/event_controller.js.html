@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.55% </span>
+                <span class="strong">27.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/54</span>
+                <span class='fraction'>15/54</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>2/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28.57% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>2/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.55% </span>
+                <span class="strong">27.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/54</span>
+                <span class='fraction'>15/54</span>
             </div>
         
             
@@ -178,24 +178,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -271,25 +271,25 @@ const Eve = {
         const result = <span class="cstat-no" title="statement not covered" >await Event.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();</span>
 <span class="cstat-no" title="statement not covered" >        return result;</span>
     },
-    addEvent: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-        let last = <span class="cstat-no" title="statement not covered" >await Event.find().sort({ $natural: -1 }).limit(1);</span>
-        let newID = <span class="cstat-no" title="statement not covered" >1;</span>
-        const suffix = <span class="cstat-no" title="statement not covered" >"Event-"</span>
-<span class="cstat-no" title="statement not covered" >        if (last.length == 1)</span>
+    addEvent: async function (req, res) {
+        let last = await Event.find().sort({ $natural: -1 }).limit(1);
+        let newID = 1;
+        const suffix = "Event-"
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (last.length == 1)
 <span class="cstat-no" title="statement not covered" >            newID = parseInt(last[0].id.substring(suffix.length)) + 1;</span>
-<span class="cstat-no" title="statement not covered" >        newID = suffix + newID.toString().padStart(7, "0");</span>
-        let photos = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >        req.files.forEach(<span class="fstat-no" title="function not covered" >el</span>ement =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            photos.push(element.filename);</span>
+        newID = suffix + newID.toString().padStart(7, "0");
+        let photos = [];
+        req.files.forEach(element =&gt; {
+            photos.push(element.filename);
         });
-        const result = <span class="cstat-no" title="statement not covered" >await Event.create({ id: newID, name: req.body.name, photos })</span>
+        const result = await Event.create({ id: newID, name: req.body.name, photos })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (result == null) {</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (result == null) {
 <span class="cstat-no" title="statement not covered" >            res.status(400);</span>
 <span class="cstat-no" title="statement not covered" >            res.end();</span>
         } else {
-<span class="cstat-no" title="statement not covered" >            res.status(200);</span>
-<span class="cstat-no" title="statement not covered" >            res.json(newID);</span>
+            res.status(200);
+            res.json(newID);
         }
     },
     //TODO BELOW
@@ -352,7 +352,7 @@ module.exports = Eve;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-02T18:39:16.638Z
+                at 2023-11-02T19:41:35.518Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

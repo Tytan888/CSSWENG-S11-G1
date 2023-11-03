@@ -1,4 +1,4 @@
-<div class="landing-bg">
+<div class="landing-bg" style="background-image: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{index.frontpagePhoto}}')">
     <h1 id="landing-title">Realizing Dreams. Changing Lives.</h1>
 </div>
 
@@ -6,66 +6,53 @@
     <div class="row">
         <div class="col">
             <h1>About Us</h1>
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
+            <p>{{index.aboutUs}}</p>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <h1>Mission</h1>
-
-            To provide opportunities for vulnerable Filipino children to develop their full potential.
+             <p>{{index.mission}}</p>
         </div>
         <div class="col">
             <h1>Vision</h1>
-
-            Brighter Future for Filipino Children through Education.
+            <p>{{index.vision}}</p>
         </div>
     </div>
 </div>
 
 <div class="landing-news">
-    <div class="row" style="margin: 0 auto; width: 60%; padding: 10vh 0 10vh 0;">
-        <div class="col">
-            <h1>Latest News</h1>
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
+    <div class="row index-row align-items-center">
+        <div class="col-md-5 col-12" style="margin:auto">
+            <h1 style="margin-top:20px">Latest News</h1>
+             <p>{{index.newsletterDescription}}</p>
+            <br>
+            <a class="btn btn-light" href="/newsletter/explore" style="margin-bottom:15px;">Explore Our Newsletter!</a>
         </div>
 
-        <div class="col">
-            <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel"
-                style="margin: 0 auto; outline: 1px solid yellow;">
+        <div class="col-md-7 col-12">
+            <div id="index-newsletter-carousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                    {{#each newsletter}}
+                    <button class="carousel-button index-newsletter-carousel-button" type="button" data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
+                    aria-label="Slide {{inc @index}}"></button>
+                    {{/each}}
                 </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="./images/1.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-inner rounded-5">
+                    {{#each newsletter}}
+                    <div class="carousel-item index-carousel-item index-carousel-item-newsletter">
+                        <div class="index-carousel-item-container">
+                            <img src="/imageByName?name={{photos.[0]}}" class="d-block w-100" alt="...">
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img src="./images/2.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="./images/3.png" class="d-block w-100" alt="...">
-                    </div>
+                    {{/each}}
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
+                <button class="carousel-control-prev" type="button" data-bs-target="#index-newsletter-carousel"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2"
+                <button class="carousel-control-next" type="button" data-bs-target="#index-newsletter-carousel"
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
@@ -77,28 +64,23 @@
 
 <div class="landing-about" style="width: 100% !important; text-align: right;">
 
-    <div class="row" style="margin: 0 auto; width: 60%; padding: 10vh 0 10vh 0;">
-        <div class="col">
-            <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel"
-                style="margin: 0 auto; outline: 1px solid yellow;">
+    <div class="row index-row align-items-center">
+        <div class="col-md-7 col-12">
+            <div id="carouselExampleIndicators1" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                    {{#each projects}}
+                    <button class="carousel-button index-projects-carousel-button" type="button" data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
+                    aria-label="Slide {{inc @index}}"></button>
+                    {{/each}}
                 </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="./images/1.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-inner rounded-5">
+                    {{#each projects}}
+                    <div class="carousel-item index-carousel-item index-carousel-item-projects">
+                        <div class="index-carousel-item-container">
+                            <img src="/imageByName?name={{mainPhoto}}" class="d-block w-100" alt="...">
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img src="./images/2.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="./images/3.png" class="d-block w-100" alt="...">
-                    </div>
+                    {{/each}}
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
                     data-bs-slide="prev">
@@ -113,27 +95,18 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-md-5 col-12 index-text-left" style="margin:auto">
             <h1>Current Projects</h1>
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean convallis maximus eros, convallis mollis
-            erat auctor sed. Ut tincidunt consequat dolor. Nulla facilisi.
+            <p>{{index.projectsDescription}}</p>
+            <br>
+            <a class="btn btn-primary" href="/project/explore">Explore Our Projects!</a>
         </div>
     </div>
-
-
 </div>
 
-<div class="tests">
-    <div id ="load_image_here"></div>
-    <form id ="test_image" method ='post' enctype="multipart/form-data">
-            <label for="photo">Test Photo</label><br>
-            <input type="file" id ="photo" name ="photo" accept="image/*"><br>
-            <input type ="submit" value="SAVE"><br>
-    </form>
-</div>
-
+<script>
+    document.getElementsByClassName("index-carousel-item-newsletter")[0].classList.add("active");
+    document.getElementsByClassName("index-carousel-item-projects")[0].classList.add("active");
+    document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
+    document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
+</script>

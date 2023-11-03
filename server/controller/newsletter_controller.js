@@ -14,18 +14,18 @@ const News = {
             res.json(result);
         }
     },
-    getNewsletters: async function (req, res, page, limit) {
-        const result = await Newsletter.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
-        return result;
-    },
-    getNewsletterById: async function (req, res, id) {
+    getNewsletterById: async function (id) {
         const result = await Newsletter.findOne({ id });
         return result;
     },
-    getNewslettersByFilters: async function (req, res, filters, limit) {
+    getNewslettersByFilters: async function (filters, limit) {
         if (limit == null)
             limit = 100000000;
         var result = await Newsletter.find(filters).sort({ $natural: -1 }).limit(limit).lean();
+        return result;
+    },
+    getNewslettersByAmount: async function (amount) {
+        var result = await Newsletter.find().sort({ $natural: -1 }).limit(amount).lean();
         return result;
     },
     addNewsletter: async function (req, res) {

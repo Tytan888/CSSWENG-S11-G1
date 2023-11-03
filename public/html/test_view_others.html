@@ -1,0 +1,62 @@
+<h1>ID</h1>
+<p id="id"></p>
+
+<h1>About Us</h1>
+<p id="aboutUs"></p>
+
+<h1>Mission</h1>
+<p id="mission"></p>
+
+<h1>Vision</h1>
+<p id="vision"></p>
+
+<h1>Projects Description</h1>
+<p id="projectsDescription"></p>
+
+<h1>Newsletter Description</h1>
+<p id="newsletterDescription"></p>
+
+<h1>Email</h1>
+<p id="email"></p>
+
+<h1>Facebook</h1>
+<p id="facebook"></p>
+
+<h1>Instagram</h1>
+<p id="instagram"></p>
+
+<h1>Twitter</h1>
+<p id="twitter"></p>
+
+<h1>Address</h1>
+<p id="address"></p>
+
+<h1>Phone Number</h1>
+<p id="phone"></p>
+
+<h2>Frontpage Photo:</h2>
+<img id="frontpagePhoto" src="" alt="Main Photo" style="width: 50%; height: auto;">
+
+<script>
+    // Get the singleton data from the server
+    fetch(`/get_singleton`)
+        .then(response => { return response.json() })
+        .then(singleton => {
+            console.log(singleton)
+            // Set the singleton data to the HTML elements
+            document.getElementById('id').textContent = singleton.id;
+            document.getElementById('aboutUs').textContent = singleton.aboutUs;
+            document.getElementById('mission').textContent = singleton.mission;
+            document.getElementById('vision').textContent = singleton.vision;
+            document.getElementById('projectsDescription').textContent = singleton.projectsDescription;
+            document.getElementById('newsletterDescription').textContent = singleton.newsletterDescription;
+            document.getElementById('email').textContent = singleton.email;
+            document.getElementById('facebook').textContent = singleton.facebook;
+            document.getElementById('instagram').textContent = singleton.instagram;
+            document.getElementById('twitter').textContent = singleton.twitter;
+            document.getElementById('address').textContent = singleton.address;
+            document.getElementById('phone').textContent = singleton.phone;
+            document.getElementById('frontpagePhoto').src = '/imageByName?name=' + singleton.frontpagePhoto;
+        })
+        .catch(error => console.error(error));
+</script>

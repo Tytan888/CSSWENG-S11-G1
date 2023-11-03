@@ -5,7 +5,6 @@
 
 <title>Pearl S Buck Philippines</title>
 
-<!-- -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&family=Merriweather+Sans:wght@300;500&family=PT+Sans&family=PT+Sans+Narrow:wght@400;700&family=Ubuntu+Condensed&display=swap');
@@ -74,7 +73,6 @@
     }
 
     .landing-bg {
-        background-image: url('/images/landing-bg.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -82,28 +80,45 @@
         min-height: 90vh;
         overflow: hidden !important;
         z-index: 8000;
-    }
-
-    .landing-bg::before {
-        content: "";
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
-        background-color: rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 
     .landing-bg>#landing-title {
-        position: absolute;
         color: white;
         font-family: var(--font-logo-text);
         font-weight: 700;
         letter-spacing: 0;
         font-size: 8em;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        animation: fadeInLefter 0.7s ease-in-out;
+        transition: transform .2s, box-shadow .2s;
+        text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .landing-bg>#landing-title:hover {
+        transform: scale(1.1);
+        text-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    }
+
+    @media (max-width: 992px) {
+        .landing-bg>#landing-title {
+            font-size: 7em;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .landing-bg>#landing-title {
+            font-size: 6em;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .landing-bg>#landing-title {
+            font-size: 5em;
+        }
     }
 
     .landing-about {
@@ -111,6 +126,11 @@
         margin: 0 auto;
         text-align: center;
         font-family: var(--font-body-text);
+    }
+
+    .index-text-left{
+        text-align: left;
+        margin:auto
     }
 
     .landing-about .row {
@@ -148,6 +168,27 @@
     .selection-animation:hover {
         transform: scale(1.1);
         box-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    }
+
+    @keyframes fadeInLefter {
+        from {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 
     @keyframes fadeInLeft {
@@ -308,7 +349,7 @@
         text-align: left;
     }
 
-    .body-container.body-container-project{
+    .body-container.body-container-project {
         white-space: pre-line;
     }
 
@@ -344,7 +385,10 @@
         }
     }
 
-    .quantity, .phone, .email, .name {
+    .quantity,
+    .phone,
+    .email,
+    .name {
         border: none;
         background-color: rgb(215, 212, 212);
         width: 300px;
@@ -944,6 +988,87 @@
         transform: scale(1);
     }
 
+    .index-carousel-item {
+        max-height: 400px;
+        height: 70vh;
+        object-fit: contain;
+    }
+
+    @media (max-width: 576px) {
+        .index-carousel-item {
+            max-height: 300px;
+        }
+    }
+
+    .index-carousel-item-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .index-carousel-item img {
+        object-fit: contain;
+        max-height: 100%;
+        width: auto !important;
+        border-radius: 25px;
+        margin: auto !important;
+        max-width: 100%;
+        transition: transform .2s;
+        transform: scale(0.90);
+    }
+
+    .index-carousel-item img:hover {
+        transform: scale(1);
+    }
+
+    .index-row {
+        margin: 0 auto !important;
+        width: 80% !important;
+        padding: 7vh 0 7vh 0 !important;
+    }
+
+    @media (max-width: 768px) {
+        .index-row, .index-text-left {
+            width: 90% !important;
+            padding: 3vh 0 !important;
+            text-align: center;
+        }
+    }
+
+    .landing-news p,
+    .landing-news h1  {
+        animation: fadeInLeft 0.5s ease-in-out;
+        color: white;
+        text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .landing-news p:hover,
+    .landing-news h1:hover {
+        color: var(--highlighted);
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        text-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    }
+
+    .landing-about p,
+    .landing-about h1 {
+        animation: fadeInLeft 0.5s ease-in-out;
+        text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .landing-about p:hover,
+    .landing-about h1:hover {
+        color: var(--foreground) !important;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        text-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    }
 
     </script>
 </style>

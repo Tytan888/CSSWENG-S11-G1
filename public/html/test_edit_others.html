@@ -1,0 +1,90 @@
+<form id="form" method='POST' enctype="multipart/form-data">
+    <label for="aboutUs">About Us:</label>
+    <textarea id="aboutUs" name="aboutUs"></textarea>
+
+    <label for="mission">Mission:</label>
+    <textarea id="mission" name="mission"></textarea>
+
+    <label for="vision">Vision:</label>
+    <textarea id="vision" name="vision"></textarea>
+
+    <label for="projectsDescription">Project Description:</label>
+    <textarea id="projectsDescription" name="projectsDescription"></textarea>
+
+    <label for="newsletterDescription">Newsletter Description:</label>
+    <textarea id="newsletterDescription" name="newsletterDescription"></textarea>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+
+    <label for="facebook">Facebook:</label>
+    <input type="text" id="facebook" name="facebook">
+
+    <label for="twitter">Twitter:</label>
+    <input type="text" id="twitter" name="twitter">
+
+    <label for="instagram">Instagram:</label>
+    <input type="text" id="instagram" name="instagram">
+
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone">
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address">
+
+    <label for="frontpagePhoto">Frontpage Photo:</label>
+    <input type="file" id="frontpagePhoto" name="frontpagePhoto" accept="image/*" required><br>
+    <img id="frontpagePhotoHolder" style="width: 50%; height: auto; display: none"><br />
+
+    <input id="submit" type="submit" value="Submit">
+
+    <script>
+        // Retrieve project details from server using project id
+        fetch(`/get_singleton`)
+            .then(response => response.json())
+            .then(singleton => {
+                // Set default values for form field's
+                console.log(singleton)
+                document.getElementById("aboutUs").value = singleton.aboutUs;
+                document.getElementById("mission").value = singleton.mission;
+                document.getElementById("vision").value = singleton.vision;
+                document.getElementById("projectsDescription").value = singleton.projectsDescription;
+                document.getElementById("newsletterDescription").value = singleton.newsletterDescription;
+                document.getElementById("email").value = singleton.email;
+                document.getElementById("facebook").value = singleton.facebook;
+                document.getElementById("twitter").value = singleton.twitter;
+                document.getElementById("instagram").value = singleton.instagram;
+                document.getElementById("phone").value = singleton.phone;
+                document.getElementById("address").value = singleton.address;
+                document.getElementById('frontpagePhotoHolder').src = '/imageByName?name=' + singleton.frontpagePhoto;
+                document.getElementById("frontpagePhotoHolder").style = "width: 50%; height: auto";
+            });
+
+        // Preview main photo
+        document.getElementById("frontpagePhoto").addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener("load", function () {
+                    document.getElementById("frontpagePhotoHolder").src = this.result;
+                    document.getElementById("frontpagePhotoHolder").style = "width: 50%; height: auto";
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+        document.getElementById("submit").addEventListener("click", async (e) => {
+            e.preventDefault();
+            var formData = new FormData(document.getElementById("form"));
+            const res = await fetch("/edit_others", {
+                method: "PUT",
+                body: formData
+            })
+            console.log(res);
+            if (res.status == 200) {
+                // TODO: Redirect to the correct page.
+                json = await res.json();
+                window.location.replace("/html/test_view_others.html");
+            }
+        })
+    </script>
+</form>

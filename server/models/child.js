@@ -32,6 +32,6 @@ const childSchema = new Schema({
         email: { type: String },
         phone: { type: String }
     }
-});
+}, { collection: 'singleton' });
 
 module.exports = mongoose.model('Child', childSchema);

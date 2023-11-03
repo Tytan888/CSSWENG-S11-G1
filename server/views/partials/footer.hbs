@@ -23,7 +23,7 @@
     }
 
     .foot-logo {
-        background-image: url('./images/ico/logo-cropped.png');
+        background-image: url('/images/ico/logo-cropped.png');
         background-size: contain;
         background-repeat: no-repeat;
         display: inline-block;
@@ -36,7 +36,7 @@
         min-width: 3em;
         height: 3em;
         display: inline-block;
-        background: url('./images/ico/socmed-sprites.png');
+        background: url('/images/ico/socmed-sprites.png');
         background-repeat: no-repeat;
         background-size: 200px 140px;
     }
@@ -74,13 +74,13 @@
                 </span>
                 <br><br>
 
-                executivedirector.psbfp@gmail.com<br>
-                (02) 8 932 5697<br>
+                {{email}}<br>
+                {{phone}}<br>
                 <br><br>
 
-                <div class="socmed" id="ic-fb"></div>
-                <div class="socmed" id="ic-ig"></div>
-                <div class="socmed" id="ic-x"></div>
+                <a href="{{facebook}}"><div class="socmed" id="ic-fb"></div></a>
+                <a href="{{instagram}}"><div class="socmed" id="ic-ig"></div></a>
+                <a href="{{twitter}}"><div class="socmed" id="ic-x"></div></a>
             </div>
 
             <div class="col" style="
@@ -105,11 +105,7 @@
                 </div>
 
                 <div class="col" style="margin: 1em; width: 50%;">
-                    Pearl S. Buck Foundation was established and managed by
-                    Pearl S. Buck International in 1968 to 2002 as their branch
-                    in the Philippines. Providing opportunities to explore and appreciate other cultures,
-                    builds better lives for children around the globe and promotes the
-                    legacy of our founder Pearl S. Buck.
+                    {{aboutUs}}
                 </div>
             </div>
         </div>

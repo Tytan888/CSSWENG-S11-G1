@@ -14,21 +14,11 @@ const Eve = {
             res.json(result);
         }
     },
-    getEventById: async function (req, res, id) {
+    getEventById: async function (id) {
         const result = await Event.findOne({ id });
         return result;
     },
-    getEventsByPage: async function (req, res, page, limit) {
-        const cutoffLength = 140;
-        var result = await Event.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
-        result.forEach(element => {
-            if (element.description.length > cutoffLength) {
-                element.description = element.description.substring(0, cutoffLength) + "...";
-            }
-        });
-        return result;
-    },
-    getEventsByFilters: async function (req, res, filters, limit) {
+    getEventsByFilters: async function (filters, limit) {
         if (limit == null)
             limit = 100000000;
         var result = await Event.find(filters).sort({ $natural: -1 }).limit(limit).lean();

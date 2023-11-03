@@ -14,11 +14,15 @@ const Proj = {
             res.json(result);
         }
     },
-    getProjectById: async function (req, res, id) {
+    getProjectById: async function (id) {
         const result = await Project.findOne({ id });
         return result;
     },
-    getProjectsByPage: async function (req, res, page, limit) {
+    getProjectsByAmount: async function (amount) {
+        var result = await Project.find().sort({ $natural: -1 }).limit(amount).lean();
+        return result;
+    },
+    getProjectsByPage: async function (page, limit) {
         const cutoffLength = 140;
         var result = await Project.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         result.forEach(element => {
@@ -28,7 +32,7 @@ const Proj = {
         });
         return result;
     },
-    getProjectsByFilters: async function (req, res, filters, limit) {
+    getProjectsByFilters: async function (filters, limit) {
         const cutoffLength = 140;
         if (limit == null)
             limit = 100000000;

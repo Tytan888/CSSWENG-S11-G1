@@ -17,7 +17,7 @@ const Chi = {
             res.json(result);
         }
     },
-    getChildById: async function (req, res, id) {
+    getChildById: async function (id) {
         let result = await Child.findOne({ id, sponsor: null });
         if (result == null)
             return null;
@@ -27,7 +27,7 @@ const Chi = {
             return result;
         }
     },
-    getChildrenByPage: async function (req, res, page, limit) {
+    getChildrenByPage: async function (page, limit) {
         const result = await Child.find({sponsor: null}).sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         result.forEach(element => {
             element.age = moment().diff(element.birthdate, 'years')
@@ -81,7 +81,7 @@ const Chi = {
         }
     },
 
-    updateSponsor: async function (req, res, id) {
+    updateSponsor: async function (req, res) {
         let sponsor = { name: req.body.name, email: req.body.email, phone: req.body.phone };
         result = await Child.updateOne({ id: req.body.id }, { $set: { sponsor } })
         if (result == null) {

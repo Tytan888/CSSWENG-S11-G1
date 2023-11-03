@@ -26,6 +26,9 @@ app.engine("hbs", exphbs.engine({
         },
         tw_len: function (value) {
             return 12 / Math.min(value.length, 3);
+        },
+        last: function (value) {
+            return value[value.length - 1];
         }
     }
 }));

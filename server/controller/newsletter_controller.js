@@ -49,7 +49,6 @@ const News = {
             res.json(newID);
         }
     },
-    //TODO BELOW
     updateNewsletter: async function (req, res, next) {
         const resultFind = await Newsletter.findOne({ id: req.body.id });
         if (resultFind == null) {

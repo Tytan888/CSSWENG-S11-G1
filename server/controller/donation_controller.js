@@ -28,7 +28,7 @@ const Don = {
             elements = await projectController.getProjectsByPage(page, displayLimit);
             if (page == 1) {
                 min = true
-                let projectsNextNext = await projectController.getProjectsByPage(req, res, page + 2, displayLimit);
+                let projectsNextNext = await projectController.getProjectsByPage(page + 2, displayLimit);
                 if (projectsNextNext.length != 0) {
                     pages.push(page + 2)
                 }

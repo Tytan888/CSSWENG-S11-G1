@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const childSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true
@@ -32,6 +27,6 @@ const childSchema = new Schema({
         email: { type: String },
         phone: { type: String }
     }
-}, { collection: 'singleton' });
+});
 
 module.exports = mongoose.model('Child', childSchema);

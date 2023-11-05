@@ -48,12 +48,12 @@ router.put("/edit_newsletter", file_upload.array('photos', 10), newsletterContro
 router.delete("/delete_newsletter", newsletterController.deleteNewsletter, imageController.deleteByNames);
 
 router.get("/get_singleton", singletonController.getSingleton);
-router.put("/edit_others", file_upload.single('frontpagePhoto'), singletonController.updateOthers);
+router.put("/edit_others", file_upload.single('frontpagePhoto'), singletonController.updateOthers, imageController.deleteByName);
 
 router.get("/donate", donationController.donationRedirect);
 router.get("/donate/type", donationController.donationType);
-router.get('/donate/select-:type', donationController.donationSelect);
-router.get('/donate/details/:id', donationController.donationDetails);
+router.get('/donate/select/:type', donationController.donationSelect);
+router.get('/donate/details/:type/:id', donationController.donationDetails);
 router.post('/donate/submit', donationController.submitDonation);
 router.post('/donate/log', donationController.logDonation);
 router.post('/donate/register', donationController.registerSponsor, childController.updateSponsor);

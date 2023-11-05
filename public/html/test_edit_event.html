@@ -41,7 +41,7 @@
             .then(response => response.json())
             .then(event => {
                 // Set default values for form fields
-                document.getElementById("id").value = event.id;
+                document.getElementById("id").value = event._id;
                 document.getElementById("name").value = event.name;
                 document.getElementById("category").value = event.category;
                 document.getElementById("location").value = event.location;

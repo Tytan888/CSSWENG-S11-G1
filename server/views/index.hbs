@@ -105,8 +105,12 @@
 </div>
 
 <script>
-    document.getElementsByClassName("index-carousel-item-newsletter")[0].classList.add("active");
-    document.getElementsByClassName("index-carousel-item-projects")[0].classList.add("active");
-    document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
-    document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
+    if(document.getElementsByClassName("index-carousel-item-newsletter")[0])
+       document.getElementsByClassName("index-carousel-item-newsletter")[0].classList.add("active");
+    if(document.getElementsByClassName("index-carousel-item-projects")[0])
+        document.getElementsByClassName("index-carousel-item-projects")[0].classList.add("active");
+    if(document.getElementsByClassName("index-newsletter-carousel-button")[0])
+        document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
+    if(document.getElementsByClassName("index-projects-carousel-button")[0])
+        document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
 </script>

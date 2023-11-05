@@ -1,22 +1,32 @@
 const Event = require('../models/event.js');
+const mongoose = require('mongoose');
 
 // TODO: Also for adding, editing, and deleting events, make sure only admins can access these pages and authenticate them.
 // TODO: When editing and deleting events, the old image should be deleted from the database.
 const Eve = {
     getEvent: async function (req, res) {
-        const result = await Event.findOne({ id: req.query.id });
-        if (result == null) {
+        if (mongoose.isValidObjectId(req.query.id)) {
+            const result = await Event.findOne({ _id: req.query.id });
+            if (result == null) {
+                res.status(400);
+                res.end();
+            }
+            else {
+                res.status(200);
+                res.json(result);
+            }
+        } else {
             res.status(400);
             res.end();
         }
-        else {
-            res.status(200);
-            res.json(result);
-        }
     },
     getEventById: async function (id) {
-        const result = await Event.findOne({ id });
-        return result;
+        if (mongoose.isValidObjectId(id)) {
+            const result = await Event.findOne({ _id: id });
+            return result;
+        } else {
+            return null;
+        }
     },
     getEventsByFilters: async function (filters, limit) {
         if (limit == null)
@@ -25,67 +35,72 @@ const Eve = {
         return result;
     },
     addEvent: async function (req, res) {
-        let last = await Event.find().sort({ $natural: -1 }).limit(1);
-        let newID = 1;
-        const suffix = "Event-"
-        if (last.length == 1)
-            newID = parseInt(last[0].id.substring(suffix.length)) + 1;
-        newID = suffix + newID.toString().padStart(7, "0");
+        var newId = new mongoose.mongo.ObjectId();
 
-        const result = await Event.create({ id: newID, name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename })
+        const result = await Event.create({ _id: newId, name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename })
 
         if (result == null) {
             res.status(400);
             res.end();
         } else {
             res.status(200);
-            res.json(newID);
+            res.json(newId);
         }
     },
     updateEvent: async function (req, res, next) {
-        const resultFind = await Event.findOne({ id: req.body.id });
-        if (resultFind == null) {
-            res.status(400);
-            res.end();
-        } else {
-            res.locals.name = resultFind.mainPhoto;
-
-            let result;
-            if (req.file == null)
-                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate } })
-            else
-                result = await Event.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename } })
-
-            if (result == null) {
+        if (mongoose.isValidObjectId(req.body.id)) {
+            const resultFind = await Event.findOne({ _id: req.body.id });
+            if (resultFind == null) {
                 res.status(400);
                 res.end();
             } else {
-                if (req.file != null) {
-                    res.locals.id = req.body.id;
-                    next();
-                }
+                res.locals.name = resultFind.mainPhoto;
+
+                let result;
+                if (req.file == null)
+                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate } })
                 else
-                    res.json(req.body.id);
+                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename } })
+
+                if (result == null) {
+                    res.status(400);
+                    res.end();
+                } else {
+                    if (req.file != null) {
+                        res.locals.id = req.body.id;
+                        next();
+                    }
+                    else
+                        res.json(req.body.id);
+                }
             }
+        } else {
+            res.status(400);
+            res.end();
         }
     },
 
     deleteEvent: async function (req, res, next) {
-        const resultFind = await Event.findOne({ id: req.body.id });
-        if (resultFind == null) {
-            res.status(400);
-            res.end();
-        }
-        else {
-            res.locals.name = resultFind.mainPhoto;
-            const result = await Event.deleteOne({ id: req.body.id });
-            if (result == null) {
+        if (mongoose.isValidObjectId(req.body.id)) {
+            const resultFind = await Event.findOne({ _id: req.body.id });
+            if (resultFind == null) {
                 res.status(400);
                 res.end();
             }
             else {
-                next();
+                res.locals.name = resultFind.mainPhoto;
+                const result = await Event.deleteOne({ _id: req.body.id });
+                if (result == null) {
+                    res.status(400);
+                    res.end();
+                }
+                else {
+                    next();
+                }
             }
+        } else {
+            res.status(400);
+            res.end();
         }
     },
 };

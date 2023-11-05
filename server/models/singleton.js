@@ -74,6 +74,6 @@ const singletonSchema = new Schema({
         required: true,
         default: "N/A"
     }
-});
+}, { collection: 'singleton' });
 
 module.exports = mongoose.model('Singleton', singletonSchema);

@@ -22,7 +22,7 @@
         .then(newsletter => {
             // Set the child data to the HTML elements
             console.log(newsletter)
-            document.getElementById('id').textContent = newsletter.id;
+            document.getElementById('id').textContent = newsletter._id;
             document.getElementById('name').textContent = newsletter.name;
             document.getElementById('category').textContent = newsletter.category;
             document.getElementById('status').textContent = newsletter.status;

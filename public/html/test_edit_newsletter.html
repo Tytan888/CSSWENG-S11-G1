@@ -37,7 +37,7 @@
             .then(newsletter => {
                 // Set default values for form fields
                 console.log(newsletter)
-                document.getElementById("id").value = newsletter.id;
+                document.getElementById("id").value = newsletter._id;
                 document.getElementById("name").value = newsletter.name;
                 document.getElementById("category").value = newsletter.category;
                 document.getElementById("status").value = newsletter.status;

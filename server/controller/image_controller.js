@@ -48,7 +48,6 @@ const Img = {
     }
   },
   deleteByNames: async function (req, res) {
-    console.log(res.locals.names);
     try {
       for (let filename of res.locals.names) {
         const file = await gfs.findOne({ filename: filename });

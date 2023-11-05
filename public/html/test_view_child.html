@@ -23,7 +23,7 @@
         .then(response => { return response.json() })
         .then(child => {
             // Set the child data to the HTML elements
-            document.getElementById('id').textContent = child.id;
+            document.getElementById('id').textContent = child._id;
             document.getElementById('name').textContent = child.name;
             document.getElementById('age').textContent = child.age;
             document.getElementById('gradelevel').textContent = child.gradelevel;

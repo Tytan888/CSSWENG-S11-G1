@@ -44,7 +44,7 @@
             .then(response => response.json())
             .then(project => {
                 // Set default values for form fields
-                document.getElementById("id").value = project.id;
+                document.getElementById("id").value = project._id;
                 document.getElementById("name").value = project.name;
                 document.getElementById("category").value = project.category;
                 document.getElementById("description").value = project.description;

@@ -75,24 +75,24 @@ const Don = {
 
     donationDetails: async function (req, res) {
         let id = req.params.id
-        let type = id.substring(0, id.indexOf('-'));
+        let type = req.params.type
         let element
-        if (type == 'Project') {
+        if (type == 'project') {
             element = await projectController.getProjectById(id)
             if (element == null) {
                 res.redirect('/404');
                 return;
             }
             res.render('donate-details', { name: element.name, description: element.description,
-                 mainPhoto: element.mainPhoto, id: element.id, foot: await singletonController.getFooter() });
-        } else if (type == 'Child') {
+                 mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter() });
+        } else if (type == 'child') {
             element = await childController.getChildById(id)
             if (element == null) {
                 res.redirect('/404');
                 return;
             }
             res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel,
-                 mainPhoto: element.mainPhoto, id: element.id, location: element.location,
+                 mainPhoto: element.mainPhoto, id: element._id, location: element.location,
                   foot: await singletonController.getFooter() });
         } else {
             res.redirect('/404');

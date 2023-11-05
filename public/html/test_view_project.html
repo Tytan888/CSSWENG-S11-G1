@@ -33,7 +33,7 @@
         .then(project => {
             console.log(project)
             // Set the project data to the HTML elements
-            document.getElementById('id').textContent = project.id;
+            document.getElementById('id').textContent = project._id;
             document.getElementById('name').textContent = project.name;
             document.getElementById('category').textContent = project.category;
             document.getElementById('description').textContent = project.description;

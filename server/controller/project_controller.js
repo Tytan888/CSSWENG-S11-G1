@@ -1,22 +1,32 @@
 const Project = require('../models/project.js');
+const mongoose = require('mongoose');
 
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
 // TODO: When editing and deleting projects, the old image should be deleted from the database.
 const Proj = {
     getProject: async function (req, res) {
-        const result = await Project.findOne({ id: req.query.id });
-        if (result == null) {
+        if (mongoose.isValidObjectId(req.query.id)) {
+            const result = await Project.findOne({ _id: req.query.id });
+            if (result == null) {
+                res.status(400);
+                res.end();
+            }
+            else {
+                res.status(200);
+                res.json(result);
+            }
+        } else {
             res.status(400);
             res.end();
         }
-        else {
-            res.status(200);
-            res.json(result);
-        }
     },
     getProjectById: async function (id) {
-        const result = await Project.findOne({ id });
-        return result;
+        if (mongoose.isValidObjectId(id)) {
+            const result = await Project.findOne({ _id: id });
+            return result;
+        } else {
+            return null;
+        }
     },
     getProjectsByAmount: async function (amount) {
         var result = await Project.find().sort({ $natural: -1 }).limit(amount).lean();
@@ -45,67 +55,72 @@ const Proj = {
         return result;
     },
     addProject: async function (req, res) {
-        let last = await Project.find().sort({ $natural: -1 }).limit(1);
-        let newID = 1;
-        const suffix = "Project-"
-        if (last.length == 1)
-            newID = parseInt(last[0].id.substring(suffix.length)) + 1;
-        newID = suffix + newID.toString().padStart(7, "0");
+        var newId = new mongoose.mongo.ObjectId();
 
-        const result = await Project.create({ id: newID, name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename })
+        const result = await Project.create({ _id: newId, name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename })
 
         if (result == null) {
             res.status(400);
             res.end();
         } else {
             res.status(200);
-            res.json(newID);
+            res.json(newId);
         }
     },
     updateProject: async function (req, res, next) {
-        const resultFind = await Project.findOne({ id: req.body.id });
-        if (resultFind == null) {
-            res.status(400);
-            res.end();
-        } else {
-            res.locals.name = resultFind.mainPhoto;
-
-            let result;
-            if (req.file == null)
-                result = await Project.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status } })
-            else
-                result = await Project.updateOne({ id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename } })
-
-            if (result == null) {
+        if (mongoose.isValidObjectId(req.body.id)) {
+            const resultFind = await Project.findOne({ _id: req.body.id });
+            if (resultFind == null) {
                 res.status(400);
                 res.end();
             } else {
-                if (req.file != null) {
-                    res.locals.id = req.body.id;
-                    next();
-                }
+                res.locals.name = resultFind.mainPhoto;
+
+                let result;
+                if (req.file == null)
+                    result = await Project.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status } })
                 else
-                    res.json(req.body.id);
+                    result = await Project.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, description: req.body.description, location: req.body.location, raisedDonations: req.body.raisedDonations, requiredBudget: req.body.requiredBudget, status: req.body.status, mainPhoto: req.file.filename } })
+
+                if (result == null) {
+                    res.status(400);
+                    res.end();
+                } else {
+                    if (req.file != null) {
+                        res.locals.id = req.body.id;
+                        next();
+                    }
+                    else
+                        res.json(req.body.id);
+                }
             }
+        } else {
+            res.status(400);
+            res.end();
         }
     },
 
     deleteProject: async function (req, res, next) {
-        const resultFind = await Project.findOne({ id: req.body.id });
-        if (resultFind == null) {
-            res.status(400);
-            res.end();
-        }
-        else {
-            res.locals.name = resultFind.mainPhoto;
-            const result = await Project.deleteOne({ id: req.body.id });
-            if (result == null) {
+        if (mongoose.isValidObjectId(req.body.id)) {
+            const resultFind = await Project.findOne({ _id: req.body.id });
+            if (resultFind == null) {
                 res.status(400);
                 res.end();
             }
             else {
-                next();
+                res.locals.name = resultFind.mainPhoto;
+                const result = await Project.deleteOne({ _id: req.body.id });
+                if (result == null) {
+                    res.status(400);
+                    res.end();
+                }
+                else {
+                    next();
+                }
             }
+        } else {
+            res.status(400);
+            res.end();
         }
     },
 };

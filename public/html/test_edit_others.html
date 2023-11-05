@@ -79,10 +79,8 @@
                 method: "PUT",
                 body: formData
             })
-            console.log(res);
             if (res.status == 200) {
                 // TODO: Redirect to the correct page.
-                json = await res.json();
                 window.location.replace("/html/test_view_others.html");
             }
         })

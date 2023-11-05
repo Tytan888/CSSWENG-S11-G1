@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.89% </span>
+                <span class="strong">44.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/38</span>
+                <span class='fraction'>17/38</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>4/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.89% </span>
+                <span class="strong">44.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/38</span>
+                <span class='fraction'>17/38</span>
             </div>
         
             
@@ -143,31 +143,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,12 +163,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -217,14 +217,14 @@
 &nbsp;
 const Img = {
 &nbsp;
-  getByName: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
+  getByName: async function (req, res) {
+    try {
       // Find the file by filename...
-      const filename = <span class="cstat-no" title="statement not covered" >req.query.name;</span>
+      const filename = req.query.name;
 &nbsp;
-      const file = <span class="cstat-no" title="statement not covered" >await gfs.findOne({ filename: filename });</span>
-<span class="cstat-no" title="statement not covered" >      if (!file) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(404).send('File not found');</span>
+      const file = await gfs.findOne({ filename: filename });
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (!file) {
+        return res.status(404).send('File not found');
       }
 &nbsp;
       // Now we have the ObjectId of the file.
@@ -241,21 +241,21 @@ const Img = {
   },
   //get image filename associated with event
 &nbsp;
-  deleteByName: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const filename = <span class="cstat-no" title="statement not covered" >res.locals.name;</span>
-      const file = <span class="cstat-no" title="statement not covered" >await gfs.findOne({ filename: filename });</span>
+  deleteByName: async function (req, res) {
+    try {
+      const filename = res.locals.name;
+      const file = await gfs.findOne({ filename: filename });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (!file) {</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!file) {
 <span class="cstat-no" title="statement not covered" >        return res.status(404).send('File not found');</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      await gfs.delete(file._id);</span>
-<span class="cstat-no" title="statement not covered" >      res.status(200)</span>
-<span class="cstat-no" title="statement not covered" >      if (res.locals.id != null) {</span>
-<span class="cstat-no" title="statement not covered" >        res.json(res.locals.id);</span>
+      await gfs.delete(file._id);
+      res.status(200)
+      if (res.locals.id != null) {
+        res.json(res.locals.id);
       } else {
-<span class="cstat-no" title="statement not covered" >        res.end();</span>
+        res.end();
       }
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error:', err);</span>
@@ -295,7 +295,7 @@ module.exports = Img;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-02T20:17:07.731Z
+                at 2023-11-05T15:12:05.725Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

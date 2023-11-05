@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.66% </span>
+                <span class="strong">7.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/90</span>
+                <span class='fraction'>7/91</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.66% </span>
+                <span class="strong">7.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/90</span>
+                <span class='fraction'>7/91</span>
             </div>
         
             
@@ -239,10 +239,16 @@
 <a name='L174'></a><a href='#L174'>174</a>
 <a name='L175'></a><a href='#L175'>175</a>
 <a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -313,6 +319,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -323,6 +330,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -330,6 +338,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -418,6 +428,7 @@
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const Donation = require('../models/donation.js');
 const projectController = require('../controller/project_controller.js');
 const childController = require('../controller/child_controller.js');
+const singletonController = require('../controller/singleton_controller.js');
 const crypto = require('crypto');
 &nbsp;
 const Don = {
@@ -427,7 +438,7 @@ const Don = {
     },
 &nbsp;
     donationType: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-type', {});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate-type', { foot: await singletonController.getFooter()});</span>
     },
 &nbsp;
     donationSelect: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
@@ -441,10 +452,10 @@ const Don = {
         let elements, message, noneMessage;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (req.params.type == 'project') {</span>
-<span class="cstat-no" title="statement not covered" >            elements = await projectController.getProjectsByPage(req, res, page, displayLimit);</span>
+<span class="cstat-no" title="statement not covered" >            elements = await projectController.getProjectsByPage(page, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >            if (page == 1) {</span>
 <span class="cstat-no" title="statement not covered" >                min = true</span>
-                let projectsNextNext = <span class="cstat-no" title="statement not covered" >await projectController.getProjectsByPage(req, res, page + 2, displayLimit);</span>
+                let projectsNextNext = <span class="cstat-no" title="statement not covered" >await projectController.getProjectsByPage(page + 2, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >                if (projectsNextNext.length != 0) {</span>
 <span class="cstat-no" title="statement not covered" >                    pages.push(page + 2)</span>
                 }
@@ -452,7 +463,7 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >                pages.push(page - 1)</span>
             }
 &nbsp;
-            let projectsNext = <span class="cstat-no" title="statement not covered" >await projectController.getProjectsByPage(req, res, page + 1, displayLimit);</span>
+            let projectsNext = <span class="cstat-no" title="statement not covered" >await projectController.getProjectsByPage(page + 1, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >            if (projectsNext.length == 0) {</span>
 <span class="cstat-no" title="statement not covered" >                max = true</span>
             } else {
@@ -461,10 +472,10 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >            message = "Fund this Project!"</span>
 <span class="cstat-no" title="statement not covered" >            noneMessage = "No projects available for funding at the moment."</span>
         } else <span class="cstat-no" title="statement not covered" >if (req.params.type == 'child') {</span>
-<span class="cstat-no" title="statement not covered" >            elements = await childController.getChildrenByPage(req, res, page, displayLimit);</span>
+<span class="cstat-no" title="statement not covered" >            elements = await childController.getChildrenByPage(page, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >            if (page == 1) {</span>
 <span class="cstat-no" title="statement not covered" >                min = true</span>
-                let childrenNextNext = <span class="cstat-no" title="statement not covered" >await childController.getChildrenByPage(req, res, page + 2, displayLimit);</span>
+                let childrenNextNext = <span class="cstat-no" title="statement not covered" >await childController.getChildrenByPage(page + 2, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >                if (childrenNextNext.length != 0) {</span>
 <span class="cstat-no" title="statement not covered" >                    pages.push(page + 2)</span>
                 }
@@ -472,7 +483,7 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >                pages.push(page - 1)</span>
             }
 &nbsp;
-            let childrenNext = <span class="cstat-no" title="statement not covered" >await childController.getChildrenByPage(req, res, page + 1, displayLimit);</span>
+            let childrenNext = <span class="cstat-no" title="statement not covered" >await childController.getChildrenByPage(page + 1, displayLimit);</span>
 <span class="cstat-no" title="statement not covered" >            if (childrenNext.length == 0) {</span>
 <span class="cstat-no" title="statement not covered" >                max = true</span>
             } else {
@@ -485,7 +496,8 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 <span class="cstat-no" title="statement not covered" >        pages.sort()</span>
-<span class="cstat-no" title="statement not covered" >        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message, noneMessage});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message, noneMessage,</span>
+             foot: await singletonController.getFooter()});
     },
 &nbsp;
     donationDetails: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
@@ -493,19 +505,22 @@ const Don = {
         let type = <span class="cstat-no" title="statement not covered" >id.substring(0, id.indexOf('-'));</span>
         let element
 <span class="cstat-no" title="statement not covered" >        if (type == 'Project') {</span>
-<span class="cstat-no" title="statement not covered" >            element = await projectController.getProjectById(req, res, id)</span>
+<span class="cstat-no" title="statement not covered" >            element = await projectController.getProjectById(id)</span>
 <span class="cstat-no" title="statement not covered" >            if (element == null) {</span>
 <span class="cstat-no" title="statement not covered" >                res.redirect('/404');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
-<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, description: element.description, mainPhoto: element.mainPhoto, id: element.id });</span>
+<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, description: element.description,</span>
+                 mainPhoto: element.mainPhoto, id: element.id, foot: await singletonController.getFooter() });
         } else <span class="cstat-no" title="statement not covered" >if (type == 'Child') {</span>
-<span class="cstat-no" title="statement not covered" >            element = await childController.getChildById(req, res, id)</span>
+<span class="cstat-no" title="statement not covered" >            element = await childController.getChildById(id)</span>
 <span class="cstat-no" title="statement not covered" >            if (element == null) {</span>
 <span class="cstat-no" title="statement not covered" >                res.redirect('/404');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
-<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel, mainPhoto: element.mainPhoto, id: element.id, location: element.location });</span>
+<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel,</span>
+                 mainPhoto: element.mainPhoto, id: element.id, location: element.location,
+                  foot: await singletonController.getFooter() });
         } else {
 <span class="cstat-no" title="statement not covered" >            res.redirect('/404');</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -573,7 +588,7 @@ const Don = {
 &nbsp;
     registerSponsor: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res, next) {
         let id = <span class="cstat-no" title="statement not covered" >req.body.id;</span>
-        const element = <span class="cstat-no" title="statement not covered" >await childController.getChildById(req, res, id);</span>
+        const element = <span class="cstat-no" title="statement not covered" >await childController.getChildById(id);</span>
 <span class="cstat-no" title="statement not covered" >        if (element == null) {</span>
 <span class="cstat-no" title="statement not covered" >            res.json("/donate/fail");</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -583,11 +598,11 @@ const Don = {
     },
 &nbsp;
     donationThanks: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-thanks', {});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate-thanks', { foot: await singletonController.getFooter()});</span>
     },
 &nbsp;
     donationFail: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-fail', {});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate-fail', { foot: await singletonController.getFooter()});</span>
     }
 };
 &nbsp;
@@ -598,7 +613,7 @@ module.exports = Don;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-02T20:17:07.731Z
+                at 2023-11-05T15:12:05.725Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

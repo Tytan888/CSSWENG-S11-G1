@@ -27,3 +27,32 @@ npm test
 - refactor: change code (copy pasting to different file or renaming things)
 - doc: inserting comments inside the code
 - fix(bug name):  fixing a bug, indicate if fully solved
+
+
+:envelope: ***Guideline to Reporting Bugs***
+
+1.Create a new issue via github
+![Alt text](image.png)
+2.Set the issue label as a bug
+![Alt text](image-1.png)
+3.Provide a title that is descriptive of the bug and follow the template for the description.
+![Alt text](image-2.png)
+4.Submit the issue and make sure to notify the group of the newly created issue.
+
+--- Copy paste the bug report template below. ---
+
+
+💾 Description:
+provide brief description of what the bug is, and if possible indicate what you think the cause of the bug is
+
+⏰ Expected Outcome:
+Describe what the desired outcome should be when the bug is fixed.
+
+☎️ Actual Outcome:
+What is the actual outcome produced because of the bug.
+
+🎶 Steps to Reproduce
+
+Show step by step how to produce the bug. If possible, provide screenshots each step especially if the bug is for frontend.
+
+---End of Copy Paste---

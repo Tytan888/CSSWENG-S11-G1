@@ -22,7 +22,7 @@ const database = {
         this.conn = conn;
     },
     testConnect: function () {
-        mongoose.createConnection(this.url, options);
+        mongoose.createConnection("mongodb://localhost/test_pearldb", options);
         conn = mongoose.connection;
         console.log(`MongoDB Connected: ${this.url}`);
         this.conn = conn;
@@ -57,6 +57,7 @@ const database = {
           const collection = this.conn.collections[collectionName];
           await collection.deleteMany();
         }
+        
     },
     /*
         This function inserts a single `doc` to the database based on the model `model`.

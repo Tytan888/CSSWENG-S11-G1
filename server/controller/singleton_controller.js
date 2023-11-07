@@ -43,7 +43,7 @@ const Sing = {
         if (req.file == null)
             updates = { aboutUs: req.body.aboutUs, mission: req.body.mission, vision: req.body.vision, projectsDescription: req.body.projectsDescription, newsletterDescription: req.body.newsletterDescription, email: req.body.email, facebook: req.body.facebook, instagram: req.body.instagram, twitter: req.body.twitter, address: req.body.address, phone: req.body.phone }
         else
-            updates = { aboutUs: req.body.aboutUs, mission: req.body.mission, vision: req.body.vision, projectsDescription: req.body.projectsDescription, newsletterDescription: req.body.newsletterDescription, email: req.body.email, facebook: req.body.facebook, instagram: req.body.instagram, twitter: req.body.twitter, address: req.body.address, phone: req.body.phon, frontpagePhoto: req.file.filename }
+            updates = { aboutUs: req.body.aboutUs, mission: req.body.mission, vision: req.body.vision, projectsDescription: req.body.projectsDescription, newsletterDescription: req.body.newsletterDescription, email: req.body.email, facebook: req.body.facebook, instagram: req.body.instagram, twitter: req.body.twitter, address: req.body.address, phone: req.body.phone, frontpagePhoto: req.file.filename }
 
         const result = await Singleton.updateOne({ id: "Singleton" }, { $set: updates });
         if (result == null) {

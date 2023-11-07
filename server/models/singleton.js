@@ -7,7 +7,6 @@ const singletonSchema = new Schema({
         enum: ['Singleton'],
         required: true,
         unique: true,
-        default: 'Singleton'
     },
     aboutUs: {
         type: String,

@@ -19,7 +19,7 @@ const Sing = {
     getFooter: async function () {
         const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
-            this.initializeSingleton();
+            await this.initializeSingleton();
             return this.getFooter();
         }
         else
@@ -28,8 +28,8 @@ const Sing = {
     getIndex: async function () {
         const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
-            this.initializeSingleton();
-            return this.getFooter();
+            await this.initializeSingleton();
+            return this.getIndex();
         }
         else
             return { aboutUs: result.aboutUs, mission: result.mission, vision: result.vision, projectsDescription: result.projectsDescription, newsletterDescription: result.newsletterDescription, frontpagePhoto: result.frontpagePhoto };

@@ -24,16 +24,18 @@ const singletonController = require('../server/controller/singleton_controller.j
 
 // setup of database connection
 beforeAll(() => {
-    db.url = "mongodb://localhost/test_pearldb";
     db.testConnect();
     gfs.connect(db.conn);
+    return 1+1;
 });
 afterAll(async () => {
+    gfs.dropBucket();
     await db.dropAllCollections();
     await db.conn.close();
 });
 afterEach(async () => {
     await db.removeAllCollections();
+    await gfs.deleteFiles();
   });
 //end of setup for database connection
 //start of tests
@@ -277,12 +279,6 @@ describe("CRUD Child", () => {
     });
 });
 
-describe("CRUD Contact", () => {
-    test.todo('should add Contact to database');
-    test.todo('should update Contact in the database');
-    test.todo('should delete Contact in the database');
-    test.todo('should get Contact in the database');
-});
 describe("CRUD Event", () => {
     test('should add Event to database', async () =>{
         const event = {

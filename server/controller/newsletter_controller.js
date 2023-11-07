@@ -38,7 +38,12 @@ const News = {
         var result = await Newsletter.find().sort({ $natural: -1 }).limit(amount).lean();
         return result;
     },
+    getAllNewsletters: async function () {
+        const result = await Newsletter.find().sort({ $natural: -1 }).lean();
+        return result;
+    },
     addNewsletter: async function (req, res) {
+        console.log(req.body)
         var newId = new mongoose.mongo.ObjectId();
 
         let photos = [];

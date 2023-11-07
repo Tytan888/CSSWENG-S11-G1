@@ -29,6 +29,23 @@ app.engine("hbs", exphbs.engine({
         },
         last: function (value) {
             return value[value.length - 1];
+        },
+        includes: function () {
+            const options = arguments[arguments.length - 1];
+            const action = arguments[0];
+            let res = false;
+            for(var i = 1; i < arguments.length - 1; i++) {
+                if(arguments[i] == action) {
+                    res = true;
+                    break;
+                }
+            }
+            if(res) {
+                return options.fn(this);
+            }
+            else {
+                return options.inverse(this);
+            }
         }
     }
 }));

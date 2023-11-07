@@ -51,7 +51,7 @@
         document.getElementById("submit").addEventListener("click", async (e) => {
             e.preventDefault();
             var formData = new FormData(document.getElementById("form"));
-            const res = await fetch("/add_project", {
+            const res = await fetch("/admin/project/add", {
                 method: "POST",
                 body: formData
             })

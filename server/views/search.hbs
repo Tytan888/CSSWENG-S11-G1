@@ -1,0 +1,336 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .search-panel {
+    background-color: #007F55;
+    padding: 2%;
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .all-btn {
+    width: 100%;
+    background: white;
+    border: 1px #0068A2;
+    box-shadow: 0px 2px 0 darken(blue, 5%), 2px 4px 6px darken(blue, 2%);
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 22px;
+    transition: all 150ms linear;
+    color: #007F55;
+  }
+
+  .sub-btns {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border: 1px #0068A2;
+    box-shadow: 0px 2px 0 darken(blue, 5%), 2px 4px 6px darken(blue, 2%);
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 22px;
+    transition: all 150ms linear;
+    color: #007F55;
+  }
+
+  .btn-col {
+    margin-top: 1.5% !important;
+  }
+
+  .all-btn:hover {
+    background: #0068A2;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
+  }
+
+  .sub-btns:hover {
+    background: #0068A2;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
+  }
+
+
+  .zoom {
+    transition: transform .2s;
+    /* Animation */
+    width: 80%;
+    height: 80%;
+    margin: auto;
+  }
+
+  .zoom:hover {
+    transform: scale(1);
+  }
+
+  #page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .page-number {
+    background-color: #555;
+    /* Set the background color of the page number */
+    color: #fff;
+    /* Set the text color of the page number */
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .page-number:hover {
+    background-color: #777;
+    /* Set the hover background color */
+  }
+
+  #next-page {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  #next-page:hover {
+    background-color: #555;
+    /* Set the hover background color */
+  }
+
+  .search-box {
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+  }
+
+  .search-row {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    padding: 0px 20px;
+  }
+
+
+  .form-control {
+    width: 200%;
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #333;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+    outline: 0;
+  }
+
+  button .fa-solid {
+    width: 25%;
+    color: #555;
+    font-size: 22px;
+    flex: 1;
+  }
+
+  .search-row .col:last-child {
+    text-align: end;
+  }
+
+  ::placeholer {
+    color: #555;
+  }
+
+  .result-box ul {
+    border-top: 1px solid #999;
+    padding: 15px 10px;
+  }
+
+  .result-box ul li {
+    list-style: none;
+    border-radius: 3px;
+    padding: 15px 10px;
+    cursor: pointer;
+  }
+
+  .result-box ul li:hover {
+    background: #e9f3ff;
+  }
+
+
+  .search-green {
+    background-color: #007F55;
+    width: 100%;
+  }
+
+  .inner-green {
+    width: 80%;
+    padding-top: 5%;
+    margin: auto;
+  }
+
+  .search-white {
+    width: 80%;
+    margin: auto;
+    padding-top: 5%;
+  }
+
+  .search-col {
+    flex-basis: 50%;
+    text-align: center;
+    border-radius: 2%;
+    margin-bottom: 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .search-col img {
+    width: 100%;
+    display: block;
+  }
+
+  .layer {
+    background-color: transparent;
+    transition: 0.5s;
+  }
+
+  .layer:hover {
+    background-color: #007F55;
+    opacity: 0.7;
+  }
+
+  .layer h3 {
+    width: 100%;
+    font-weight: 500;
+    color: #fff;
+    font-size: 26px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    transition: 0.5s;
+    opacity: 0;
+  }
+
+  .layer:hover h3 {
+    bottom: 49%;
+    opacity: 1;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  @media(max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+
+    .row.search-row {
+      flex-direction: row;
+      padding: 0 10px;
+    }
+  }
+
+  #input-box,
+  #input-box::placeholder {
+    font-size: 18px;
+  }
+</style>
+
+<script src="https://kit.fontawesome.com/98624a6b57.js" crossorigin="anonymous"></script>
+
+
+<!--- UPPER SECTION THAT DISPLAYS THE BUTTONS TO SELECT WHAT EVENTS WANTED TO SEE -->
+<section class="search-panel">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col btn-col">
+            <button class="btn all-btn">All Events</button>
+          </div>
+        </div>
+
+        <div class="row row-bottom">
+          <div class="col btn-col">
+            <button class="btn sub-btns">Ongoing</button>
+          </div>
+          <div class="col btn-col">
+            <button class="btn sub-btns">Past</button>
+          </div>
+          <div class="col btn-col">
+            <button class="btn sub-btns">Upcoming</button>
+          </div>
+        </div>
+
+        <div class="row row-bottom">
+          <div class="col btn-col">
+            <button class="btn sub-btns">Education</button>
+          </div>
+          <div class="col btn-col">
+            <button class="btn sub-btns">Health</button>
+          </div>
+        </div>
+        <div class="row row-bottom">
+          <div class="col btn-col">
+            <button class="btn sub-btns">Livelihood</button>
+          </div>
+          <div class="col btn-col">
+            <button class="btn sub-btns">Psychosocial</button>
+          </div>
+        </div>
+      </div>
+      <!--- SEARCH BAR -->
+    </div>
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-8">
+        <div class="search-box">
+          <div class="row search-row">
+            <div class="col">
+              <input type="text" name="search" id="input-box" class="form-control" placeholder="Search..."
+                autocomplete="off">
+            </div>
+            <div class="col">
+              <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+          <div class="result-box">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="search-white">
+  <div class="container">
+    <div class="row">
+      {{#each data}}
+      <div class="search-col col-md-6">
+        <div class="layer">
+          <img src="/imageByName?name={{mainPhoto}}" alt="Event Image">
+          <h3>{{name}}</h3>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="autocomplete.js"></script>

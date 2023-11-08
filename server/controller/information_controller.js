@@ -87,6 +87,22 @@ const Info = {
             ongoing, past, upcoming, type: req.params.type, foot: await singletonController.getFooter()
         });
     },
+    infoSearch: async function (req, res) {
+        const type = req.params.type;
+        let data;
+        if (type == 'project') {
+            data = await projectController.getAllProjects();
+        } else if (type == 'event') {
+            data = await eventController.getAllEvents();
+        }
+        else if (type == 'newsletter') {
+            data = await newsletterController.getAllNewsletters();
+        } else {
+            res.redirect('/404');
+            return;
+        }
+        res.render('search', { data, type, foot: await singletonController.getFooter() });
+    },
     infoView: async function (req, res) {
         if (req.params.type == 'project') {
             let id = req.params.id

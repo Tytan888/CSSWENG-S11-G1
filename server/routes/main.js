@@ -33,6 +33,7 @@ router.get('/imageByName', imageController.getByName);
 router.delete('/deleteByName', imageController.deleteByName);
 
 router.get("/:type/explore", informationController.infoExplore);
+router.get("/:type/search", informationController.infoSearch);
 router.get("/:type/view/:id", informationController.infoView);
 
 router.get("/donate", donationController.donationRedirect);

@@ -130,7 +130,7 @@ const Don = {
         };
 
         const checkout = await fetch(url, options)
-            .then(ress => ress.json())
+            .then(ress => { ress.json()})
             .then(json => { res.json(json.data.attributes.checkout_url) })
             .catch(err => console.error('error:' + err));
     },

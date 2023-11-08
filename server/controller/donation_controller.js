@@ -130,7 +130,7 @@ const Don = {
         };
 
         const checkout = await fetch(url, options)
-            .then(ress => ress.json())
+            .then(ress => { ress.json()})
             .then(json => { res.json(json.data.attributes.checkout_url) })
             .catch(err => console.error('error:' + err));
     },
@@ -177,6 +177,11 @@ const Don = {
 
     donationFail: async function (req, res) {
         res.render('donate_fail', { foot: await singletonController.getFooter()});
+    },
+
+    getAllDonations: async function() {
+        const donations = await Donation.find().lean();
+        return donations;
     }
 };
 

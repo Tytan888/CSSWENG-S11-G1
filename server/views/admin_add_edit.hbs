@@ -33,9 +33,16 @@
     </div>
 </div>
 
+{{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
 <h1 class="admin-h1">{{cap action}} {{cap type}}</h1>
+{{/includes}}
+{{#includes type "other"}}
+<h1 class="admin-h1">Configure {{cap type}}s</h1>
+{{/includes}}
+
 <form id="adminForm">
     <div class="container">
+        {{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="name">{{cap type}} Name</label>
@@ -46,6 +53,19 @@
                 <input type="text" id="name" class="admin-add-edit-input" name="name" required>
             </div>
         </div>
+        {{/includes}}
+        {{#includes type "staff" "trustee"}}
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="position">Position</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="position" class="admin-add-edit-input" name="position" required>
+            </div>
+        </div>
+        {{/includes}}
         {{#includes type "project"}}
         <div class="row">
             <div class="col-12">
@@ -60,7 +80,7 @@
         </div>
         {{/includes}}
         <div class="row">
-            {{#includes type "project" "newsletter"}}
+            {{#includes type "project" "newsletter" "event"}}
             <div class="col-12 col-md-4">
                 <label class="h3 admin-h3" for="category">Category</label>
                 <select id="category" class="admin-add-edit-input" name="category" required>
@@ -89,7 +109,7 @@
                 <input type="date" id="birthdate" class="admin-add-edit-input" name="birthdate" required>
             </div>
             {{/includes}}
-            {{#includes type "project" "child"}}
+            {{#includes type "project" "child" "event"}}
             <div class="col-12 col-md-4">
                 <label class="h3 admin-h3" for="location">Location</label>
                 <input type="text" id="location" class="admin-add-edit-input" name="location" required>
@@ -109,11 +129,24 @@
             </div>
         </div>
         {{/includes}}
-        {{#includes type "project" "child"}}
+        {{#includes type "event"}}
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <label class="h3 admin-h3" for="startDate">Start Date</label>
+                <input type="date" id="startDate" class="admin-add-edit-input" name="startDate"
+                    required>
+            </div>
+            <div class="col-12 col-sm-6">
+                <label class="h3 admin-h3" for="endDate">End Date</label>
+                <input type="date" id="endDate" class="admin-add-edit-input" name="endDate" required>
+            </div>
+        </div>
+        {{/includes}}
+        {{#includes type "project" "child" "event"}}
         <div class="row">
             <label class="h3 admin-h3" for="mainPhoto">Photo</label>
             <input type="file" id="mainPhoto" class="admin-add-edit-input-photo" name="mainPhoto" accept="image/*"
-                {{#includes action "add"}}required>{{/includes}}
+                {{#includes action "add"}}required{{/includes}}>
         </div>
         <div class="row">
             <div class="admin-photo-display">
@@ -147,6 +180,133 @@
                 </div>
         </div>
         {{/includes}}
+        {{#includes type "other"}}
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="aboutUs">About Us</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="aboutUs"
+                    name="aboutUs" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="mission">Mission</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="mission"
+                    name="mission" rows="1" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="vision">Vision</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="vision"
+                    name="vision" rows="1" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="projectsDescription">Frontpage Projects Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="projectsDescription"
+                    name="projectsDescription" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="newsletterDescription">Frontpage Newsletter Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="newsletterDescription"
+                    name="newsletterDescription" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="email">Email</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="email" class="admin-add-edit-input" name="email" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="facebook">Facebook</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="facebook" class="admin-add-edit-input" name="facebook" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="instagram">Instagram</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="instagram" class="admin-add-edit-input" name="instagram" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="twitter">Twitter</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="twitter" class="admin-add-edit-input" name="twitter" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="address">Address</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="address" class="admin-add-edit-input" name="address" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="phone">Phone Number</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="phone" class="admin-add-edit-input" name="phone" required>
+            </div>
+        </div>
+        <div class="row">
+            <label class="h3 admin-h3" for="frontpagePhoto">Photo</label>
+            <input type="file" id="frontpagePhoto" class="admin-add-edit-input-photo" name="frontpagePhoto" accept="image/*">
+        </div>
+        <div class="row">
+            <div class="admin-photo-display">
+                <img id="frontpagePhotoDisplay" style="display: none">
+            </div>
+        </div>
+
+        {{/includes}}
         <div class="row justify-content-center">
             <button id="submit" class="btn btn-success col-6 col-md-3 col-lg-2">Submit</button>
         </div>
@@ -156,7 +316,7 @@
 
 
 <script>
-    {{#includes type "project" "child"}}
+    {{#includes type "project" "child" "event"}}
     document.getElementById("mainPhoto").addEventListener("change", function () {
         const file = this.files[0];
         if (file) {
@@ -164,6 +324,19 @@
             reader.addEventListener("load", function () {
                 document.getElementById("mainPhotoDisplay").src = this.result;
                 document.getElementById("mainPhotoDisplay").style = "";
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+    {{/includes}}
+    {{#includes type "other"}}
+    document.getElementById("frontpagePhoto").addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+                document.getElementById("frontpagePhotoDisplay").src = this.result;
+                document.getElementById("frontpagePhotoDisplay").style = "";
             });
             reader.readAsDataURL(file);
         }
@@ -207,37 +380,65 @@
                 valid = false;
             }
         })
+        {{#includes type "child"}}
+        if (document.getElementById("birthdate").value > new Date().toISOString().split('T')[0]) {
+            valid = false;
+        }
+        {{/includes}}
+        {{#includes type "event"}}
+        if (document.getElementById("startDate").value > document.getElementById("endDate").value) {
+            valid = false;
+        }
+        {{/includes}}
+
         if (!valid) {
             $("#admin-select-modal-required").modal("show");
             return;
         }
-
+        {{#includes type "project" "child" "event" "newsletter" "other"}}
         var formData = new FormData(document.getElementById("adminForm"));
+        {{/includes}}
+        {{#includes type "staff" "trustee"}}
+        var object = {};
+        var formData = new FormData(document.getElementById("adminForm"));
+        formData.forEach((value, key) => object[key] = value);
+        var formData = JSON.stringify(object);
+        {{/includes}}
+
         {{#includes action "add"}}
         const res = await fetch("/admin/{{type}}/add", {
             method: "POST",
             body: formData
+            {{#includes type "staff" "trustee"}},
+            headers: {
+                "Content-Type": "application/json"
+            }
+            {{/includes}}
         })
         {{/includes}}
         {{#includes action "edit"}}
-        console.log(formData)
         const res = await fetch("/admin/{{type}}/edit", {
             method: "PUT",
             body: formData
+            {{#includes type "staff" "trustee"}},
+            headers: {
+                "Content-Type": "application/json"
+            }
+            {{/includes}}
         })
         {{/includes}}
-                if (res.status == 200) {
-                    window.location.replace("/admin/{{type}}/select");
-                } else {
-                    $("#admin-select-modal-error").modal("show");
-                }
-            })
+        if (res.status == 200) {
+            window.location.replace("/admin/{{type}}/select");
+        } else {
+            $("#admin-select-modal-error").modal("show");
+        }
+    })
     {{#includes action "edit"}}
     fetch(`/admin/{{type}}/get?id={{id}}`)
         .then(response => response.json())
         .then(element => {
             Object.keys(element).forEach(key => {
-                if(key != "mainPhoto" && key != "photos" && key != "__v" && key != "_id" && !key.toLowerCase().includes("date") && key != "age"){
+                if(key != "mainPhoto" && key != "frontpagePhoto" && key != "photos" && key != "__v" && key != "_id" && !key.toLowerCase().includes("date") && key != "age" && key != "sponsor"){
                     document.getElementById(key).value = element[key];
                 }else if(key == "_id"){
                     document.getElementById("id").value = element[key];
@@ -246,6 +447,9 @@
                 }else if(key == "mainPhoto"){
                     document.getElementById("mainPhotoDisplay").src = "/imageByName?name=" + element[key];
                     document.getElementById("mainPhotoDisplay").style = "";
+                }else if(key == "frontpagePhoto"){
+                    document.getElementById("frontpagePhotoDisplay").src = "/imageByName?name=" + element[key];
+                    document.getElementById("frontpagePhotoDisplay").style = "";
                 }else if (key == "photos"){
                     document.getElementsByClassName("carousel-indicators")[0].innerHTML = ""
                     document.getElementsByClassName("carousel-inner")[0].innerHTML = ""
@@ -258,8 +462,8 @@
                             document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
                         }
                     }
+                    document.getElementById("admin-carousel").style = "";
                 }
-                document.getElementById("admin-carousel").style = "";
             });
         });
     {{/includes}}

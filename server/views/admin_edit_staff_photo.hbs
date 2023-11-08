@@ -1,0 +1,105 @@
+<div class="modal fade" id="admin-select-modal-required" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="admin-select-modal-required-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="admin-select-modal-required-label">Fields required!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="admin-select-modal-required-body">
+                Please fill in all the required fields properly before submitting...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="admin-select-modal-error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="admin-select-modal-error-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="admin-select-modal-error-label">Error occured!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="admin-select-modal-error-body">
+                It seems that an error has occured. Please try again...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1 class="admin-h1">Edit Staff Group Photo</h1>
+<form id="adminForm">
+    <div class="container">
+        <div class="row">
+            <label class="h3 admin-h3" for="staffPhoto">Group Photo</label>
+            <input type="file" id="staffPhoto" class="admin-add-edit-input-photo" name="staffPhoto" accept="image/*"
+                required>
+        </div>
+        <div class="row">
+            <div class="admin-photo-display">
+                <img id="staffPhotoDisplay" style="display: none">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <button id="submit" class="btn btn-success col-6 col-md-3 col-lg-2">Submit</button>
+        </div>
+    </div>
+    <input type="text" id="id" name="id" style="display:none">
+</form>
+
+
+<script>
+    document.getElementById("staffPhoto").addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+                document.getElementById("staffPhotoDisplay").src = this.result;
+                document.getElementById("staffPhotoDisplay").style = "";
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById("submit").addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        let valid = true;
+        $('[required]').each(function () {
+            if ($(this).is(':invalid') || !$(this).val()) {
+                valid = false;
+            }
+        })
+
+        if (!valid) {
+            $("#admin-select-modal-required").modal("show");
+            return;
+        }
+        var formData = new FormData(document.getElementById("adminForm"));
+        const res = await fetch("/admin/staff/edit-group", {
+            method: "PUT",
+            body: formData
+        })
+
+        if (res.status == 200) {
+            window.location.replace("/admin/staff/select");
+        } else {
+            $("#admin-select-modal-error").modal("show");
+        }
+    })
+    fetch(`/admin/staff/get-group`)
+        .then(response => response.json())
+        .then(element => {
+            if(element.staffPhoto != "N/A"){
+                document.getElementById("staffPhotoDisplay").src = `/imageByName?name=${element.staffPhoto}`;
+                document.getElementById("staffPhotoDisplay").style = "";
+            }
+        });
+
+</script>

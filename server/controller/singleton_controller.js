@@ -4,10 +4,12 @@ const Singleton = require('../models/singleton.js');
 // TODO: When editing and deleting projects, the old image should be deleted from the database.
 const Sing = {
     initializeSingleton: async function () {
-        const result = await Singleton.create({ id: "Singleton" });
+        if (await Singleton.findOne({ id: "Singleton" }) == null)
+            await Singleton.create({ id: "Singleton" });
     },
-    getSingleton: async function (req, res) {
+    getOthers: async function (req, res) {
         const result = await Singleton.findOne({ id: "Singleton" });
+        delete result.staffPhoto;
         if (result == null) {
             res.status(400);
             res.end();
@@ -35,7 +37,6 @@ const Sing = {
             return { aboutUs: result.aboutUs, mission: result.mission, vision: result.vision, projectsDescription: result.projectsDescription, newsletterDescription: result.newsletterDescription, frontpagePhoto: result.frontpagePhoto };
     },
     updateOthers: async function (req, res, next) {
-
         const resultFind = await Singleton.findOne({ id: "Singleton" });
         res.locals.name = resultFind.frontpagePhoto;
 
@@ -53,10 +54,34 @@ const Sing = {
             if (req.file != null && res.locals.name != "N/A") {
                 next();
             }
-            else{
+            else {
                 res.end()
                 res.status(200);
             }
+        }
+    },
+    getStaffPhoto: async function (req, res) {
+        const result = await Singleton.findOne({ id: "Singleton" });
+        if (result == null) {
+            await this.initializeSingleton();
+            const result2 = await Singleton.findOne({ id: "Singleton" });
+            res.json({ staffPhoto: result2.staffPhoto});
+        }
+        else {
+            res.json({ staffPhoto: result.staffPhoto});
+        }
+    },
+    updateStaffPhoto: async function (req, res, next) {
+        const resultFind = await Singleton.findOne({ id: "Singleton" });
+        res.locals.name = resultFind.staffPhoto;
+
+        let result = await Singleton.updateOne({ id: "Singleton" }, { $set: { staffPhoto: req.file.filename } })
+
+        if (result == null) {
+            res.status(400);
+            res.end();
+        } else {
+            next();
         }
     }
 };

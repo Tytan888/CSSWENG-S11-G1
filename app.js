@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const hbs = require('handlebars');
+const moment = require('moment');
 
 const app = express();
 
@@ -43,6 +44,23 @@ app.engine("hbs", exphbs.engine({
             else {
                 return options.inverse(this);
             }
+        },
+        none: function(value){
+            return (value.length == 0) ? "None" : value;
+        },
+        unix: function(value){
+            let date = new Date(value * 1000);
+            date = moment(date).format('MMMM Do YYYY, hh:mm:ss A');
+            return date;
+        },
+        money: function(value){
+            return "₱" + (value / 100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        },
+        extractId: function(value){
+            return value.slice(value.indexOf('(') + 1, value.indexOf(')'));
+        },
+        extractName: function(value){
+            return value.slice(value.indexOf('for ') + 4, value.indexOf(' ('));
         }
     }
 }));

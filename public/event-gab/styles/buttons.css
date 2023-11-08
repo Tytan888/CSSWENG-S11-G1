@@ -1,0 +1,160 @@
+.all-btn {
+  width: 100%;
+  background: #0082CA; 
+  border: 1px #0068A2;
+  box-shadow: 0px 2px 0 darken(blue, 5%), 2px 4px 6px darken(blue, 2%);
+  font-weight: 900;
+  letter-spacing: 1px;
+  transition: all 150ms linear;
+  color: white;
+}
+
+.sub-btns {
+  width: 100%;
+  height: 100%;
+  background: #0082CA; 
+  border: 1px #0068A2;
+  box-shadow: 0px 2px 0 darken(blue, 5%), 2px 4px 6px darken(blue, 2%);
+  font-weight: 900;
+  letter-spacing: 1px;
+  transition: all 150ms linear; 
+  color: white;
+}
+
+.all-btn:hover {
+  background: #0068A2; 
+  border: 1px solid rgba(#000, .05);
+  box-shadow: 1px 1px 2px rgba(#fff, .2);
+  color: white; 
+  text-decoration: none;
+  text-shadow: -1px -1px 0 darken(blue, 9.5%);
+  transition: all 250ms linear;
+}
+
+.sub-btns:hover {
+  background: #0068A2;
+  border: 1px solid rgba(#000, .05);
+  box-shadow: 1px 1px 2px rgba(#fff, .2);
+  color: white; 
+  text-decoration: none;
+  text-shadow: -1px -1px 0 darken(blue, 9.5%);
+  transition: all 250ms linear;
+}
+
+.row-bottom{
+  margin-top: 2%;
+}
+
+.zoom {
+  transition: transform .2s; /* Animation */
+  width: 80%;
+  height: 80%;
+  margin: auto;
+}
+
+.zoom:hover {
+  transform: scale(1);
+}
+
+.navbar {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Set your navbar background color */
+  color: #fff; /* Set your text color */
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-number {
+  background-color: #555; /* Set the background color of the page number */
+  color: #fff; /* Set the text color of the page number */
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-number:hover {
+  background-color: #777; /* Set the hover background color */
+}
+
+#next-page {
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+#next-page:hover {
+  background-color: #555; /* Set the hover background color */
+}
+
+.search-box{
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.search-row{
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.form-control{
+  width: 200%;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #333;
+}
+
+button{
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+button .fa-solid{
+  width: 25%;
+  color: #555;
+  font-size: 22px;
+  flex: 1;
+}
+
+.search-row .col:last-child {
+  text-align: end;
+}
+
+::placeholer{
+  color: #555;
+}
+
+.result-box ul{
+  border-top: 1px solid #999;
+  padding: 15px 10px;
+}
+
+.result-box ul li{
+  list-style: none;
+  border-radius: 3px;
+  padding: 15px 10px;
+  cursor: pointer;
+}
+
+.result-box ul li:hover{
+  background: #e9f3ff;
+}
+
+

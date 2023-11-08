@@ -10,42 +10,44 @@ const donationController = require('../controller/donation_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
 
 router.get('/', async (req, res) => {
-    res.render('index', {index: await singletonController.getIndex(),
+    res.render('index', {
+        index: await singletonController.getIndex(),
         projects: await projectController.getProjectsByAmount(3),
         newsletter: await newsletterController.getNewslettersByAmount(3),
-        foot: await singletonController.getFooter()});
+        foot: await singletonController.getFooter()
+    });
 });
 
 router.get('/404', async (req, res) => {
-    res.render('404', {foot: await singletonController.getFooter()});
+    res.render('404', { foot: await singletonController.getFooter() });
 });
 
 router.get('/imageByName', imageController.getByName);
 router.delete('/deleteByName', imageController.deleteByName);
 
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
-router.get("/get_project", projectController.getProject);
-router.post("/add_project", file_upload.single('mainPhoto'), projectController.addProject);
-router.put("/edit_project", file_upload.single('mainPhoto'), projectController.updateProject, imageController.deleteByName);
-router.delete("/delete_project", projectController.deleteProject, imageController.deleteByName);
+router.get("/admin/project/get", projectController.getProject);
+router.post("/admin/project/add", file_upload.single('mainPhoto'), projectController.addProject);
+router.put("/admin/project/edit", file_upload.single('mainPhoto'), projectController.updateProject, imageController.deleteByName);
+router.delete("/admin/project/delete", projectController.deleteProject, imageController.deleteByName);
 
 // TODO: Also for adding, editing, and deleting events, make sure only admins can access these pages and authenticate them.
-router.get("/get_event", eventController.getEvent);
-router.post("/add_event", file_upload.single('mainPhoto'), eventController.addEvent);
-router.put("/edit_event", file_upload.single('mainPhoto'), eventController.updateEvent, imageController.deleteByName);
-router.delete("/delete_event", eventController.deleteEvent, imageController.deleteByName);
+router.get("/admin/event/get", eventController.getEvent);
+router.post("/admin/event/add", file_upload.single('mainPhoto'), eventController.addEvent);
+router.put("/admin/event/edit", file_upload.single('mainPhoto'), eventController.updateEvent, imageController.deleteByName);
+router.delete("/admin/event/delete", eventController.deleteEvent, imageController.deleteByName);
 
 // TODO: Also for adding, editing, and deleting children, make sure only admins can access these pages and authenticate them.
-router.get("/get_child", childController.getChild);
-router.post("/add_child", file_upload.single('mainPhoto'), childController.addChild)
-router.put("/edit_child", file_upload.single('mainPhoto'), childController.updateChild, imageController.deleteByName);
-router.delete("/delete_child", childController.deleteChild, imageController.deleteByName);
+router.get("/admin/child/get", childController.getChild);
+router.post("/admin/child/add", file_upload.single('mainPhoto'), childController.addChild)
+router.put("/admin/child/edit", file_upload.single('mainPhoto'), childController.updateChild, imageController.deleteByName);
+router.delete("/admin/child/delete", childController.deleteChild, imageController.deleteByName);
 
 // TODO: Also for adding, editing, and deleting newsletters, make sure only admins can access these pages and authenticate them.
-router.get("/get_newsletter", newsletterController.getNewsletter);
-router.post("/add_newsletter", file_upload.array('photos', 10), newsletterController.addNewsletter);
-router.put("/edit_newsletter", file_upload.array('photos', 10), newsletterController.updateNewsletter, imageController.deleteByNames);
-router.delete("/delete_newsletter", newsletterController.deleteNewsletter, imageController.deleteByNames);
+router.get("/admin/newsletter/get", newsletterController.getNewsletter);
+router.post("/admin/newsletter/add", file_upload.array('photos', 10), newsletterController.addNewsletter);
+router.put("/admin/newsletter/edit", file_upload.array('photos', 10), newsletterController.updateNewsletter, imageController.deleteByNames);
+router.delete("/admin/newsletter/delete", newsletterController.deleteNewsletter, imageController.deleteByNames);
 
 router.get("/get_singleton", singletonController.getSingleton);
 router.put("/edit_others", file_upload.single('frontpagePhoto'), singletonController.updateOthers, imageController.deleteByName);
@@ -152,12 +154,12 @@ router.get("/:type/view/:id", async (req, res) => {
             res.redirect('/404');
             return;
         }
-        res.render('project-event-view', {
+        res.render('project_event_view', {
             name: element.name,
             description: element.description, category: element.category,
             location: element.location, status: element.status, mainPhoto: element.mainPhoto,
             progress: element.raisedDonations / element.requiredBudget * 100,
-            raisedDonations: element.raisedDonations.toLocaleString("en-US"), 
+            raisedDonations: element.raisedDonations.toLocaleString("en-US"),
             requiredBudget: element.requiredBudget.toLocaleString("en-US"),
             id: element.id, foot: await singletonController.getFooter()
         });
@@ -170,9 +172,11 @@ router.get("/:type/view/:id", async (req, res) => {
         }
         const startDate = (new Date(Date.UTC(element.startDate.getFullYear(), element.startDate.getMonth(), element.startDate.getDate()))).toISOString().slice(0, 10).replace(/-/g, '/');
         const endDate = (new Date(Date.UTC(element.endDate.getFullYear(), element.endDate.getMonth(), element.endDate.getDate()))).toISOString().slice(0, 10).replace(/-/g, '/');
-        res.render('project-event-view', { name: element.name, category: element.category,
-            location: element.location, status: element.status, mainPhoto: element.mainPhoto, 
-            startDate, endDate, id: element.id, foot: await singletonController.getFooter() });
+        res.render('project_event_view', {
+            name: element.name, category: element.category,
+            location: element.location, status: element.status, mainPhoto: element.mainPhoto,
+            startDate, endDate, id: element.id, foot: await singletonController.getFooter()
+        });
     } else if (req.params.type == 'newsletter') {
         let id = req.params.id
         let element = await newsletterController.getNewsletterById(id)
@@ -180,10 +184,43 @@ router.get("/:type/view/:id", async (req, res) => {
             res.redirect('/404');
             return;
         }
-        res.render('newsletter-view', { name: element.name, category: element.category,
+        res.render('newsletter_view', {
+            name: element.name, category: element.category,
             status: element.status, photos: element.photos, id: element.id,
-            foot: await singletonController.getFooter() });
+            foot: await singletonController.getFooter()
+        });
     }
+});
+
+
+//NOTE: SECURE ALL ADMIN PAGES WITH AUTHENTICATION
+router.get('/admin/:type/:action/:id?', async (req, res, next) => {
+    if (req.params.action == "select") {
+        let data;
+        let defaulte = false;
+        switch (req.params.type) {
+            case "project":
+                data = await projectController.getAllProjects();
+                break;
+            case "child":
+                data = await childController.getAllChildren();
+                break;
+            case "event":
+                data = await eventController.getAllEvents();
+                break;
+            case "newsletter":
+                data = await newsletterController.getAllNewsletters();
+                break;
+            default:
+                res.redirect('/404');
+                return;
+        }
+        res.render('admin_select', { layout: "admin", back: "/admin/menu", type: req.params.type, data });
+    } else if (req.params.action == "add" || req.params.action == "edit") {
+        res.render('admin_add_edit', { layout: "admin", back: "/admin/" + req.params.type + "/select", type: req.params.type, action: req.params.action, id: req.params.id });
+    }
+    else
+        res.redirect('/404');
 });
 
 router.use((req, res, next) => {

@@ -42,6 +42,10 @@ const Proj = {
         });
         return result;
     },
+    getAllProjects: async function () {
+        const result = await Project.find().sort({ $natural: -1 }).lean();
+        return result;
+    },
     getProjectsByFilters: async function (filters, limit) {
         const cutoffLength = 140;
         if (limit == null)

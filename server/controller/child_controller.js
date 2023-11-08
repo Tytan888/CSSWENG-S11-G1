@@ -44,6 +44,13 @@ const Chi = {
         });
         return result;
     },
+    getAllChildren: async function () {
+        const result = await Child.find().sort({ $natural: -1 }).lean();
+        result.forEach(element => {
+            element.age = moment().diff(element.birthdate, 'years')
+        });
+        return result;
+    },
     addChild: async function (req, res) {
         var newId = new mongoose.mongo.ObjectId();
 

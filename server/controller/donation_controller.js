@@ -11,7 +11,7 @@ const Don = {
     },
 
     donationType: async function (req, res) {
-        res.render('donate-type', { foot: await singletonController.getFooter()});
+        res.render('donate_type', { foot: await singletonController.getFooter()});
     },
 
     donationSelect: async function (req, res) {
@@ -69,7 +69,7 @@ const Don = {
             return;
         }
         pages.sort()
-        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message, noneMessage,
+        res.render('donate_select', { elements, pages, min, max, type: req.params.type, message, noneMessage,
              foot: await singletonController.getFooter()});
     },
 
@@ -83,7 +83,7 @@ const Don = {
                 res.redirect('/404');
                 return;
             }
-            res.render('donate-details', { name: element.name, description: element.description,
+            res.render('donate_details', { name: element.name, description: element.description,
                  mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter() });
         } else if (type == 'child') {
             element = await childController.getChildById(id)
@@ -91,7 +91,7 @@ const Don = {
                 res.redirect('/404');
                 return;
             }
-            res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel,
+            res.render('donate_details', { name: element.name, age: element.age, gradelevel: element.gradelevel,
                  mainPhoto: element.mainPhoto, id: element._id, location: element.location,
                   foot: await singletonController.getFooter() });
         } else {
@@ -171,11 +171,11 @@ const Don = {
     },
 
     donationThanks: async function (req, res) {
-        res.render('donate-thanks', { foot: await singletonController.getFooter()});
+        res.render('donate_thanks', { foot: await singletonController.getFooter()});
     },
 
     donationFail: async function (req, res) {
-        res.render('donate-fail', { foot: await singletonController.getFooter()});
+        res.render('donate_fail', { foot: await singletonController.getFooter()});
     }
 };
 

@@ -1,0 +1,267 @@
+<div class="modal fade" id="admin-select-modal-required" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="admin-select-modal-required-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="admin-select-modal-required-label">Fields required!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="admin-select-modal-required-body">
+                Please fill in all the required fields properly before submitting...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="admin-select-modal-error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="admin-select-modal-error-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="admin-select-modal-error-label">Error occured!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="admin-select-modal-error-body">
+                It seems that an error has occured. Please try again...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1 class="admin-h1">{{cap action}} {{cap type}}</h1>
+<form id="adminForm">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="name">{{cap type}} Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" id="name" class="admin-add-edit-input" name="name" required>
+            </div>
+        </div>
+        {{#includes type "project"}}
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="name">Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="description"
+                    name="description" rows="4" cols="50" required></textarea>
+            </div>
+        </div>
+        {{/includes}}
+        <div class="row">
+            {{#includes type "project" "newsletter"}}
+            <div class="col-12 col-md-4">
+                <label class="h3 admin-h3" for="category">Category</label>
+                <select id="category" class="admin-add-edit-input" name="category" required>
+                    <option value="Health">Health</option>
+                    <option value="Education">Education</option>
+                    <option value="Livelihood">Livelihood</option>
+                    <option value="Psychosocial">Psychosocial</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="h3 admin-h3" for="status">Status</label>
+                <select id="status" class="admin-add-edit-input" name="status" required>
+                    <option value="Past">Past</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Upcoming">Upcoming</option>
+                </select>
+            </div>
+            {{/includes}}
+            {{#includes type "child"}}
+            <div class="col-12 col-md-4">
+                <label class="h3 admin-h3" for="gradelevel">Grade Level</label>
+                <input type="text" id="gradelevel" class="admin-add-edit-input" name="gradelevel" required>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="h3 admin-h3" for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" class="admin-add-edit-input" name="birthdate" required>
+            </div>
+            {{/includes}}
+            {{#includes type "project" "child"}}
+            <div class="col-12 col-md-4">
+                <label class="h3 admin-h3" for="location">Location</label>
+                <input type="text" id="location" class="admin-add-edit-input" name="location" required>
+            </div>
+            {{/includes}}
+        </div>
+        {{#includes type "project"}}
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <label class="h3 admin-h3" for="raisedDonations">Raised Donations (₱)</label>
+                <input type="number" id="raisedDonations" class="admin-add-edit-input" name="raisedDonations"
+                    required>
+            </div>
+            <div class="col-12 col-sm-6">
+                <label class="h3 admin-h3" for="requiredBudget">Required Budget (₱)</label>
+                <input type="number" id="requiredBudget" class="admin-add-edit-input" name="requiredBudget" required>
+            </div>
+        </div>
+        {{/includes}}
+        {{#includes type "project" "child"}}
+        <div class="row">
+            <label class="h3 admin-h3" for="mainPhoto">Photo</label>
+            <input type="file" id="mainPhoto" class="admin-add-edit-input-photo" name="mainPhoto" accept="image/*"
+                {{#includes action "add"}}required>{{/includes}}
+        </div>
+        <div class="row">
+            <div class="admin-photo-display">
+                <img id="mainPhotoDisplay" style="display: none">
+            </div>
+        </div>
+        {{/includes}}
+        {{#includes type "newsletter"}}
+        <div class="row">
+            <label class="h3 admin-h3" for="photos">Photos</label>
+            <input type="file" id="photos" class="admin-add-edit-input-photo" name="photos" accept="image/*" multiple 
+                {{#includes action "add"}}required{{/includes}}>
+        </div>
+        <div class="row">
+            <div id="admin-carousel" class="carousel carousel-dark slide" style="display:none;">
+                <div class="carousel-indicators">
+                    
+                    <button type="button" data-bs-target="#admin-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#admin-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#admin-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#admin-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                </div>
+        </div>
+        {{/includes}}
+        <div class="row justify-content-center">
+            <button id="submit" class="btn btn-success col-6 col-md-3 col-lg-2">Submit</button>
+        </div>
+    </div>
+    <input type="text" id="id" name="id" style="display:none">
+</form>
+
+
+<script>
+    {{#includes type "project" "child"}}
+    document.getElementById("mainPhoto").addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+                document.getElementById("mainPhotoDisplay").src = this.result;
+                document.getElementById("mainPhotoDisplay").style = "";
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+    {{/includes}}
+    {{#includes type "newsletter"}}
+    document.getElementById("photos").addEventListener("change", function () {
+        const files = this.files;
+        if(files){
+            document.getElementsByClassName("carousel-indicators")[0].innerHTML = "";
+            document.getElementsByClassName("carousel-inner")[0].innerHTML = "";
+
+            for (let i = 0; i < this.files.length; i++) {
+                const reader = new FileReader();
+                if(i == 0){
+                    document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "' class='active' aria-current='true'></button>";
+                }else{
+                    document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "'></button>";
+                }
+                reader.addEventListener("load", function () {
+                    if(i == 0){
+                        document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item active'><div class='admin-carousel-container'><img src='" + this.result + "'></div></div>";
+                    }
+                    else{
+                        document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item'><div class='admin-carousel-container'><img src='" + this.result + "'></div></div>";
+                    }   
+                });
+                reader.readAsDataURL(this.files[i]);
+            }
+            document.getElementById("admin-carousel").style = "";
+        }
+    });
+    {{/includes}}
+
+    document.getElementById("submit").addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        let valid = true;
+        $('[required]').each(function () {
+            if ($(this).is(':invalid') || !$(this).val()) {
+                valid = false;
+            }
+        })
+        if (!valid) {
+            $("#admin-select-modal-required").modal("show");
+            return;
+        }
+
+        var formData = new FormData(document.getElementById("adminForm"));
+        {{#includes action "add"}}
+        const res = await fetch("/admin/{{type}}/add", {
+            method: "POST",
+            body: formData
+        })
+        {{/includes}}
+        {{#includes action "edit"}}
+        console.log(formData)
+        const res = await fetch("/admin/{{type}}/edit", {
+            method: "PUT",
+            body: formData
+        })
+        {{/includes}}
+                if (res.status == 200) {
+                    window.location.replace("/admin/{{type}}/select");
+                } else {
+                    $("#admin-select-modal-error").modal("show");
+                }
+            })
+    {{#includes action "edit"}}
+    fetch(`/admin/{{type}}/get?id={{id}}`)
+        .then(response => response.json())
+        .then(element => {
+            Object.keys(element).forEach(key => {
+                if(key != "mainPhoto" && key != "photos" && key != "__v" && key != "_id" && !key.toLowerCase().includes("date") && key != "age"){
+                    document.getElementById(key).value = element[key];
+                }else if(key == "_id"){
+                    document.getElementById("id").value = element[key];
+                }else if(key.toLowerCase().includes("date")){
+                    document.getElementById(key).value = new Date(element[key]).toISOString().split('T')[0];
+                }else if(key == "mainPhoto"){
+                    document.getElementById("mainPhotoDisplay").src = "/imageByName?name=" + element[key];
+                    document.getElementById("mainPhotoDisplay").style = "";
+                }else if (key == "photos"){
+                    document.getElementsByClassName("carousel-indicators")[0].innerHTML = ""
+                    document.getElementsByClassName("carousel-inner")[0].innerHTML = ""
+                    for (let i = 0; i < element[key].length; i++) {
+                        if(i == 0){
+                            document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "' class='active' aria-current='true'></button>";
+                            document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item active'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
+                        }else{
+                            document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "'></button>";
+                            document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
+                        }
+                    }
+                }
+                document.getElementById("admin-carousel").style = "";
+            });
+        });
+    {{/includes}}
+
+</script>

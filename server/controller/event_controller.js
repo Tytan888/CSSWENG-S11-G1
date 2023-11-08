@@ -34,6 +34,10 @@ const Eve = {
         var result = await Event.find(filters).sort({ $natural: -1 }).limit(limit).lean();
         return result;
     },
+    getAllEvents: async function () {
+        const result = await Event.find().sort({ $natural: -1 }).lean();
+        return result;
+    },
     addEvent: async function (req, res) {
         var newId = new mongoose.mongo.ObjectId();
 

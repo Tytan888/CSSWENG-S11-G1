@@ -4,8 +4,6 @@ require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const db = require('./server/config/db.js');
-const gfs = require('./server/config/gfs.js');
 const exphbs = require('express-handlebars');
 const hbs = require('handlebars');
 
@@ -36,10 +34,6 @@ app.set("view engine", "hbs");
 app.set("views", "./server/views");
 
 app.use('/', require('./server/routes/main.js'));
-
-db.url = URL;
-db.connect();
-gfs.connect(db.conn);
 
 module.exports = app;
 

@@ -22,7 +22,7 @@ const database = {
         this.conn = conn;
     },
     testConnect: function () {
-        mongoose.createConnection("mongodb://localhost/test_pearldb", options);
+        mongoose.connect(this.url, options);
         conn = mongoose.connection;
         console.log(`MongoDB Connected: ${this.url}`);
         this.conn = conn;

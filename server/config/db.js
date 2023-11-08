@@ -10,21 +10,19 @@ const options = {
 const database = {
 
     conn: null,
-    url: null,
-
     /*
         This function connects to the database.
     */
     connect: function () {
-        mongoose.connect(this.url, options);
+        mongoose.connect(process.env.MONGODB_URI, options);
         conn = mongoose.connection;
-        console.log(`MongoDB Connected: ${this.url}`);
+        console.log(`MongoDB Connected: ${process.env.MONGODB_URI}`);
         this.conn = conn;
     },
     testConnect: function () {
-        mongoose.connect(this.url, options);
+        mongoose.connect(process.env.TEST_MONGODB_URI, options);
         conn = mongoose.connection;
-        console.log(`MongoDB Connected: ${this.url}`);
+        console.log(`MongoDB Connected: ${process.env.TEST_MONGODB_URI}`);
         this.conn = conn;
     },
 

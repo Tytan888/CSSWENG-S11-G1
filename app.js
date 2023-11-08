@@ -8,8 +8,7 @@ const exphbs = require('express-handlebars');
 const hbs = require('handlebars');
 
 const app = express();
-const PORT = process.env.PORT;
-const URL = process.env.MONGODB_URI;
+
 
 app.use(express.static('public'));
 app.use(express.json());

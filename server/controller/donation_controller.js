@@ -136,6 +136,7 @@ const Don = {
     },
 
     logDonation: async function (req, res) {
+        console.log("log donation is called");
 
         // Verify webhook signature...
         // TODO: Change form te to li on deployment.
@@ -143,10 +144,10 @@ const Don = {
         const t = signature.substring(signature.indexOf("t=") + 2, signature.indexOf(","));
         const te = signature.substring(signature.indexOf("te=") + 3, signature.indexOf(",", signature.indexOf(",") + 1));
         const li = signature.substring(signature.indexOf("li=") + 3);
-
         var hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET_KEY);
         data = hmac.update(t + "." + JSON.stringify(req.body));
         gen_hmac = data.digest('hex');
+
         if (te == gen_hmac) {
             const donation = new Donation({ donation: req.body.data });
             const donationData = await donation.save();

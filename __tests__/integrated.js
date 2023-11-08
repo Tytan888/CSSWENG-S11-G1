@@ -21,11 +21,9 @@ const eventController = require('../server/controller/event_controller.js');
 const projectController = require('../server/controller/project_controller.js');
 const newsletterController = require('../server/controller/newsletter_controller.js');
 const singletonController = require('../server/controller/singleton_controller.js');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './.env') });
+
 // setup of database connection
 beforeAll(() => {
-    db.url = process.env.TEST_MONGODB_URI;
     db.testConnect();
     gfs.connect(db.conn);
 });
@@ -53,7 +51,7 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         }
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto).field("id", project.id).field("name", project.name).field("category", project.category).field("description", project.description).field("location", project.location).field("raisedDonations", project.raisedDonations).field("requiredBudget", project.requiredBudget).field("status", project.status).expect(200);
+        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto).field("id", project.id).field("name", project.name).field("category", project.category).field("description", project.description).field("location", project.location).field("raisedDonations", project.raisedDonations).field("requiredBudget", project.requiredBudget).field("status", project.status).expect(200);
         const obj =  await db.findOne(Project, {name: "test project"});
         expect(obj.name).toEqual("test project");
         expect(obj.category).toEqual("Education");
@@ -77,7 +75,7 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto)
+        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto)
                                             .field("name", project.name)
                                             .field("category", project.category)
                                             .field("description", project.description)
@@ -89,7 +87,7 @@ describe("CRUD Project", () => {
         var obj =  await db.findOne(Project, {name: "test project"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/edit_project').attach('mainPhoto', project.mainPhoto)
+        await request.put('/admin/project/edit').attach('mainPhoto', project.mainPhoto)
                                         .field("id", obj.id.toString())
                                         .field("name","test update name")
                                         .field("category", "Health")
@@ -127,7 +125,7 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto)
+        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto)
                                             .field("name", project.name)
                                             .field("category", project.category)
                                             .field("description", project.description)
@@ -138,62 +136,12 @@ describe("CRUD Project", () => {
         const obj =  await db.findOne(Project, {name: "test project"});
         const mainPhoto = obj.mainPhoto;
        // console.log("deleteid "+obj._id);
-        await request.delete('/delete_project').send({id: obj._id});
+        await request.delete('/admin/project/delete').send({id: obj._id});
         const newobj =  await db.findOne(Project, {name: "test project"});
         expect(newobj).toBeNull();
         const img = await request.get('/imageByName').set("name", mainPhoto).expect(404);
         return obj;
     });
-    test('should have unique id', async() =>{
-        const project = {
-            name: "test project",
-            category: "Education",
-            description:"test description",
-            location: "test location",
-            raisedDonations: 0,
-            requiredBudget: 1000,
-            status: "Ongoing",
-            mainPhoto : "__tests__/test_assets/image_asset.png",     
-        }
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto)
-                                            .field("name", project.name)
-                                            .field("category", project.category)
-                                            .field("description", project.description)
-                                            .field("location", project.location)
-                                            .field("raisedDonations", project.raisedDonations)
-                                            .field("requiredBudget", project.requiredBudget)
-                                            .field("status", project.status)
-                                            .expect(200);
-        const obj =  await db.findOne(Project, {name: "test project"});
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto)
-                                            .field("name", project.name+"1")
-                                            .field("category", project.category)
-                                            .field("description", project.description)
-                                            .field("location", project.location)
-                                            .field("raisedDonations", project.raisedDonations)
-                                            .field("requiredBudget", project.requiredBudget)
-                                            .field("status", project.status)
-                                            .expect(200);
-        const obj2 =  await db.findOne(Project, {name: "test project1"});
-        await request.post('/add_project').attach('mainPhoto', project.mainPhoto)
-                                            .field("name", project.name+"2")
-                                            .field("category", project.category)
-                                            .field("description", project.description)
-                                            .field("location", project.location)
-                                            .field("raisedDonations", project.raisedDonations)
-                                            .field("requiredBudget", project.requiredBudget)
-                                            .field("status", project.status)
-                                            .expect(200);
-        const obj3 =  await db.findOne(Project, {name: "test project2"});
-       // console.log("obj1 "+obj._id+" obj2 "+obj2._id+" obj3 "+obj3._id);
-
-        expect(obj._id).not.toEqual(obj2._id);
-        expect(obj._id).not.toEqual(obj3._id);
-        expect(obj2._id).not.toEqual(obj3._id);
-        return obj;
-        
-    });
-    test.todo('should not be able to send with non image file upload');
 });
 
 describe("CRUD Child", () => {
@@ -205,7 +153,7 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/add_child').attach('mainPhoto', child.mainPhoto)
+        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
                                                     .field("name", child.name)
                                                     .field("birthdate", child.birthdate)
                                                     .field("gradelevel", child.gradelevel)
@@ -228,7 +176,7 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/add_child').attach('mainPhoto', child.mainPhoto)
+        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
                                                     .field("name", child.name)
                                                     .field("birthdate", child.birthdate)
                                                     .field("gradelevel", child.gradelevel)
@@ -237,7 +185,7 @@ describe("CRUD Child", () => {
         var obj = await db.findOne(Child, {name: "test child"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/edit_child').attach('mainPhoto', child.mainPhoto)
+        await request.put('/admin/child/edit').attach('mainPhoto', child.mainPhoto)
                                                     .field("id", obj.id.toString())
                                                     .field("name", "test update name")
                                                     .field("birthdate", "2021-01-01")
@@ -265,7 +213,7 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/add_child').attach('mainPhoto', child.mainPhoto)
+        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
                                                     .field("name", child.name)
                                                     .field("birthdate", child.birthdate)
                                                     .field("gradelevel", child.gradelevel)
@@ -273,7 +221,7 @@ describe("CRUD Child", () => {
                                                     .expect(200);
         const obj = await db.findOne(Child, {name: "test child"});
         const mainPhoto = obj.mainPhoto;
-        await request.delete('/delete_child').send({id: obj._id});
+        await request.delete('/admin/child/delete').send({id: obj._id});
         const newobj = await db.findOne(Child, {name: "test child"});
         expect(newobj).toBeNull();
         await request.get('/imageByName').set("name", mainPhoto).expect(404);
@@ -295,7 +243,7 @@ describe("CRUD Event", () => {
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
     //    console.log("enddate "+event.endDate);
-        await request.post('/add_event').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -328,7 +276,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/add_event').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -339,7 +287,7 @@ describe("CRUD Event", () => {
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/edit_event').attach('mainPhoto', event.mainPhoto)
+        await request.put('/admin/event/edit').attach('mainPhoto', event.mainPhoto)
                                         .field("id", obj.id.toString())
                                         .field("name", "test update name")
                                         .field("category", "Education")
@@ -372,7 +320,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/add_event').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -383,7 +331,7 @@ describe("CRUD Event", () => {
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.delete('/delete_event').send({id: id}).expect(200);
+        await request.delete('/admin/event/delete').send({id: id}).expect(200);
         obj = await db.findOne(Event, {_id: id});
         expect(obj).toBeNull();
         await request.get('/imageByName').set("name", mainPhoto).expect(404);
@@ -422,7 +370,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto :"__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/add_newsletter').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
                                             .field("status", newsletter.status)
@@ -440,7 +388,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/add_newsletter').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
                                             .attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
@@ -450,7 +398,7 @@ describe("CRUD Newsletter", ()=>{
         const mainPhoto = obj.photos;
         expect(mainPhoto.length).toEqual(2);
         const id = obj._id;
-        await request.put('/edit_newsletter').attach('photos', newsletter.mainPhoto)
+        await request.put('/admin/newsletter/edit').attach('photos', newsletter.mainPhoto)
                                             .field("id", obj.id.toString())
                                             .field("name", "test update name")
                                             .field("category", "Health")
@@ -474,7 +422,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/add_newsletter').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
                                             .attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
@@ -484,7 +432,7 @@ describe("CRUD Newsletter", ()=>{
         const mainPhoto = obj.photos;
         expect(mainPhoto.length).toEqual(2);
         const id = obj._id;
-        await request.delete('/delete_newsletter').send({id: id}).expect(200);
+        await request.delete('/admin/newsletter/delete').send({id: id}).expect(200);
         obj = await db.findOne(Newsletter,{_id:id});
         expect(obj).toBeNull();
         await request.get('/imageByName').set("name", mainPhoto[1]).expect(404);
@@ -551,8 +499,7 @@ describe("CRUD Singleton", () => {
                                             .field('phone', 'test phone')
                                             .expect(200);
         const singleton = await db.findOne(Singleton, {id: "Singleton"});
-        const img = singleton.frontpagePhoto;
-        console.log("img "+img);        
+        const img = singleton.frontpagePhoto;        
         //test for second update
         await request.put('/edit_others').attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us2')

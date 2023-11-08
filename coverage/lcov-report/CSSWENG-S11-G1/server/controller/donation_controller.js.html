@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">7.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/91</span>
+                <span class='fraction'>7/92</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">7.6% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/91</span>
+                <span class='fraction'>7/92</span>
             </div>
         
             
@@ -244,7 +244,8 @@
 <a name='L179'></a><a href='#L179'>179</a>
 <a name='L180'></a><a href='#L180'>180</a>
 <a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -382,17 +383,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -438,7 +440,7 @@ const Don = {
     },
 &nbsp;
     donationType: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-type', { foot: await singletonController.getFooter()});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate_type', { foot: await singletonController.getFooter()});</span>
     },
 &nbsp;
     donationSelect: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
@@ -496,7 +498,7 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 <span class="cstat-no" title="statement not covered" >        pages.sort()</span>
-<span class="cstat-no" title="statement not covered" >        res.render('donate-select', { elements, pages, min, max, type: req.params.type, message, noneMessage,</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate_select', { elements, pages, min, max, type: req.params.type, message, noneMessage,</span>
              foot: await singletonController.getFooter()});
     },
 &nbsp;
@@ -510,7 +512,7 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >                res.redirect('/404');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
-<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, description: element.description,</span>
+<span class="cstat-no" title="statement not covered" >            res.render('donate_details', { name: element.name, description: element.description,</span>
                  mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter() });
         } else <span class="cstat-no" title="statement not covered" >if (type == 'child') {</span>
 <span class="cstat-no" title="statement not covered" >            element = await childController.getChildById(id)</span>
@@ -518,7 +520,7 @@ const Don = {
 <span class="cstat-no" title="statement not covered" >                res.redirect('/404');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
-<span class="cstat-no" title="statement not covered" >            res.render('donate-details', { name: element.name, age: element.age, gradelevel: element.gradelevel,</span>
+<span class="cstat-no" title="statement not covered" >            res.render('donate_details', { name: element.name, age: element.age, gradelevel: element.gradelevel,</span>
                  mainPhoto: element.mainPhoto, id: element._id, location: element.location,
                   foot: await singletonController.getFooter() });
         } else {
@@ -563,6 +565,7 @@ const Don = {
     },
 &nbsp;
     logDonation: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
+<span class="cstat-no" title="statement not covered" >        console.log("log donation is called");</span>
 &nbsp;
         // Verify webhook signature...
         // TODO: Change form te to li on deployment.
@@ -570,10 +573,10 @@ const Don = {
         const t = <span class="cstat-no" title="statement not covered" >signature.substring(signature.indexOf("t=") + 2, signature.indexOf(","));</span>
         const te = <span class="cstat-no" title="statement not covered" >signature.substring(signature.indexOf("te=") + 3, signature.indexOf(",", signature.indexOf(",") + 1));</span>
         const li = <span class="cstat-no" title="statement not covered" >signature.substring(signature.indexOf("li=") + 3);</span>
-&nbsp;
         var hmac = <span class="cstat-no" title="statement not covered" >crypto.createHmac('sha256', process.env.WEBHOOK_SECRET_KEY);</span>
 <span class="cstat-no" title="statement not covered" >        data = hmac.update(t + "." + JSON.stringify(req.body));</span>
 <span class="cstat-no" title="statement not covered" >        gen_hmac = data.digest('hex');</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (te == gen_hmac) {</span>
             const donation = <span class="cstat-no" title="statement not covered" >new Donation({ donation: req.body.data });</span>
             const donationData = <span class="cstat-no" title="statement not covered" >await donation.save();</span>
@@ -598,11 +601,11 @@ const Don = {
     },
 &nbsp;
     donationThanks: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-thanks', { foot: await singletonController.getFooter()});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate_thanks', { foot: await singletonController.getFooter()});</span>
     },
 &nbsp;
     donationFail: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
-<span class="cstat-no" title="statement not covered" >        res.render('donate-fail', { foot: await singletonController.getFooter()});</span>
+<span class="cstat-no" title="statement not covered" >        res.render('donate_fail', { foot: await singletonController.getFooter()});</span>
     }
 };
 &nbsp;
@@ -613,7 +616,7 @@ module.exports = Don;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-08T16:17:54.544Z
+                at 2023-11-08T20:16:33.569Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

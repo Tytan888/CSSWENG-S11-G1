@@ -21,12 +21,13 @@ const eventController = require('../server/controller/event_controller.js');
 const projectController = require('../server/controller/project_controller.js');
 const newsletterController = require('../server/controller/newsletter_controller.js');
 const singletonController = require('../server/controller/singleton_controller.js');
-
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 // setup of database connection
 beforeAll(() => {
+    db.url = process.env.TEST_MONGODB_URI;
     db.testConnect();
     gfs.connect(db.conn);
-    return 1+1;
 });
 afterAll(async () => {
     gfs.dropBucket();
@@ -61,6 +62,7 @@ describe("CRUD Project", () => {
         expect(obj.raisedDonations).toEqual(0);
         expect(obj.requiredBudget).toEqual(1000);
         expect(obj.status).toEqual("Ongoing");
+        expect(2).toEqual(2);
         return obj;
     });
 
@@ -461,7 +463,6 @@ describe("CRUD Newsletter", ()=>{
         expect(obj.photos[0]).not.toEqual(mainPhoto);
         expect(obj.photos[1]).toBeUndefined();
         expect(obj._id).toEqual(id);
-        console.log('newsletter updated img '+obj.photos[0]);
         await request.get('/imageByName').set("name", mainPhoto[1]).expect(404);
         await request.get('/imageByName').set("name", mainPhoto[0]).expect(404);
     });

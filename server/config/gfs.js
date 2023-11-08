@@ -1,7 +1,5 @@
 const fs = require('gridfs-stream');
-const db = require('../config/db.js');
 const mongoose = require('mongoose');
-
 
 const Grid = {
     connect: async function (conn) {
@@ -38,7 +36,6 @@ const Grid = {
             files.push(doc.filename);
             await this.delete(doc._id);
         }
-        console.log(files);
 
     },
     dropBucket: async function () {

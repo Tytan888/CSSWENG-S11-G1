@@ -3,26 +3,24 @@ const multer = require('multer');
 const path = require('path');
 const { GridFsStorage } = require('multer-gridfs-storage');
 
+
 storage = new GridFsStorage({
-  url: process.env.MONGODB_URI,
+  //url: process.env.MONGODB_URI,
+  url: process.env.TEST_MONGODB_URI,
   file: (req, file) => {
-    return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
       const filename = file.originalname;
       const fileInfo = {
 
-        //can change filename to something more appropriate
+          //can change filename to something more appropriate
 
-        filename: file.fieldname + "_" + Date.now() + "_" + filename,
-        bucketName: 'uploads'
+          filename: file.fieldname + "_" + Date.now() + "_" + filename,
+          bucketName: 'uploads'
       };
       resolve(fileInfo);
-    });
+      });
   }
-
 });
-
-
-
 const checkFileType = function (file, cb) {
   //Allowed file extensions
   if (file != null) {

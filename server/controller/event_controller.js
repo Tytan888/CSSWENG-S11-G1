@@ -41,7 +41,7 @@ const Eve = {
     addEvent: async function (req, res) {
         var newId = new mongoose.mongo.ObjectId();
 
-        const result = await Event.create({ _id: newId, name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename })
+        const result = await Event.create({ _id: newId, name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startDate, endDate: req.body.endDate, mainPhoto: req.file.filename })
 
         if (result == null) {
             res.status(400);
@@ -62,9 +62,9 @@ const Eve = {
 
                 let result;
                 if (req.file == null)
-                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate } })
+                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startDate, endDate: req.body.endDate } })
                 else
-                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startdate, endDate: req.body.enddate, mainPhoto: req.file.filename } })
+                    result = await Event.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, status: req.body.status, location: req.body.location, startDate: req.body.startDate, endDate: req.body.endDate, mainPhoto: req.file.filename } })
 
                 if (result == null) {
                     res.status(400);

@@ -25,7 +25,8 @@ const childSchema = new Schema({
     sponsor: {
         name: { type: String},
         email: { type: String },
-        phone: { type: String }
+        phone: { type: String },
+        time: { type: Date }
     }
 });
 

@@ -176,6 +176,11 @@ const Don = {
 
     donationFail: async function (req, res) {
         res.render('donate_fail', { foot: await singletonController.getFooter()});
+    },
+
+    getAllDonations: async function() {
+        const donations = await Donation.find().lean();
+        return donations;
     }
 };
 

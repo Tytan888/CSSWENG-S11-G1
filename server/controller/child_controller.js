@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Chi = {
     getChild: async function (req, res) {
         if (mongoose.isValidObjectId(req.query.id)) {
-            let result = await Child.findOne({ _id: req.query.id, sponsor: null });
+            let result = await Child.findOne({ _id: req.query.id });
             if (result == null) {
                 res.status(400);
                 res.end();
@@ -51,6 +51,13 @@ const Chi = {
         });
         return result;
     },
+    getAllChildrenWithSponsor: async function () {
+        const result = await Child.find({ sponsor: { $ne: null } }).sort({ $natural: -1 }).lean();
+        result.forEach(element => {
+            element.sponsor.time = moment(element.sponsor.time).format('MMMM Do YYYY, hh:mm:ss A');
+        });
+        return result;
+    },
     addChild: async function (req, res) {
         var newId = new mongoose.mongo.ObjectId();
 
@@ -80,7 +87,6 @@ const Chi = {
                 else
                     result = await Child.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, gradelevel: req.body.gradelevel, location: req.body.location, birthdate: req.body.birthdate, mainPhoto: req.file.filename } })
 
-                console.log(result)
                 if (result == null) {
                     res.status(400);
                     res.end();
@@ -101,7 +107,7 @@ const Chi = {
 
     updateSponsor: async function (req, res) {
         if (mongoose.isValidObjectId(req.body.id)) {
-            let sponsor = { name: req.body.name, email: req.body.email, phone: req.body.phone };
+            let sponsor = { name: req.body.name, email: req.body.email, phone: req.body.phone, time: new Date() };
             result = await Child.updateOne({ _id: req.body.id }, { $set: { sponsor } })
             if (result == null) {
                 res.status(400);

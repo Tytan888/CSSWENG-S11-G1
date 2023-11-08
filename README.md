@@ -17,8 +17,9 @@ npm test
 - alternatively, vscode has a jest extension that automatically checks the tests when code is updated
   
 :white_check_mark: **naming convention**
-- word_word2_word3 :  underscore notation for file names
-- camelCase for functions, objects, variables
+- word_word2_word3 :  Underscore Notation for File Names
+- wordWordWord: Camel Case for Functions, Objects, Variables
+- word-word-word: Kebab-Case for Image Names
   
 :rocket: **git commit**
 - add: introduce a new feature (even when incomplete)
@@ -43,7 +44,7 @@ npm test
 
 
 💾 Description:
-provide brief description of what the bug is, and if possible indicate what you think the cause of the bug is
+Provide brief description of what the bug is, and—if possible—indicate what you think the cause of the bug is.
 
 ⏰ Expected Outcome:
 Describe what the desired outcome should be when the bug is fixed.
@@ -51,8 +52,8 @@ Describe what the desired outcome should be when the bug is fixed.
 ☎️ Actual Outcome:
 What is the actual outcome produced because of the bug.
 
-🎶 Steps to Reproduce
+🎶 Steps to Reproduce:
 
-Show step by step how to produce the bug. If possible, provide screenshots each step especially if the bug is for frontend.
+Show step by step how to produce the bug. If possible, provide screenshots for each step, especially if the bug is for frontend.
 
 ---End of Copy Paste---

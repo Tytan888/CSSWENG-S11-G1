@@ -36,23 +36,35 @@
 </div>
 
 <h1 class="admin-h1">
-        {{#includes type "child"}}
-        Children
-        {{else}}
-        {{cap type}}s
-        {{/includes}}
+    {{#includes type "child"}}
+    Children
+    {{else}}
+    {{cap type}}s
+    {{/includes}}
 </h1>
-<a href="/admin/{{type}}/add" class="admin-add-container">
-    <span class="admin-add-inner-container">
-        <img src="/images/ico/add.png" class="admin-add-icon">
-        <h3 class="admin-h3">Add a New {{cap type}}</h3>
-    </span>
-</a>
+<div class="admin-add-outer-container">
+    <a href="/admin/{{type}}/add" class="admin-add-container">
+        <span class="admin-add-inner-container">
+            <img src="/images/ico/add.png" class="admin-add-icon">
+            <h3 class="admin-h3">Add a New {{cap type}}</h3>
+        </span>
+    </a>
+</div>
+{{#includes type "staff"}}
+<div class="admin-add-outer-container">
+    <a href="/admin/{{type}}/edit-group" class="admin-add-container" style="margin:10px auto;">
+        <span class="admin-add-inner-container">
+            <img src="/images/ico/edit.png" class="admin-edit-icon">
+            <h3 class="admin-h3">Edit Group Photo</h3>
+        </span>
+    </a>
+</div>
+{{/includes}}
 <div class="row justify-content-center align-items-center admin-select-search">
-    <div class="col-lg-2 col-4">
+    <div class="col-lg-2 col-sm-4">
         <h2 class="admin-h2">Search: </h2>
     </div>
-    <div class="col-lg-6 col-8">
+    <div class="col-lg-6 col-sm-8 col-12">
         <input class="admin-select-input" type="text" id="search" placeholder="Enter Id or Name...">
     </div>
 </div>

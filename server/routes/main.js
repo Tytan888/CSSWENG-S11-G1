@@ -29,6 +29,34 @@ router.get('/404', async (req, res) => {
     res.render('404', { foot: await singletonController.getFooter() });
 });
 
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+
 router.get('/imageByName', imageController.getByName);
 router.delete('/deleteByName', imageController.deleteByName);
 
@@ -45,6 +73,7 @@ router.post('/donate/log', donationController.logDonation);
 router.post('/donate/register', donationController.registerSponsor, childController.updateSponsor);
 router.get('/donate/thanks', donationController.donationThanks);
 router.get("/donate/fail", donationController.donationFail);
+
 
 //NOTE: SECURE ALL ADMIN PAGES WITH AUTHENTICATION
 router.get('/admin/login', adminController.adminLogin);

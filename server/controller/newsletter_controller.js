@@ -43,7 +43,7 @@ const News = {
         return result;
     },
     addNewsletter: async function (req, res) {
-        console.log(req.body)
+        //console.log(req.body)
         var newId = new mongoose.mongo.ObjectId();
 
         let photos = [];

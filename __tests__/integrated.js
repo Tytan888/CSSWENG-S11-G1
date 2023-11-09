@@ -12,6 +12,9 @@ const Event = require('../server/models/event.js');
 const Project = require('../server/models/project.js');
 const Newsletter = require('../server/models/newsletter.js');
 const Singleton = require('../server/models/singleton.js');
+const Staff = require('../server/models/staff.js');
+const Trustee = require('../server/models/trustee.js');
+const Admin = require('../server/models/admin.js');
 
 
 //controllers
@@ -248,8 +251,8 @@ describe("CRUD Event", () => {
                                         .field("category", event.category)
                                         .field("status", event.status)
                                         .field("location", event.location)
-                                        .field("startdate", event.startDate)
-                                        .field("enddate", event.endDate)
+                                        .field("startDate", event.startDate)
+                                        .field("endDate", event.endDate)
                                         .expect(200);
         const obj =  await db.findOne(Event, {name: "test event"});
         expect(obj.name).toBeTruthy();
@@ -281,8 +284,8 @@ describe("CRUD Event", () => {
                                         .field("category", event.category)
                                         .field("status", event.status)
                                         .field("location", event.location)
-                                        .field("startdate", event.startDate)
-                                        .field("enddate", event.endDate)
+                                        .field("startDate", event.startDate)
+                                        .field("endDate", event.endDate)
                                         .expect(200);
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
@@ -293,8 +296,8 @@ describe("CRUD Event", () => {
                                         .field("category", "Education")
                                         .field("status", "Past")
                                         .field("location", "test update location")
-                                        .field("startdate", event.startDate)
-                                        .field("enddate", event.endDate)
+                                        .field("startDate", event.startDate)
+                                        .field("endDate", event.endDate)
                                         .expect(200);
         obj = await db.findOne(Event, {name: "test update name"});
         expect(obj.name).toEqual("test update name");
@@ -325,8 +328,8 @@ describe("CRUD Event", () => {
                                         .field("category", event.category)
                                         .field("status", event.status)
                                         .field("location", event.location)
-                                        .field("startdate", event.startDate)
-                                        .field("enddate", event.endDate)
+                                        .field("startDate", event.startDate)
+                                        .field("endDate", event.endDate)
                                         .expect(200);
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
@@ -351,13 +354,13 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/add_event').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
                                         .field("location", event.location)
-                                        .field("startdate", event.startDate)
-                                        .field("enddate", event.endDate)
+                                        .field("startDate", event.startDate)
+                                        .field("endDate", event.endDate)
                                         .expect(400);
     });
 });
@@ -455,7 +458,7 @@ describe("CRUD Singleton", () => {
         const mainPhoto = "__tests__/test_assets/image_asset.png";
         await singletonController.getIndex();
         //test for first update
-        await request.put('/edit_others').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us')
                                             .field('mission', 'test mission')
                                             .field('vision', 'test vision')
@@ -485,7 +488,7 @@ describe("CRUD Singleton", () => {
         const mainPhoto = "__tests__/test_assets/image_asset.png";
         await singletonController.getIndex();
         //test for first update
-        await request.put('/edit_others').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us')
                                             .field('mission', 'test mission')
                                             .field('vision', 'test vision')
@@ -501,7 +504,7 @@ describe("CRUD Singleton", () => {
         const singleton = await db.findOne(Singleton, {id: "Singleton"});
         const img = singleton.frontpagePhoto;        
         //test for second update
-        await request.put('/edit_others').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us2')
                                             .field('mission', 'test mission2')
                                             .field('vision', 'test vision2')
@@ -531,17 +534,24 @@ describe("CRUD Singleton", () => {
         expect(singleton2.frontpagePhoto).not.toEqual(img);
         await request.get('/imageByName').set("name", img).expect(404);
     });
+
+    test.todo('should update staff photo');
 });
-describe("Donate", () => {
-    test('should add donation to database', async () => {
-        await request.post('/donate').send({name:"tester: rlaph", amount: 1000});
-        return;
-    });
-    test.todo('should update donate in the database');
-    test.todo('should delete donate in the database');
-    test.todo('should get donate in the database');
-    test.todo('should have unique id');
-    test.todo('should not be able to send negative amount');
-    test.todo('should not be able to send 0 amount');
-    
-}); 
+
+describe("CRUD Trustee", () => {
+    test.todo('should add trustee to database');
+    test.todo('should update trustee in the database');
+    test.todo('should delete trustee in the database');
+});
+
+describe("CRUD Staff", () => {
+    test.todo('should add staff to database');
+    test.todo('should update staff in the database');
+    test.todo('should delete staff in the database');
+});
+
+describe("CRUD Admin", () => {
+    test.todo('should add admin to database');
+    test.todo('should update admin in the database');
+    test.todo('should delete admin in the database');
+});

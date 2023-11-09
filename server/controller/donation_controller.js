@@ -1,6 +1,5 @@
 const Donation = require('../models/donation.js');
-const projectController = require('../controller/project_controller.js');
-const childController = require('../controller/child_controller.js');
+const utilityController = require('../controller/utility_controller.js');
 const singletonController = require('../controller/singleton_controller.js');
 const crypto = require('crypto');
 
@@ -11,7 +10,7 @@ const Don = {
     },
 
     donationType: async function (req, res) {
-        res.render('donate_type', { foot: await singletonController.getFooter()});
+        res.render('donate_type', { foot: await singletonController.getFooter() });
     },
 
     donationSelect: async function (req, res) {
@@ -22,78 +21,63 @@ const Don = {
         }
         let pages = [page];
         let min, max = false;
-        let elements, message, noneMessage;
+
+        let elements = await utilityController.getElementsByPage(req.params.type, page, displayLimit);
+        let elementsNext = await utilityController.getElementsByPage(req.params.type, page + 1, displayLimit);
+        if (elementsNext.length == 0) {
+            max = true
+        } else {
+            pages.push(page + 1)
+        }
+        if (page == 1) {
+            min = true;
+            let elementNextNext = await utilityController.getElementsByPage(req.params.type, page + 2, displayLimit);
+            if (elementNextNext.length != 0) {
+                pages.push(page + 2)
+            }
+        } else {
+            pages.push(page - 1)
+        }
+
+        let message, noneMessage;
 
         if (req.params.type == 'project') {
-            elements = await projectController.getProjectsByPage(page, displayLimit);
-            if (page == 1) {
-                min = true
-                let projectsNextNext = await projectController.getProjectsByPage(page + 2, displayLimit);
-                if (projectsNextNext.length != 0) {
-                    pages.push(page + 2)
-                }
-            } else {
-                pages.push(page - 1)
-            }
-
-            let projectsNext = await projectController.getProjectsByPage(page + 1, displayLimit);
-            if (projectsNext.length == 0) {
-                max = true
-            } else {
-                pages.push(page + 1)
-            }
             message = "Fund this Project!"
             noneMessage = "No projects available for funding at the moment."
         } else if (req.params.type == 'child') {
-            elements = await childController.getChildrenByPage(page, displayLimit);
-            if (page == 1) {
-                min = true
-                let childrenNextNext = await childController.getChildrenByPage(page + 2, displayLimit);
-                if (childrenNextNext.length != 0) {
-                    pages.push(page + 2)
-                }
-            } else {
-                pages.push(page - 1)
-            }
-
-            let childrenNext = await childController.getChildrenByPage(page + 1, displayLimit);
-            if (childrenNext.length == 0) {
-                max = true
-            } else {
-                pages.push(page + 1)
-            }
             message = "Sponsor Me!"
             noneMessage = "No children available for sponsorship at the moment."
         } else {
             res.redirect('/404');
             return;
         }
+
         pages.sort()
-        res.render('donate_select', { elements, pages, min, max, type: req.params.type, message, noneMessage,
-             foot: await singletonController.getFooter()});
+        res.render('donate_select', {
+            elements, pages, min, max, type: req.params.type, message, noneMessage,
+            foot: await singletonController.getFooter()
+        });
     },
 
     donationDetails: async function (req, res) {
         let id = req.params.id
         let type = req.params.type
-        let element
+        let element = await utilityController.getElementById(type, id)
+        if (element == null || element.sponsor != null) {
+            res.redirect('/404');
+            return;
+        }
         if (type == 'project') {
-            element = await projectController.getProjectById(id)
-            if (element == null) {
-                res.redirect('/404');
-                return;
-            }
-            res.render('donate_details', { name: element.name, description: element.description,
-                 mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter() });
+            res.render('donate_details', {
+                name: element.name, description: element.description,
+                mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter()
+            });
         } else if (type == 'child') {
-            element = await childController.getChildById(id)
-            if (element == null) {
-                res.redirect('/404');
-                return;
-            }
-            res.render('donate_details', { name: element.name, age: element.age, gradelevel: element.gradelevel,
-                 mainPhoto: element.mainPhoto, id: element._id, location: element.location,
-                  foot: await singletonController.getFooter() });
+            res.render('donate_details', {
+                name: element.name, age: element.age, gradelevel: element.gradelevel,
+                mainPhoto: element.mainPhoto, id: element._id, location: element.location,
+                foot: await singletonController.getFooter()
+            });
         } else {
             res.redirect('/404');
             return;
@@ -161,24 +145,24 @@ const Don = {
 
     registerSponsor: async function (req, res, next) {
         let id = req.body.id;
-        const element = await childController.getChildById(id);
+        const element = await utilityController.getElementById('child', id);
         if (element == null) {
             res.json("/donate/fail");
             return;
-        }else{
+        } else {
             next();
         }
     },
 
     donationThanks: async function (req, res) {
-        res.render('donate_thanks', { foot: await singletonController.getFooter()});
+        res.render('donate_thanks', { foot: await singletonController.getFooter() });
     },
 
     donationFail: async function (req, res) {
-        res.render('donate_fail', { foot: await singletonController.getFooter()});
+        res.render('donate_fail', { foot: await singletonController.getFooter() });
     },
 
-    getAllDonations: async function() {
+    getAllDonations: async function () {
         const donations = await Donation.find().lean();
         return donations;
     }

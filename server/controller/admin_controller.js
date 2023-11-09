@@ -1,11 +1,6 @@
 const Admin = require('../models/admin');
-const projectController = require('./project_controller');
-const childController = require('./child_controller');
-const eventController = require('./event_controller');
-const newsletterController = require('./newsletter_controller');
-const staffController = require('./staff_controller');
-const trusteeController = require('./trustee_controller');
 const donationController = require('./donation_controller');
+const utilityController = require('./utility_controller');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -73,7 +68,7 @@ const Info = {
             case undefined:
                 switch (req.params.type) {
                     case "sponsor":
-                        data = await childController.getAllChildrenWithSponsor();
+                        data = await utilityController.getAllChildrenWithSponsor();
                         res.render('admin_lookup', { layout: "admin", back: "/admin/menu", type: req.params.type, data });
                         return;
                     case "donation":
@@ -85,22 +80,12 @@ const Info = {
             case "select":
                 switch (req.params.type) {
                     case "project":
-                        data = await projectController.getAllProjects();
-                        break;
                     case "child":
-                        data = await childController.getAllChildren();
-                        break;
                     case "event":
-                        data = await eventController.getAllEvents();
-                        break;
                     case "newsletter":
-                        data = await newsletterController.getAllNewsletters();
-                        break;
                     case "staff":
-                        data = await staffController.getAllStaffs();
-                        break;
                     case "trustee":
-                        data = await trusteeController.getAllTrustees();
+                        data = await utilityController.getAllElements(req.params.type);
                         break;
                     default:
                         res.redirect('/404');

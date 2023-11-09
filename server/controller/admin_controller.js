@@ -18,15 +18,16 @@ const Info = {
         }
     },
     adminLogin: async function (req, res) {
-        res.render('admin_login', { layout: "admin", back: "/admin/login" });
+        res.clearCookie('token');
+        res.render('admin_login', { layout: "admin", back: "none" });
     },
-    adminLoginSubmit: async function (req, res) {
+    adminSubmit: async function (req, res) {
         const username = req.body.username;
         const password = req.body.password;
         if (!username || !password) {
             res.status(401).end();
         } else {
-            const result = await Admin.findOne({ username: username });
+            const result = await Admin.findOne({ username });
             if (result == null) {
                 res.status(401).end();
             } else {
@@ -35,7 +36,7 @@ const Info = {
                 if (!passwordCorrect) {
                     res.status(401).end();
                 } else {
-                    const token = jwt.sign({ email }, process.env.SECRET);
+                    const token = jwt.sign({ username }, process.env.SECRET);
                     res.cookie('token', token, {
                         httpOnly: true,
                     });
@@ -45,7 +46,23 @@ const Info = {
         }
     },
     adminAuth: async function (req, res, next) {
-        next();
+        if (req.cookies.token != null) {
+            const decodedToken = jwt.verify(req.cookies.token, process.env.SECRET);
+            const username = decodedToken.username;
+            const result = await Admin.findOne({ username });
+            if (result == null) {
+                res.status(404);
+                res.redirect('/404');
+                return;
+            }
+            else {
+                next();
+                return;
+            }
+        } else {
+            res.redirect('/404');
+            return;
+        }
     },
     adminMenu: async function (req, res) {
         res.render('admin_menu', { layout: "admin", back: "/admin/login" });

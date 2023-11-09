@@ -1,3 +1,11 @@
 <nav class="navbar-admin">
-    <a href="{{this}}"><img src="/images/ico/back.png" id="back-button"/></a>
+    {{#includes this "none"}}
+    {{else}}
+    <a href="{{this}}">
+    {{/includes}}
+        <img src="/images/ico/back.png" id="back-button" {{#includes this "none"}}style="opacity:0.0;"{{/includes}}/>
+    {{#includes this "none"}}
+    {{else}}
+    </a>
+    {{/includes}}
 </nav>

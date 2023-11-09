@@ -7,12 +7,14 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const hbs = require('handlebars');
 const moment = require('moment');
+const cookies = require("cookie-parser");
 
 const app = express();
 
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use(cookies());
 app.set('layout', './layouts/main');
 app.engine("hbs", exphbs.engine({
     extname: 'hbs', defaultLayout: 'main', helpers: {
@@ -61,6 +63,9 @@ app.engine("hbs", exphbs.engine({
         },
         extractName: function(value){
             return value.slice(value.indexOf('for ') + 4, value.indexOf(' ('));
+        },
+        small: function(value){
+            return value.toLowerCase();
         }
     }
 }));

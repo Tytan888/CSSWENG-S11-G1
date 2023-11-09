@@ -48,6 +48,7 @@ router.get("/donate/fail", donationController.donationFail);
 
 //NOTE: SECURE ALL ADMIN PAGES WITH AUTHENTICATION
 router.get('/admin/login', adminController.adminLogin);
+router.post('/admin/submit', adminController.adminSubmit);
 router.all('/admin*', adminController.adminAuth);
 
 // TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.

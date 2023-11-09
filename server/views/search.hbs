@@ -188,7 +188,6 @@
   }
 
   .search-col {
-    flex-basis: 50%;
     text-align: center;
     border-radius: 2%;
     margin-bottom: 5%;
@@ -202,31 +201,88 @@
   }
 
   .layer {
+    border: 3px solid #007F55;
     background-color: transparent;
-    transition: 0.5s;
+    height: 100%;
+    width: 100%;
+    transition: 0.3s;
+    min-height: 30vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (max-width: 992px) {
+    .layer {
+      min-height: 25vh;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .layer {
+      min-height: 30vh;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .layer {
+      min-height: 35vh;
+    }
   }
 
   .layer:hover {
-    background-color: #007F55;
-    opacity: 0.7;
+    border: 4px solid #0082CA;
+    opacity: 0.8;
   }
 
   .layer h3 {
     width: 100%;
-    font-weight: 500;
-    color: #fff;
+    font-weight: 800;
+    color: #ffffff;
     font-size: 26px;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
+    transform: translateY(200%);
     transition: 0.5s;
     opacity: 0;
   }
 
   .layer:hover h3 {
-    bottom: 49%;
+    transform: translateX(0%);
     opacity: 1;
+  }
+
+  .overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    transition: 0.3s;
+  }
+
+  .overlay:hover {
+    background-color: #007F55;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .layer {
+      border: 4px solid #0082CA;
+      opacity: 1;
+    }
+
+    .layer h3 {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+
+    .overlay {
+      background-color: #007F55;
+      opacity: 0.75;
+    }
   }
 
   .row {
@@ -238,6 +294,10 @@
       flex-direction: column;
     }
 
+    .row.row-element {
+      flex-direction: row;
+    }
+
     .row.search-row {
       flex-direction: row;
       padding: 0 10px;
@@ -247,6 +307,57 @@
   #input-box,
   #input-box::placeholder {
     font-size: 18px;
+  }
+
+  .hidden-search {
+    display: none !important;
+  }
+
+  .hidden-filters {
+    display: none !important;
+  }
+
+  .all-btn.active {
+    background: #0093e1;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
+  }
+
+  .sub-btns.active {
+    background: #0093e1;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
+  }
+
+  .none-message {
+    animation: fadeInLeft 0.5s ease-in-out;
+    color: var(--foreground);
+    font-family: var(--font-menu-text);
+    font-weight: 500;
+    text-align: center;
+    margin: 30px 0 90px;
+    font-size: 40px;
+    text-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    display: none;
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 </style>
 
@@ -260,7 +371,7 @@
       <div class="col-md-9">
         <div class="row">
           <div class="col btn-col">
-            <button class="btn all-btn">All Events</button>
+            <button class="btn all-btn">All {{cap type}}s</button>
           </div>
         </div>
 
@@ -307,8 +418,6 @@
               <button><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
           </div>
-          <div class="result-box">
-          </div>
         </div>
       </div>
     </div>
@@ -318,19 +427,119 @@
 
 <section class="search-white">
   <div class="container">
-    <div class="row">
+    <div class="row row-element">
       {{#each data}}
-      <div class="search-col col-md-6">
-        <div class="layer">
-          <img src="/imageByName?name={{mainPhoto}}" alt="Event Image">
-          <h3>{{name}}</h3>
-        </div>
+      <div class="search-col col-md-6 col-xl-4 search-element {{small category}} {{small status}}">
+        <a href="/{{../type}}/view/{{_id}}">
+          {{#includes ../type "project" "event"}}
+          <div class="layer" style="background-image: url('/imageByName?name={{mainPhoto}}');">
+            <div class="overlay">
+              <h3>{{name}}</h3>
+            </div>
+          </div>
+          {{else}}
+          <div class="layer" style="background-image: url('/imageByName?name={{photos.[0]}}');">
+            <div class="overlay">
+              <h3>{{name}}</h3>
+            </div>
+          </div>
+          {{/includes}}
+        </a>
       </div>
       {{/each}}
     </div>
+    <h2 class="none-message">No {{cap type}}s to Display...</h2>
   </div>
 </section>
 
+<script>
+  const searchBox = document.querySelector(".search-box input"),
+    searchBtn = document.querySelector(".search-box button"),
+    inputBox = document.getElementById("input-box"),
+    searchElements = document.querySelectorAll(".search-element"),
+    filterBtns = document.querySelectorAll(".sub-btns, .all-btn");
 
-<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="autocomplete.js"></script>
+  function search(e) {
+    const searchValue = searchBox.value.trim().toLowerCase();
+    if (searchValue != "") {
+      searchElements.forEach((element) => {
+        if (element.querySelector("h3").innerText.toLowerCase().startsWith(searchValue)) {
+          element.classList.remove("hidden-search");
+        } else {
+          element.classList.add("hidden-search");
+        }
+      });
+    } else {
+      searchElements.forEach((element) => {
+        element.classList.remove("hidden-search");
+      });
+    }
+    if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
+      document.querySelector(".none-message").style.display = "none";
+    } else {
+      document.querySelector(".none-message").style.display = "block";
+    }
+  }
+  searchBox.addEventListener("keyup", search);
+  searchBtn.addEventListener("click", search);
+
+  function filter(e) {
+    const filterValue = e.target.innerText.toLowerCase();
+    if (e.target.classList.contains("active")) {
+      e.target.classList.remove("active");
+      searchElements.forEach((element) => {
+        element.classList.remove("hidden-filters");
+      });
+      if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
+        document.querySelector(".none-message").style.display = "none";
+      } else {
+        document.querySelector(".none-message").style.display = "block";
+      }
+      return;
+    }
+    filterBtns.forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    e.target.classList.add("active");
+    if (!filterValue.startsWith("all")) {
+      searchElements.forEach((element) => {
+        if (element.classList.contains(filterValue)) {
+          element.classList.remove("hidden-filters");
+        } else {
+          element.classList.add("hidden-filters");
+        }
+      });
+      console.log(document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)"))
+      if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
+        document.querySelector(".none-message").style.display = "none";
+      } else {
+        document.querySelector(".none-message").style.display = "block";
+      }
+    } else {
+      searchElements.forEach((element) => {
+        element.classList.remove("hidden-filters");
+      });
+      if (document.querySelector(".search-element:not(.hidden-search), .search-element:not(.hidden-filters)") != null) {
+        document.querySelector(".none-message").style.display = "none";
+      } else {
+        document.querySelector(".none-message").style.display = "block";
+      }
+    }
+  }
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", filter);
+  });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterQuery = urlParams.get('filter');
+
+  if (filterQuery) {
+    filterBtns.forEach((btn) => {
+      if (btn.innerText.toLowerCase().startsWith(filterQuery)) {
+        btn.click()
+        return;
+      }
+    });
+  }
+
+</script>

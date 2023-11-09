@@ -101,7 +101,7 @@ const Info = {
             res.redirect('/404');
             return;
         }
-        res.render('search', { data, type, foot: await singletonController.getFooter() });
+        res.render('search', { data, type: req.params.type, foot: await singletonController.getFooter() });
     },
     infoView: async function (req, res) {
         if (req.params.type == 'project') {

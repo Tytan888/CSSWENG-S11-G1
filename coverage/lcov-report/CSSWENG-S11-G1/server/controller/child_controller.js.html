@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35% </span>
+                <span class="strong">32.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/80</span>
+                <span class='fraction'>27/83</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/10</span>
+                <span class='fraction'>3/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35% </span>
+                <span class="strong">32.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/80</span>
+                <span class='fraction'>27/83</span>
             </div>
         
             
@@ -206,7 +206,13 @@
 <a name='L141'></a><a href='#L141'>141</a>
 <a name='L142'></a><a href='#L142'>142</a>
 <a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,6 +250,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -288,7 +301,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -358,7 +370,7 @@ const mongoose = require('mongoose');
 const Chi = {
     getChild: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
 <span class="cstat-no" title="statement not covered" >        if (mongoose.isValidObjectId(req.query.id)) {</span>
-            let result = <span class="cstat-no" title="statement not covered" >await Child.findOne({ _id: req.query.id, sponsor: null });</span>
+            let result = <span class="cstat-no" title="statement not covered" >await Child.findOne({ _id: req.query.id });</span>
 <span class="cstat-no" title="statement not covered" >            if (result == null) {</span>
 <span class="cstat-no" title="statement not covered" >                res.status(400);</span>
 <span class="cstat-no" title="statement not covered" >                res.end();</span>
@@ -402,6 +414,13 @@ const Chi = {
         });
 <span class="cstat-no" title="statement not covered" >        return result;</span>
     },
+    getAllChildrenWithSponsor: <span class="fstat-no" title="function not covered" >as</span>ync function () {
+        const result = <span class="cstat-no" title="statement not covered" >await Child.find({ sponsor: { $ne: null } }).sort({ $natural: -1 }).lean();</span>
+<span class="cstat-no" title="statement not covered" >        result.forEach(<span class="fstat-no" title="function not covered" >el</span>ement =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            element.sponsor.time = moment(element.sponsor.time).format('MMMM Do YYYY, hh:mm:ss A');</span>
+        });
+<span class="cstat-no" title="statement not covered" >        return result;</span>
+    },
     addChild: async function (req, res) {
         var newId = new mongoose.mongo.ObjectId();
 &nbsp;
@@ -431,7 +450,6 @@ const Chi = {
                 else
                     result = await Child.updateOne({ _id: req.body.id }, { $set: { name: req.body.name, gradelevel: req.body.gradelevel, location: req.body.location, birthdate: req.body.birthdate, mainPhoto: req.file.filename } })
 &nbsp;
-                console.log(result)
                 <span class="missing-if-branch" title="if path not taken" >I</span>if (result == null) {
 <span class="cstat-no" title="statement not covered" >                    res.status(400);</span>
 <span class="cstat-no" title="statement not covered" >                    res.end();</span>
@@ -452,7 +470,7 @@ const Chi = {
 &nbsp;
     updateSponsor: <span class="fstat-no" title="function not covered" >as</span>ync function (req, res) {
 <span class="cstat-no" title="statement not covered" >        if (mongoose.isValidObjectId(req.body.id)) {</span>
-            let sponsor = <span class="cstat-no" title="statement not covered" >{ name: req.body.name, email: req.body.email, phone: req.body.phone };</span>
+            let sponsor = <span class="cstat-no" title="statement not covered" >{ name: req.body.name, email: req.body.email, phone: req.body.phone, time: new Date() };</span>
 <span class="cstat-no" title="statement not covered" >            result = await Child.updateOne({ _id: req.body.id }, { $set: { sponsor } })</span>
 <span class="cstat-no" title="statement not covered" >            if (result == null) {</span>
 <span class="cstat-no" title="statement not covered" >                res.status(400);</span>
@@ -499,7 +517,7 @@ module.exports = Chi;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-08T20:16:33.569Z
+                at 2023-11-09T08:27:46.274Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

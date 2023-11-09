@@ -5,8 +5,8 @@ const { GridFsStorage } = require('multer-gridfs-storage');
 
 
 storage = new GridFsStorage({
-  url:  process.env.MONGODB_URI,
-  //url:      process.env.TEST_MONGODB_URI,
+  //url:  process.env.MONGODB_URI,
+  url:      process.env.TEST_MONGODB_URI,
   file: (req, file) => {
       return new Promise((resolve, reject) => {
       const filename = file.originalname;

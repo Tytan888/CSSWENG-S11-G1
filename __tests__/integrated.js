@@ -12,6 +12,9 @@ const Event = require('../server/models/event.js');
 const Project = require('../server/models/project.js');
 const Newsletter = require('../server/models/newsletter.js');
 const Singleton = require('../server/models/singleton.js');
+const Staff = require('../server/models/staff.js');
+const Trustee = require('../server/models/trustee.js');
+const Admin = require('../server/models/admin.js');
 
 
 //controllers

@@ -351,7 +351,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/add_event').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -531,17 +531,24 @@ describe("CRUD Singleton", () => {
         expect(singleton2.frontpagePhoto).not.toEqual(img);
         await request.get('/imageByName').set("name", img).expect(404);
     });
+
+    test.todo('should update staff photo');
 });
-describe("Donate", () => {
-    test('should add donation to database', async () => {
-        await request.post('/donate').send({name:"tester: rlaph", amount: 1000});
-        return;
-    });
-    test.todo('should update donate in the database');
-    test.todo('should delete donate in the database');
-    test.todo('should get donate in the database');
-    test.todo('should have unique id');
-    test.todo('should not be able to send negative amount');
-    test.todo('should not be able to send 0 amount');
-    
-}); 
+
+describe("CRUD Trustee", () => {
+    test.todo('should add trustee to database');
+    test.todo('should update trustee in the database');
+    test.todo('should delete trustee in the database');
+});
+
+describe("CRUD Staff", () => {
+    test.todo('should add staff to database');
+    test.todo('should update staff in the database');
+    test.todo('should delete staff in the database');
+});
+
+describe("CRUD Admin", () => {
+    test.todo('should add admin to database');
+    test.todo('should update admin in the database');
+    test.todo('should delete admin in the database');
+});

@@ -1174,7 +1174,8 @@ a:link {
     border-radius: 0;
 }
 
-.about-carousel {
+.carousel-control-prev,
+.carousel-control-next {
     background-color: var(--foreground) !important;
     width: 5em !important;
     height: 5em !important;
@@ -1184,5 +1185,5 @@ a:link {
   }
 
 .carousel-item.active {
-    min-height: 300px;
+    min-height: 520px;
 }

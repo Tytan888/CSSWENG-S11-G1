@@ -16,7 +16,7 @@
                 </div>  
             <a class="list-group-item list-group-item-action" href="#board">Board of Trustees</a>
                 <div class="list-group list-group-flush my-2 px-4">
-                    <a class="list-group-item list-group-item-action" href="#boardmembers">Staff</a>
+                    <a class="list-group-item list-group-item-action" href="#boardmembers">Members</a>
                 </div>  
         
             <div class="progress mt-2">
@@ -218,10 +218,13 @@
             </div>
         </div>
 
-        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
+        <div id="carouselBoT" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Prof. Elizabeth Lorenzana-Diaz</h5>
                         <p class="card-text">Chairperson</p>
@@ -234,7 +237,7 @@
 
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board1.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Myrna T. Yao</h5>
                         <p class="card-text">Chairperson Emeritus</p>
@@ -245,11 +248,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="row chairs mt-5" style="width: 90%; margin: 0 auto;">
+            </div>
+            <div class="carousel-item">
+            <div class="row chairs mt-5" style="width: 90%; margin: 0 auto;">
             <div class="col">
                <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board2.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board2.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">PBGen. Yolanda G. Tanigue, RSW, Ph.D (Ret)</h5>
                         <p class="card-text">President</p>
@@ -261,7 +265,7 @@
             </div>
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board3.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board3.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Anne Marie C. Gordon</h5>
                         <p class="card-text">Vice President</p>
@@ -273,7 +277,7 @@
             </div>
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Lina B. Laigo, Ph.D</h5>
                         <p class="card-text">Secretary</p>
@@ -285,10 +289,12 @@
             </div>
         </div>
 
-        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
+            </div>
+            <div class="carousel-item">
+            <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Dr. Hyacinth C. Manood</h5>
                         <p class="card-text">Treasurer</p>
@@ -301,7 +307,7 @@
 
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Timothy P. Tionson</h5>
                         <p class="card-text">Auditor</p>
@@ -311,6 +317,17 @@
                     </ul>
                 </div>
             </div>
+        </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBoT" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselBoT" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
         </div>
 
         <!--
@@ -414,7 +431,7 @@
         <!-- Board of Members -->
         <div class="row BoT mt-5">
             <div class="col">
-            <h4 id="boardmembers">Staffs</h4>
+            <h4 id="boardmembers">Board of Members</h4>
             <img src="images/ico/staff.png" width="50vh"/>
             </div>
         </div>
@@ -426,7 +443,7 @@
 
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board2.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board2.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Atty. Salvador B. Belaro</h5>
                         <p class="card-text">Member</p>
@@ -439,7 +456,7 @@
 
              <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/executivedirector.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/executivedirector.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Teresita R. Latoza</h5>
                         <p class="card-text">Executive Director</p>
@@ -452,7 +469,7 @@
 
               <div class="col">
                <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board1.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Atty. Amy L. Wong, DCL</h5>
                         <p class="card-text">Member</p>
@@ -469,7 +486,7 @@
           
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/board3.jpg" class="card-img-top" alt="..."> -->
+                    <img src="/images/board3.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Mary A. Ang</h5>
                         <p class="card-text">Member</p>
@@ -481,7 +498,7 @@
             </div>
             <div class="col">
                 <div class="card" style="width: 18rem; ">
-                    <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Nellie Y. King</h5>
                         <p class="card-text">Member</p>
@@ -494,11 +511,11 @@
         </div>
         </div>
         </div>
-        <button class="about-carousel carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="about-carousel carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>

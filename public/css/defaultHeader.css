@@ -1063,3 +1063,127 @@ a:link {
     transition: all 0.2s ease;
     text-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
 }
+
+#list-example {
+    margin-bottom: 10vh;
+    
+}
+
+.list-group-item {
+    font-family: var(--font-menu-text);
+    color: var(--menu-fg) !important;
+}
+
+.scrollspy-example button ,h2, h4, h5 {
+    font-family: var(--font-logo-text);
+    color: var(--blueAccent) !important;
+    font-weight: 700 !important;
+}
+
+.scrollspy-example p {
+    font-family: var(--font-button-text);
+}
+
+.list-group-item.active {
+    color: white !important;
+    font-weight: 700;
+    background-color: var(--foreground-light) !important;
+}
+
+.list-group-item {
+    font-weight: 500;
+    color: var(--foreground) !important;
+}
+#vnm-d h4 {
+    text-align: center !important;
+}
+
+#helpPPcontent {
+    text-align: center;
+}
+
+#helpPPcontent h5 {
+    font-weight: 700;
+}
+
+.chairs {
+    margin-top: 10vh; 
+}
+
+.card {
+    width: 20rem !important;
+    margin-top: 1em !important;
+}
+
+.chairs .card {
+    margin: 0 auto;
+    
+}
+
+.carousel-item > img.d-block{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.chairs img {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 15em;
+    width: 15em;
+    margin: 0 auto;
+    display: block;
+    margin-top: 2vh;
+}
+
+.BoT {
+    text-align: center;
+}
+
+.card-body > h5 {
+    color: black !important;
+    font-weight: 700;
+    font-size: 1.25vw;
+}
+
+.card-body > p {
+    color: var(--blueAccent) !important;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+}
+.card img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+@media (min-width: 768px) {
+    .card img {
+      height: 15em;
+    }
+ }
+
+.card {
+    margin: 0 0.5em;
+    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+    border: none;
+    border-radius: 0;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: var(--foreground) !important;
+    width: 5em !important;
+    height: 5em !important;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(20vh) !important;
+  }
+
+.carousel-item.active {
+    min-height: 520px;
+}

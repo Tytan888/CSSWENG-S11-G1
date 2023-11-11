@@ -143,7 +143,14 @@ const Req = {
                     res.status(400);
                     res.end();
                 } else {
-                    if (req.file != null || req.files.length != 0) {
+                    if (type == "newsletter") {
+                        if(req.files.length != 0){
+                            res.locals.id = req.body.id;
+                            next();
+                            return;
+                        }
+                    }
+                    else if (req.file != null) {
                         res.locals.id = req.body.id;
                         next();
                     }

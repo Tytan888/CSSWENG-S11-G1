@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const imageController = require('../controller/image_controller.js');
 const requestController = require('../controller/request_controller.js');
-const utilityController = require('../controller/utility_controller.js');
 const singletonController = require('../controller/singleton_controller.js');
 const donationController = require('../controller/donation_controller.js');
 const informationController = require('../controller/information_controller.js');
@@ -12,50 +11,12 @@ const file_upload = require('../controller/middleware/file_upload.js');
 singletonController.initializeSingleton();
 adminController.initializeAdmin();
 
-router.get('/', async (req, res) => {
-    res.render('index', {
-        index: await singletonController.getIndex(),
-        projects: await utilityController.getElementsByAmount("project", 3),
-        newsletter: await utilityController.getElementsByAmount("newsletter", 3),
-        foot: await singletonController.getFooter()
-    });
-});
-
-router.get('/404', async (req, res) => {
-    res.render('404', { foot: await singletonController.getFooter() });
-});
-
-router.get("/about", async (req, res) => {
-    res.render('about', { 
-        index: await singletonController.getIndex(),
-        projects: await projectController.getProjectsByAmount(3),
-        newsletter: await newsletterController.getNewslettersByAmount(3),
-        foot: await singletonController.getFooter()
-    });
-});
-
-router.get("/about", async (req, res) => {
-    res.render('about', { 
-        index: await singletonController.getIndex(),
-        projects: await projectController.getProjectsByAmount(3),
-        newsletter: await newsletterController.getNewslettersByAmount(3),
-        foot: await singletonController.getFooter()
-    });
-});
-
-router.get("/about", async (req, res) => {
-    res.render('about', { 
-        index: await singletonController.getIndex(),
-        projects: await projectController.getProjectsByAmount(3),
-        newsletter: await newsletterController.getNewslettersByAmount(3),
-        foot: await singletonController.getFooter()
-    });
-});
-
-
 router.get('/imageByName', imageController.getByName);
 router.delete('/deleteByName', imageController.deleteByName);
 
+router.get('/', informationController.infoIndex);
+router.get('/404', informationController.info404);
+router.get("/about", informationController.infoAbout);
 router.get("/:type/explore", informationController.infoExplore);
 router.get("/:type/search", informationController.infoSearch);
 router.get("/:type/view/:id", informationController.infoView);

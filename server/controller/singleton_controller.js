@@ -16,6 +16,28 @@ const Sing = {
             res.json(result);
         }
     },
+    updateOthers: async function (req, res, next) {
+        const resultFind = await Singleton.findOne({ id: "Singleton" });
+        res.locals.name = resultFind.frontpagePhoto;
+
+        let update = req.body;
+        if (req.file != null)
+            update.frontpagePhoto = req.file.filename;
+
+        const result = await Singleton.updateOne({ id: "Singleton" }, { $set: update });
+        if (result == null) {
+            res.status(400);
+            res.end();
+        } else {
+            if (req.file != null && res.locals.name != "N/A") {
+                next();
+            }
+            else {
+                res.end()
+                res.status(200);
+            }
+        }
+    },
     getIndex: async function () {
         const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
@@ -34,29 +56,14 @@ const Sing = {
         else
             return { email: result.email, facebook: result.facebook, instagram: result.instagram, twitter: result.twitter, address: result.address, phone: result.phone, aboutUs: result.aboutUs };
     },
-    updateOthers: async function (req, res, next) {
-        const resultFind = await Singleton.findOne({ id: "Singleton" });
-        res.locals.name = resultFind.frontpagePhoto;
-
-        let updates
-        if (req.file == null)
-            updates = { aboutUs: req.body.aboutUs, mission: req.body.mission, vision: req.body.vision, projectsDescription: req.body.projectsDescription, newsletterDescription: req.body.newsletterDescription, email: req.body.email, facebook: req.body.facebook, instagram: req.body.instagram, twitter: req.body.twitter, address: req.body.address, phone: req.body.phone }
-        else
-            updates = { aboutUs: req.body.aboutUs, mission: req.body.mission, vision: req.body.vision, projectsDescription: req.body.projectsDescription, newsletterDescription: req.body.newsletterDescription, email: req.body.email, facebook: req.body.facebook, instagram: req.body.instagram, twitter: req.body.twitter, address: req.body.address, phone: req.body.phone, frontpagePhoto: req.file.filename }
-
-        const result = await Singleton.updateOne({ id: "Singleton" }, { $set: updates });
+    getAbout: async function () {
+        const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
-            res.status(400);
-            res.end();
-        } else {
-            if (req.file != null && res.locals.name != "N/A") {
-                next();
-            }
-            else {
-                res.end()
-                res.status(200);
-            }
+            await this.initializeSingleton();
+            return this.getAbout();
         }
+        else
+            return { ourFounder: result.ourFounder, philippineJourney: result.philippineJourney, weBelieve: result.weBelieve, aboutHealth: result.aboutHealth, aboutLivelihood: result.aboutLivelihood, aboutPsychosocial: result.aboutPsychosocial, aboutEducation: result.aboutEducation };
     },
     getStaffPhoto: async function (req, res) {
         const result = await Singleton.findOne({ id: "Singleton" });

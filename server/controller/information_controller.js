@@ -2,6 +2,26 @@ const utilityController = require('./utility_controller');
 const singletonController = require('./singleton_controller');
 
 const Info = {
+    infoIndex: async function (req, res) {
+        res.render('index', {
+            index: await singletonController.getIndex(),
+            projects: await utilityController.getElementsByAmount("project", 3),
+            newsletter: await utilityController.getElementsByAmount("newsletter", 3),
+            foot: await singletonController.getFooter()
+        });
+    },
+    info404: async function (req, res) {
+        res.render('404', { foot: await singletonController.getFooter() });
+    },
+    infoAbout: async function (req, res) {
+        res.render('about', {
+            index: await singletonController.getIndex(),
+            about: await singletonController.getAbout(),
+            trustees: await utilityController.getAllElements("trustee"),
+            staff: await utilityController.getAllElements("staff"),
+            foot: await singletonController.getFooter()
+        });
+    },
     infoExplore: async function (req, res) {
         let health = await utilityController.getElementsByFilters(req.params.type, { category: 'Health' }, 1);
         let livelihood = await utilityController.getElementsByFilters(req.params.type, { category: 'Livelihood' }, 1);
@@ -11,10 +31,10 @@ const Info = {
         let ongoing = await utilityController.getElementsByFilters(req.params.type, { status: 'Ongoing' }, 3);
         let past = await utilityController.getElementsByFilters(req.params.type, { status: 'Past' }, 3);
         let upcoming = await utilityController.getElementsByFilters(req.params.type, { status: 'Upcoming' }, 3);
-        
+
         let healthPhoto, livelihoodPhoto, psychosocialPhoto, educationPhoto;
 
-        if(req.params.type != 'project' && req.params.type != 'event' && req.params.type != 'newsletter'){
+        if (req.params.type != 'project' && req.params.type != 'event' && req.params.type != 'newsletter') {
             res.redirect('/404');
             return;
         }
@@ -69,8 +89,7 @@ const Info = {
     infoSearch: async function (req, res) {
         const type = req.params.type;
         let data;
-        switch(type)
-        {
+        switch (type) {
             case 'project':
             case 'event':
             case 'newsletter':

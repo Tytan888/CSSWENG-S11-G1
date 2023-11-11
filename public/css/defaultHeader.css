@@ -47,6 +47,18 @@ nav {
     font-size: 1.5em !important;
 }
 
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.2em !important;
+    }
+}
+
+@media (max-width: 376px) {
+    .navbar-brand {
+        font-size: 1em !important;
+    }
+}
+
 .navbar-brand>span {
     color: var(--blueAccent);
 }
@@ -60,6 +72,7 @@ nav {
     min-width: 4em;
     height: 3em;
 }
+
 
 .nav-donate>button {
     font-family: var(--font-button-text);
@@ -123,9 +136,9 @@ nav {
     font-family: var(--font-body-text);
 }
 
-.index-text-left{
+.index-text-left {
     text-align: left;
-    margin:auto
+    margin: auto
 }
 
 .landing-about .row {
@@ -287,6 +300,7 @@ nav {
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
     width: 100%;
     object-fit: cover;
+    filter: brightness(100%);
     -webkit-filter: brightness(100%);
     border-radius: 20px;
 }
@@ -294,6 +308,7 @@ nav {
 .project-image:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 10px rgba(0, 40, 75, 0.3);
+    filter: brightness(80%);
     -webkit-filter: brightness(80%);
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
@@ -897,6 +912,10 @@ a:link {
     color: white !important;
 }
 
+.card-text {
+    font-weight: 500 !important;
+}
+
 @media (max-width: 576px) {
     .explore-category {
         height: 35vh;
@@ -929,6 +948,7 @@ a:link {
 
 .explore-ongoing-see:hover {
     transform: scale(1.55) !important;
+    transition: all 0.2s ease !important;
     -webkit-transition: all 0.2s ease !important;
     -moz-transition: all 0.2s ease !important;
     -o-transition: all 0.2s ease !important;
@@ -943,6 +963,7 @@ a:link {
 
 .explore-past-see:hover {
     transform: scale(1.55) !important;
+    transition: all 0.2s ease !important;
     -webkit-transition: all 0.2s ease !important;
     -moz-transition: all 0.2s ease !important;
     -o-transition: all 0.2s ease !important;
@@ -1022,7 +1043,9 @@ a:link {
 }
 
 @media (max-width: 768px) {
-    .index-row, .index-text-left {
+
+    .index-row,
+    .index-text-left {
         width: 90% !important;
         padding: 3vh 0 !important;
         text-align: center;
@@ -1030,7 +1053,7 @@ a:link {
 }
 
 .landing-news p,
-.landing-news h1  {
+.landing-news h1 {
     animation: fadeInLeft 0.5s ease-in-out;
     color: white;
     text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
@@ -1066,7 +1089,7 @@ a:link {
 
 #list-example {
     margin-bottom: 10vh;
-    
+
 }
 
 .list-group-item {
@@ -1074,7 +1097,9 @@ a:link {
     color: var(--menu-fg) !important;
 }
 
-.scrollspy-example button ,h2, h4, h5 {
+.scrollspy-example h2,
+.scrollspy-example h4,
+.scrollspy-example h5 {
     font-family: var(--font-logo-text);
     color: var(--blueAccent) !important;
     font-weight: 700 !important;
@@ -1082,6 +1107,10 @@ a:link {
 
 .scrollspy-example p {
     font-family: var(--font-button-text);
+}
+
+.pre-wrap {
+    white-space: pre-wrap;
 }
 
 .list-group-item.active {
@@ -1094,6 +1123,7 @@ a:link {
     font-weight: 500;
     color: var(--foreground) !important;
 }
+
 #vnm-d h4 {
     text-align: center !important;
 }
@@ -1107,20 +1137,19 @@ a:link {
 }
 
 .chairs {
-    margin-top: 10vh; 
+    margin-top: 10vh;
 }
 
-.card {
-    width: 20rem !important;
+.card.card-about {
     margin-top: 1em !important;
 }
 
 .chairs .card {
     margin: 0 auto;
-    
+
 }
 
-.carousel-item > img.d-block{
+.carousel-item>img.d-block {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -1140,34 +1169,41 @@ a:link {
     text-align: center;
 }
 
-.card-body > h5 {
+.card-body.card-body-about>h5 {
     color: black !important;
     font-weight: 700;
-    font-size: 1.25vw;
+    font-size: 18px;
 }
 
-.card-body > p {
+.card-body.card-body-about>p {
     color: var(--blueAccent) !important;
     text-transform: uppercase;
     font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .progress {
+        display: none !important;
+    }
 }
 
 .cards-wrapper {
     display: flex;
     justify-content: center;
 }
-.card img {
+
+.card.card-about img {
     max-width: 100%;
     max-height: 100%;
 }
 
 @media (min-width: 768px) {
     .card img {
-      height: 15em;
+        height: 15em;
     }
- }
+}
 
-.card {
+.card.card-about {
     margin: 0 0.5em;
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
     border: none;
@@ -1181,8 +1217,45 @@ a:link {
     border-radius: 50%;
     top: 50%;
     transform: translateY(20vh) !important;
-  }
+}
 
-.carousel-item.active {
+.carousel-item.carousel-item-about.active {
     min-height: 300px;
+}
+
+.frame-normal {
+    display: block !important;
+}
+
+.frame-small,
+.frame-smaller {
+    display: none !important;
+}
+
+@media (max-width: 576px) {
+
+    .frame-normal,
+    .frame-smaller {
+        display: none !important;
+    }
+
+    .frame-small {
+        display: block !important;
+    }
+}
+
+@media (max-width: 376px) {
+
+    .frame-normal,
+    .frame-small {
+        display: none !important;
+    }
+
+    .frame-smaller {
+        display: block !important;
+    }
+}
+
+.bottom-margin {
+    margin-bottom: 30px;
 }

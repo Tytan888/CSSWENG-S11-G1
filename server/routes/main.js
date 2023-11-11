@@ -25,6 +25,34 @@ router.get('/404', async (req, res) => {
     res.render('404', { foot: await singletonController.getFooter() });
 });
 
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+router.get("/about", async (req, res) => {
+    res.render('about', { 
+        index: await singletonController.getIndex(),
+        projects: await projectController.getProjectsByAmount(3),
+        newsletter: await newsletterController.getNewslettersByAmount(3),
+        foot: await singletonController.getFooter()
+    });
+});
+
+
 router.get('/imageByName', imageController.getByName);
 router.delete('/deleteByName', imageController.deleteByName);
 

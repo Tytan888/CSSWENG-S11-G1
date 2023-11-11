@@ -99,6 +99,11 @@ const Uti = {
                     element.description = element.description.substring(0, cutoffLength) + "...";
                 }
             });
+        } else if (type == 'child') {
+            result.forEach(element => {
+                element.age = moment().diff(element.birthdate, 'years')
+                element.sponsor.time = moment(element.sponsor.time).format('YYYY/MM/DD, hh:mm:ss A');
+            });
         }
         return result;
     },
@@ -113,13 +118,6 @@ const Uti = {
                 element.age = moment().diff(element.birthdate, 'years')
             });
         }
-        return result;
-    },
-    getAllChildrenWithSponsor: async function () {
-        const result = await Child.find({ sponsor: { $ne: null } }).sort({ $natural: -1 }).lean();
-        result.forEach(element => {
-            element.sponsor.time = moment(element.sponsor.time).format('YYYY/MM/DD, hh:mm:ss A');
-        });
         return result;
     }
 };

@@ -1,7 +1,5 @@
 const Singleton = require('../models/singleton.js');
 
-// TODO: Also for adding, editing, and deleting projects, make sure only admins can access these pages and authenticate them.
-// TODO: When editing and deleting projects, the old image should be deleted from the database.
 const Sing = {
     initializeSingleton: async function () {
         if (await Singleton.findOne({ id: "Singleton" }) == null)
@@ -18,15 +16,6 @@ const Sing = {
             res.json(result);
         }
     },
-    getFooter: async function () {
-        const result = await Singleton.findOne({ id: "Singleton" });
-        if (result == null) {
-            await this.initializeSingleton();
-            return this.getFooter();
-        }
-        else
-            return { email: result.email, facebook: result.facebook, instagram: result.instagram, twitter: result.twitter, address: result.address, phone: result.phone, aboutUs: result.aboutUs };
-    },
     getIndex: async function () {
         const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
@@ -35,6 +24,15 @@ const Sing = {
         }
         else
             return { aboutUs: result.aboutUs, mission: result.mission, vision: result.vision, projectsDescription: result.projectsDescription, newsletterDescription: result.newsletterDescription, frontpagePhoto: result.frontpagePhoto };
+    },
+    getFooter: async function () {
+        const result = await Singleton.findOne({ id: "Singleton" });
+        if (result == null) {
+            await this.initializeSingleton();
+            return this.getFooter();
+        }
+        else
+            return { email: result.email, facebook: result.facebook, instagram: result.instagram, twitter: result.twitter, address: result.address, phone: result.phone, aboutUs: result.aboutUs };
     },
     updateOthers: async function (req, res, next) {
         const resultFind = await Singleton.findOne({ id: "Singleton" });

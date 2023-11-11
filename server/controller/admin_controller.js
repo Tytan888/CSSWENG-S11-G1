@@ -1,11 +1,6 @@
 const Admin = require('../models/admin');
-const projectController = require('./project_controller');
-const childController = require('./child_controller');
-const eventController = require('./event_controller');
-const newsletterController = require('./newsletter_controller');
-const staffController = require('./staff_controller');
-const trusteeController = require('./trustee_controller');
 const donationController = require('./donation_controller');
+const utilityController = require('./utility_controller');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -18,15 +13,16 @@ const Info = {
         }
     },
     adminLogin: async function (req, res) {
-        res.render('admin_login', { layout: "admin", back: "/admin/login" });
+        res.clearCookie('token');
+        res.render('admin_login', { layout: "admin", back: "none" });
     },
-    adminLoginSubmit: async function (req, res) {
+    adminSubmit: async function (req, res) {
         const username = req.body.username;
         const password = req.body.password;
         if (!username || !password) {
             res.status(401).end();
         } else {
-            const result = await Admin.findOne({ username: username });
+            const result = await Admin.findOne({ username });
             if (result == null) {
                 res.status(401).end();
             } else {
@@ -35,7 +31,7 @@ const Info = {
                 if (!passwordCorrect) {
                     res.status(401).end();
                 } else {
-                    const token = jwt.sign({ email }, process.env.SECRET);
+                    const token = jwt.sign({ username }, process.env.SECRET);
                     res.cookie('token', token, {
                         httpOnly: true,
                     });
@@ -45,7 +41,23 @@ const Info = {
         }
     },
     adminAuth: async function (req, res, next) {
-        next();
+        if (req.cookies.token != null) {
+            const decodedToken = jwt.verify(req.cookies.token, process.env.SECRET);
+            const username = decodedToken.username;
+            const result = await Admin.findOne({ username });
+            if (result == null) {
+                res.status(404);
+                res.redirect('/404');
+                return;
+            }
+            else {
+                next();
+                return;
+            }
+        } else {
+            res.redirect('/404');
+            return;
+        }
     },
     adminMenu: async function (req, res) {
         res.render('admin_menu', { layout: "admin", back: "/admin/login" });
@@ -56,7 +68,7 @@ const Info = {
             case undefined:
                 switch (req.params.type) {
                     case "sponsor":
-                        data = await childController.getAllChildrenWithSponsor();
+                        data = await utilityController.getElementsByFilters("child", { sponsor: { $ne: null } });
                         res.render('admin_lookup', { layout: "admin", back: "/admin/menu", type: req.params.type, data });
                         return;
                     case "donation":
@@ -68,22 +80,12 @@ const Info = {
             case "select":
                 switch (req.params.type) {
                     case "project":
-                        data = await projectController.getAllProjects();
-                        break;
                     case "child":
-                        data = await childController.getAllChildren();
-                        break;
                     case "event":
-                        data = await eventController.getAllEvents();
-                        break;
                     case "newsletter":
-                        data = await newsletterController.getAllNewsletters();
-                        break;
                     case "staff":
-                        data = await staffController.getAllStaffs();
-                        break;
                     case "trustee":
-                        data = await trusteeController.getAllTrustees();
+                        data = await utilityController.getAllElements(req.params.type);
                         break;
                     default:
                         res.redirect('/404');

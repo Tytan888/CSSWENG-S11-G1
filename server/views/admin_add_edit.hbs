@@ -428,7 +428,11 @@
         })
         {{/includes}}
         if (res.status == 200) {
+            {{#includes type "other"}}
+            window.location.replace("/admin/menu");
+            {{else}}
             window.location.replace("/admin/{{type}}/select");
+            {{/includes}}
         } else {
             $("#admin-select-modal-error").modal("show");
         }

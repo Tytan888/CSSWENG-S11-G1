@@ -62,6 +62,24 @@
         text-align: center;
         margin: 0 !important;
     }
+
+    .right-side {
+        display: flex;
+        align-items: flex-start;
+        border-left: 0.1em solid #3A7157;
+        flex-direction: column;
+    }
+
+    @media (max-width: 768px) {
+
+        .right-side {
+            border-left: none;
+        }
+
+        .container {
+            max-width: 90% !important;
+        }
+    }
 </style>
 
 <footer>
@@ -78,14 +96,18 @@
                 {{phone}}<br>
                 <br><br>
 
-                <a href="{{facebook}}"><div class="socmed" id="ic-fb"></div></a>
-                <a href="{{instagram}}"><div class="socmed" id="ic-ig"></div></a>
-                <a href="{{twitter}}"><div class="socmed" id="ic-x"></div></a>
+                <a href="{{facebook}}">
+                    <div class="socmed" id="ic-fb"></div>
+                </a>
+                <a href="{{instagram}}">
+                    <div class="socmed" id="ic-ig"></div>
+                </a>
+                <a href="{{twitter}}">
+                    <div class="socmed" id="ic-x"></div>
+                </a>
             </div>
 
-            <div class="col" style="
-            display: flex; align-items: flex-sstart;
-            border-left: 0.1em solid #3A7157; flex-direction: column;">
+            <div class="col right-side">
 
                 <div style="display: flex; align-items: center;">
                     <div class="foot-logo">

@@ -52,7 +52,7 @@ app.engine("hbs", exphbs.engine({
         },
         unix: function(value){
             let date = new Date(value * 1000);
-            date = moment(date).format('MMMM Do YYYY, hh:mm:ss A');
+            date = moment(date).format('YYYY/MM/DD, hh:mm:ss A');
             return date;
         },
         money: function(value){

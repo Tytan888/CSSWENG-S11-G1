@@ -46,18 +46,24 @@ router.get('/admin/login', adminController.adminLogin);
 router.post('/admin/submit', adminController.adminSubmit);
 router.all('/admin*', adminController.adminAuth);
 
-router.get("/admin/:type/get", requestController.getElement);
-router.post("/admin/newsletter/add", file_upload.array('photos', 10), requestController.addNewsletter);
-router.post("/admin/:type/add", file_upload.single('mainPhoto'), requestController.addElement);
-router.put("/admin/newsletter/edit", file_upload.array('photos', 10), requestController.updateNewsletter, imageController.deleteByNames);
-router.put("/admin/:type/edit", file_upload.single('mainPhoto'), requestController.updateElement, imageController.deleteByName);
-router.delete("/admin/:type/delete", requestController.deleteElement, imageController.deleteByName);
-router.delete("/admin/newsletter/delete", requestController.deleteNewsletter, imageController.deleteByNames);
-
 router.get("/admin/other/get", singletonController.getOthers);
 router.put("/admin/other/edit", file_upload.single('frontpagePhoto'), singletonController.updateOthers, imageController.deleteByName);
 router.get("/admin/staff/get-group", singletonController.getStaffPhoto);
 router.put("/admin/staff/edit-group", file_upload.single('staffPhoto'), singletonController.updateStaffPhoto, imageController.deleteByName);
+
+router.get("/admin/:type/get", requestController.getElement);
+
+router.post("/admin/:type(newsletter)/add", file_upload.array('photos', 10), requestController.addElement);
+router.post("/admin/:type(trustee|staff)/add", requestController.addElement);
+router.post("/admin/:type/add", file_upload.single('mainPhoto'), requestController.addElement);
+
+router.put("/admin/:type(newsletter)/edit", file_upload.array('photos', 10), requestController.updateElement, imageController.deleteByNames);
+router.put("/admin/:type(trustee|staff)/edit", requestController.updateElement);
+router.put("/admin/:type/edit", file_upload.single('mainPhoto'), requestController.updateElement, imageController.deleteByName);
+
+router.delete("/admin/:type(newsletter)/delete", requestController.deleteElement, imageController.deleteByNames);
+router.delete("/admin/:type(trustee|staff)/delete", requestController.deleteElement);
+router.delete("/admin/:type/delete", requestController.deleteElement, imageController.deleteByName);
 
 router.get('/admin/menu', adminController.adminMenu);
 router.get('/admin/:type/:action?/:id?', adminController.adminMain);

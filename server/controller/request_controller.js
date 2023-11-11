@@ -80,27 +80,16 @@ const Req = {
             case "event":
                 create = { ...create, ...{ mainPhoto: req.file.filename } };
                 break;
+            case "newsletter":
+                let photos = [];
+                req.files.forEach(element => {
+                    photos.push(element.filename);
+                });
+                create = { ...create, ...{ photos } };
+                break;
         }
 
         const result = await model.create(create);
-
-        if (result == null) {
-            res.status(400);
-            res.end();
-        } else {
-            res.status(200);
-            res.json(newId);
-        }
-    },
-    addNewsletter: async function (req, res) {
-        let newId = new mongoose.mongo.ObjectId();
-        let create = { ...{ _id: newId }, ...req.body };
-        let photos = [];
-        req.files.forEach(element => {
-            photos.push(element.filename);
-        });
-        create = { ...create, ...{ photos } };
-        const result = await Newsletter.create(create);
 
         if (result == null) {
             res.status(400);
@@ -134,6 +123,16 @@ const Req = {
                         if (req.file != null)
                             update.mainPhoto = req.file.filename;
                         break;
+                    case "newsletter":
+                        res.locals.names = resultFind.photos;
+                        if (req.files.length != 0) {
+                            let photos = [];
+                            req.files.forEach(element => {
+                                photos.push(element.filename);
+                            });
+                            update.photos = photos;
+                        }
+                        break;
                 }
                 const _id = update.id;
                 delete update.id;
@@ -144,7 +143,7 @@ const Req = {
                     res.status(400);
                     res.end();
                 } else {
-                    if (req.file != null) {
+                    if (req.file != null || req.files.length != 0) {
                         res.locals.id = req.body.id;
                         next();
                     }
@@ -158,43 +157,6 @@ const Req = {
             res.end();
         }
     },
-    updateNewsletter: async function (req, res, next) {
-        if (mongoose.isValidObjectId(req.body.id)) {
-            const resultFind = await Newsletter.findOne({ _id: req.body.id });
-            if (resultFind == null) {
-                res.status(400);
-                res.end();
-            } else {
-                res.locals.names = resultFind.photos;
-                let update = req.body;
-                if (req.files.length != 0) {
-                    let photos = [];
-                    req.files.forEach(element => {
-                        photos.push(element.filename);
-                    });
-                    update.photos = photos;
-                }
-                const _id = update.id;
-                delete update.id;
-                const result = await Newsletter.updateOne({ _id }, { $set: update })
-
-                if (result == null) {
-                    res.status(400);
-                    res.end();
-                } else {
-                    if (req.files.length != 0) {
-                        res.locals.id = req.body.id;
-                        next();
-                    }
-                    else
-                        res.json(req.body.id);
-                }
-            }
-        } else {
-            res.status(400);
-            res.end();
-        }
-    }, 
     updateSponsor: async function (req, res) {
         if (mongoose.isValidObjectId(req.body.id)) {
             let sponsor = { name: req.body.name, email: req.body.email, phone: req.body.phone, time: new Date() };
@@ -232,6 +194,9 @@ const Req = {
                     case "event":
                         res.locals.name = resultFind.mainPhoto;
                         break;
+                    case "newsletter":
+                        res.locals.names = resultFind.photos;
+                        break;
                 }
                 const result = await model.deleteOne({ _id: req.body.id });
                 if (result == null) {
@@ -243,6 +208,7 @@ const Req = {
                         case "project":
                         case "child":
                         case "event":
+                        case "newsletter":
                             next();
                             break;
                         default:
@@ -250,29 +216,6 @@ const Req = {
                             res.status(200);
                             break;
                     }
-                }
-            }
-        } else {
-            res.status(400);
-            res.end();
-        }
-    },
-    deleteNewsletter: async function (req, res, next) {
-        if (mongoose.isValidObjectId(req.body.id)) {
-            const resultFind = await Newsletter.findOne({ _id: req.body.id });
-            if (resultFind == null) {
-                res.status(400);
-                res.end();
-            }
-            else {
-                res.locals.names = resultFind.photos;
-                const result = await Newsletter.deleteOne({ _id: req.body.id });
-                if (result == null) {
-                    res.status(400);
-                    res.end();
-                }
-                else {
-                    next();
                 }
             }
         } else {

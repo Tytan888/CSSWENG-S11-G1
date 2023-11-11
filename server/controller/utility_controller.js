@@ -118,7 +118,7 @@ const Uti = {
     getAllChildrenWithSponsor: async function () {
         const result = await Child.find({ sponsor: { $ne: null } }).sort({ $natural: -1 }).lean();
         result.forEach(element => {
-            element.sponsor.time = moment(element.sponsor.time).format('MMMM Do YYYY, hh:mm:ss A');
+            element.sponsor.time = moment(element.sponsor.time).format('YYYY/MM/DD, hh:mm:ss A');
         });
         return result;
     }

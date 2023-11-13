@@ -1,0 +1,357 @@
+<div class="container-fluid py-5 px-5 about">
+    <div class="row">
+
+        <!-- small navbar to jump and down -->
+
+        <div class="col-md-3">
+            <div id="list-example" class="list-group list-group-flush sticky-top">
+
+                <a class="list-group-item list-group-item-action" href="#">Our Founder</a>
+                <div class="list-group list-group-flush my-2 px-4">
+                    <a class="list-group-item list-group-item-action" href="#phj">The Philippine Journey</a>
+                </div>
+                <a class="list-group-item list-group-item-action" href="#vnm-d">Our Beliefs</a>
+                <div class="list-group list-group-flush my-2 px-4">
+                    <a class="list-group-item list-group-item-action" href="#helpPP">H.E.L.P.++</a>
+                </div>
+                <a class="list-group-item list-group-item-action" href="#trustees">Our Team</a>
+                <div class="list-group list-group-flush my-2 px-4">
+                    <a class="list-group-item list-group-item-action" href="#trustees">Board of Trustees</a>
+                </div>
+                <div class="list-group list-group-flush my-0 px-4">
+                    <a class="list-group-item list-group-item-action" href="#staff">Staff</a>
+                </div>
+
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-info" id="progressbar" role="progressbar" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example"
+                tabindex="0">
+
+                <!-- Pearl S. Buck quote -->
+                <figure class="text-center" id="founder_quote">
+                    <blockquote class="blockquote">
+                        <img src="images/psbPersonQuote.jpeg" class="img-thumbnail rounded-circle" height="auto"
+                            width="150vh" alt="...">
+                        <p>The test of a civilization is in the way that it cares for its helpless members.</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        -<cite title="Source Title">Pearl S. Buck</cite>
+                    </figcaption>
+                </figure>
+
+
+                <!-- 
+            Philosophy of Founder
+        -->
+                <h4 id="founder">Our Founder</h4>
+                <p class="bottom-margin pre-wrap">{{about.ourFounder}}</p>
+
+                <h5 class="md-5" id="phj">The Philippine Journey</h5>
+                <p class="bottom-margin pre-wrap">{{about.philippineJourney}}</p>
+
+                <!-- DSWD post -->
+                <iframe
+                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=500"
+                    width="500" height="644" class="py-3 frame-normal"
+                    style=" margin: 0 auto; border:none; overflow:hidden" scrolling="no" frameborder="0"
+                    allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+
+                <!-- DSWD post -->
+                <iframe
+                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
+                    width="350" height="465" class="py-3 frame-small"
+                    style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.95) translateX(-5%)"
+                    scrolling="no" frameborder="0" allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+
+                <!-- DSWD post -->
+                <iframe
+                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
+                    width="350" height="465" class="py-3 frame-smaller"
+                    style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.8) translateX(-15%) translateY(-5%);"
+                    scrolling="no" frameborder="0" allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+
+                <!--
+            Vision and Mission and General Stuff about them
+        -->
+                <h4 id="vnm">We Believe</h4>
+                <p class="bottom-margin pre-wrap">{{about.weBelieve}}</p>
+                <div class="row mt-5" id="vnm-d">
+                    <div class="col col-12 col-md-6" style="text-align: center;">
+                        <img src="images/ico/vision.png" width="50vh" />
+                        <h4>Vision</h4>
+                        <p>{{index.vision}}</p>
+                    </div>
+                    <div class="col col-12 col-md-6 bottom-margin" style="text-align: center;">
+                        <img src="images/ico/mission.png" width="50vh" />
+                        <h4>Mission</h4>
+                        <p>{{index.mission}}</p>
+                    </div>
+                </div>
+
+                <h4 class="md-5" id="helpPP">H.E.L.P.++</h4>
+
+                <div class="row mt-3" style="text-align: center;" id="helpPPcontent">
+
+                    <div class="col col-12 col-md-6 bottom-margin">
+                        <h5>HEALTH</h5>
+                        <p>
+                            {{about.aboutHealth}}
+                        </p>
+                        <ul style="text-align: left">
+                            <li>Red Cross Accident Insurance</li>
+                            <li>Backyard Gardening</li>
+                            <li>Feeding Program</li>
+                            <li>BMI Monthly Monitoring</li>
+                            <li>Health and Nutrition Education</li>
+                            <li>Nutrition Month Celebration</li>
+                            <li>Vitamins Provision</li>
+                            <li>Medical and Dental Mission</li>
+                        </ul>
+                    </div>
+
+                    <div class="col col-12 col-md-6 bottom-margin">
+                        <h5>EDUCATION</h5>
+                        <p>
+                            {{about.aboutEducation}}
+                        </p>
+
+                        <ul style="text-align: left">
+                            <li>School Assistance Support (Cash)</li>
+                            <li>Tutorial Program</li>
+                            <li>Provision of School Supplies</li>
+                            <li>Educational Reward for Achievers</li>
+                            <li>Career Guidance for Junior High School</li>
+                            <li>Life Skills Seminar &amp; Webinar for all sponsored children</li>
+                        </ul>
+                    </div>
+
+                    <div class="col col-12 col-md-6 bottom-margin">
+                        <h5>LIVELIHOOD</h5>
+
+                        <p>{{about.aboutLivelihood}}</p>
+
+                        <ul style="text-align: left">
+                            <li>Trash to Cash</li>
+                            <li>Backyard Gardening</li>
+                            <li>Bags for Life</li>
+                        </ul>
+                    </div>
+
+                    <div class="col col-12 col-md-6 bottom-margin">
+                        <h5>PSYCHOSOCIAL</h5>
+
+                        <p>{{about.aboutPsychosocial}}</p>
+
+                        <ul style="text-align: left;">
+                            <li>Special Gifts from Sponsor</li>
+                            <li>Summer Fun Activities</li>
+                            <li>Peer Coaching</li>
+                            <li>Individual Coaching</li>
+                            <li>Christmas Gathering</li>
+                            <li>Sportsfest Activity</li>
+                            <li>Family Life Relationship Seminar</li>
+                            <li>Culminating Activities</li>
+                            <li>Field Trips/Educational Tours</li>
+                            <li>Amerasian Day</li>
+                            <li>National Children's Month Celebration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--
+            Board of Trustees
+
+            Might turn this into a carousel later
+        -->
+                <div class="row BoT">
+                    <div class="col">
+                        <h4 id="trustees">Board of Trustees</h4>
+                        <img src="images/ico/trustees.png" width="50vh" />
+                    </div>
+                </div>
+
+                <div class="row chairs mt-2 justify-content-center align-items-center"
+                    style="width: 90%; margin: 0 auto;">
+                    {{#each trustees}}
+                    <div class="col col-lg-4 col-md-6 col-12">
+                        <div class="card card-about ">
+                            <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                            <div class="card-body card-body-about">
+                                <h5 class="card-title">{{name}}</h5>
+                                <p class="card-text">{{position}}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">trustee@gmail.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+                <!--
+        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Prof. Elizabeth Lorenzana-Diaz</h5>
+                        <p class="card-text">Chairperson</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">chairperson@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/board1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Myrna T. Yao</h5>
+                        <p class="card-text">Chairperson Emeritus</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">chairperson@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row chairs mt-5" style="width: 90%; margin: 0 auto;">
+            <div class="col">
+               <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/board2.jpg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">PBGen. Yolanda G. Tanigue, RSW, Ph.D (Ret)</h5>
+                        <p class="card-text">President</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">president@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/board3.jpg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Anne Marie C. Gordon</h5>
+                        <p class="card-text">Vice President</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">vp@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Lina B. Laigo, Ph.D</h5>
+                        <p class="card-text">Secretary</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">secretary@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Dr. Hyacinth C. Manood</h5>
+                        <p class="card-text">Treasurer</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">treasurer@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-about" style="width: 18rem; ">
+                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
+                    <div class="card-body card-body-about">
+                        <h5 class="card-title">Timothy P. Tionson</h5>
+                        <p class="card-text">Auditor</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">auditor@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        -->
+
+
+                <!-- Board of Members -->
+                <div class="row BoT mt-5">
+                    <div class="col">
+                        <h4 id="staff">Staff</h4>
+                        <img src="images/ico/staff.png" width="50vh" />
+                    </div>
+                </div>
+
+                <div class="row chairs mt-2 justify-content-center align-items-center"
+                    style="width: 90%; margin: 0 auto;">
+                    {{#each staff}}
+                    <div class="col col-lg-4 col-md-6 col-12">
+                        <div class="card card-about ">
+                            <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
+                            <div class="card-body card-body-about">
+                                <h5 class="card-title">{{name}}</h5>
+                                <p class="card-text">{{position}}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">staff@gmail.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<script>
+    if (document.getElementsByClassName("index-carousel-item carousel-item-about-newsletter")[0])
+        document.getElementsByClassName("index-carousel-item carousel-item-about-newsletter")[0].classList.add("active");
+    if (document.getElementsByClassName("index-carousel-item carousel-item-about-projects")[0])
+        document.getElementsByClassName("index-carousel-item carousel-item-about-projects")[0].classList.add("active");
+    if (document.getElementsByClassName("index-newsletter-carousel-button")[0])
+        document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
+    if (document.getElementsByClassName("index-projects-carousel-button")[0])
+        document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
+
+    $(window).scroll(function () {
+        var s = $(window).scrollTop(),
+            d = $(document).height(),
+            c = $(window).height();
+        scrollPercent = (s / (d - c)) * 100;
+        var position = scrollPercent;
+
+        $("#progressbar").width(position + "%");
+        $("#progressbar").attr('aria-valuenow', position);
+
+    });
+</script>

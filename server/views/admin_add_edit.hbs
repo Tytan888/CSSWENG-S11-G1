@@ -216,7 +216,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="projectsDescription">Frontpage Projects Description</label>
+                <label class="h3 admin-h3" for="projectsDescription">Frontpage: Projects Description</label>
             </div>
         </div>
         <div class="row">
@@ -227,7 +227,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="newsletterDescription">Frontpage Newsletter Description</label>
+                <label class="h3 admin-h3" for="newsletterDescription">Frontpage: Newsletter Description</label>
             </div>
         </div>
         <div class="row">
@@ -294,6 +294,83 @@
         <div class="row">
             <div class="col-12">
                 <input type="text" id="phone" class="admin-add-edit-input" name="phone" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="ourFounder">About Us: Our Founder</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="ourFounder"
+                    name="ourFounder" rows="4" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="philippineJourney">About Us: The Philippine Journey</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="philippineJourney"
+                    name="philippineJourney" rows="4" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="weBelieve">About Us: We Believe</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="weBelieve"
+                    name="weBelieve" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="aboutHealth">About Us: Health Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="aboutHealth"
+                    name="aboutHealth" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="aboutEducation">About Us: Education Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="aboutEducation"
+                    name="aboutEducation" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="aboutLivelihood">About Us: Livelihood Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="aboutLivelihood"
+                    name="aboutLivelihood" rows="2" cols="50" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label class="h3 admin-h3" for="aboutPsychosocial">About Us: Psychosocial Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea class="admin-add-edit-input admin-add-edit-input-description" id="aboutPsychosocial"
+                    name="aboutPsychosocial" rows="2" cols="50" required></textarea>
             </div>
         </div>
         <div class="row">
@@ -442,31 +519,44 @@
         .then(response => response.json())
         .then(element => {
             Object.keys(element).forEach(key => {
-                if(key != "mainPhoto" && key != "frontpagePhoto" && key != "photos" && key != "__v" && key != "_id" && !key.toLowerCase().includes("date") && key != "age" && key != "sponsor"){
-                    document.getElementById(key).value = element[key];
-                }else if(key == "_id"){
-                    document.getElementById("id").value = element[key];
-                }else if(key.toLowerCase().includes("date")){
-                    document.getElementById(key).value = new Date(element[key]).toISOString().split('T')[0];
-                }else if(key == "mainPhoto"){
-                    document.getElementById("mainPhotoDisplay").src = "/imageByName?name=" + element[key];
-                    document.getElementById("mainPhotoDisplay").style = "";
-                }else if(key == "frontpagePhoto"){
-                    document.getElementById("frontpagePhotoDisplay").src = "/imageByName?name=" + element[key];
-                    document.getElementById("frontpagePhotoDisplay").style = "";
-                }else if (key == "photos"){
-                    document.getElementsByClassName("carousel-indicators")[0].innerHTML = ""
-                    document.getElementsByClassName("carousel-inner")[0].innerHTML = ""
-                    for (let i = 0; i < element[key].length; i++) {
-                        if(i == 0){
-                            document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "' class='active' aria-current='true'></button>";
-                            document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item active'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
-                        }else{
-                            document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "'></button>";
-                            document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
+                switch(key){
+                    case "mainPhoto":
+                    case "frontpagePhoto":
+                        if(element[key] != "N/A"){
+                            document.getElementById(key + "Display").src = "/imageByName?name=" + element[key];
+                            document.getElementById(key + "Display").style = "";
                         }
-                    }
-                    document.getElementById("admin-carousel").style = "";
+                        break;
+                    case "photos":
+                        document.getElementsByClassName("carousel-indicators")[0].innerHTML = ""
+                        document.getElementsByClassName("carousel-inner")[0].innerHTML = ""
+                        for (let i = 0; i < element[key].length; i++) {
+                            if(i == 0){
+                                document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "' class='active' aria-current='true'></button>";
+                                document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item active'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
+                            }else{
+                                document.getElementsByClassName("carousel-indicators")[0].innerHTML += "<button type='button' data-bs-target='#admin-carousel' data-bs-slide-to='" + i + "' aria-label='Slide " + (i + 1) + "'></button>";
+                                document.getElementsByClassName("carousel-inner")[0].innerHTML += "<div class='carousel-item admin-carousel-item'><div class='admin-carousel-container'><img src='/imageByName?name=" + element[key][i] + "'></div></div>";
+                            }
+                        }
+                        document.getElementById("admin-carousel").style = "";
+                        break;
+                    case "_id":
+                        document.getElementById("id").value = element[key];
+                        break;
+                    case "staffPhoto":
+                    case "__v":
+                    case "age":
+                    case "sponsor":
+                        break;
+                    case "birthdate":
+                    case "startDate":
+                    case "endDate":
+                        document.getElementById(key).value = element[key].split('T')[0];
+                        break;
+                    default: 
+                        document.getElementById(key).value = element[key];
+                        break;
                 }
             });
         });

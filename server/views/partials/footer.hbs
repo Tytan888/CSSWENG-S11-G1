@@ -6,7 +6,6 @@
         display: flex;
         align-items: flex-end;
         font-family: "PT Sans", sans-serif;
-
     }
 
     footer .col {
@@ -61,6 +60,7 @@
         font-family: "PT Sans", sans-serif;
         padding: 1vh;
         text-align: center;
+        margin: 0 !important;
     }
 
     .right-side {
@@ -70,7 +70,7 @@
         flex-direction: column;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 576px) {
 
         .right-side {
             border-left: none;
@@ -83,11 +83,11 @@
 </style>
 
 <footer>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col" style="text-align: right; padding-right: 2vh;">
+            <div class="col col-12 col-sm-6" style="text-align: right; padding-right: 2vh;">
                 <span style="font-family: var(--font-logo-text);
-                font-weight: 600; font-size: 4vh; ">
+                font-weight: 600; font-size: 1.75em; ">
                     Contact Us
                 </span>
                 <br><br>
@@ -107,7 +107,7 @@
                 </a>
             </div>
 
-            <div class="col right-side">
+            <div class="col col-12 col-sm-6 right-side">
 
                 <div style="display: flex; align-items: center;">
                     <div class="foot-logo">
@@ -132,9 +132,10 @@
             </div>
         </div>
 
-        <div class="copyright">
+        <div class="row">
+        <div class="copyright col">
             &copy; 2023 Pearl S. Buck Philippines, All Rights Reserved
-        </div>
+        </div></div>
     </div>
 
 </footer>

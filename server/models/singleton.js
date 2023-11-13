@@ -72,6 +72,41 @@ const singletonSchema = new Schema({
         type: String,
         required: true,
         default: "N/A"
+    },
+    ourFounder: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    philippineJourney: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    weBelieve: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    aboutHealth: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    aboutLivelihood: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    aboutPsychosocial: {
+        type: String,
+        required: true,
+        default: "N/A"
+    },
+    aboutEducation: {
+        type: String,
+        required: true,
+        default: "N/A"
     }
 }, { collection: 'singleton' });
 

@@ -8,10 +8,19 @@ const donationController = require('../controller/donation_controller.js');
 const informationController = require('../controller/information_controller.js');
 const adminController = require('../controller/admin_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
+/*
+const db = require('../config/db.js');
+const Admin = require('../models/admin.js');
 
+const initialize = async function () {
+    await singletonController.initializeSingleton();
+    await adminController.initializeAdmin();
+};
+initialize();
+
+*/
 singletonController.initializeSingleton();
 adminController.initializeAdmin();
-
 router.get('/', async (req, res) => {
     res.render('index', {
         index: await singletonController.getIndex(),

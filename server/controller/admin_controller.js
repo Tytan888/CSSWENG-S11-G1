@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const Info = {
     initializeAdmin: async function () {
-        if (await Admin.findOne() == null) {
+        const rest = await Admin.findOne();
+        if (rest== null) {
             const passwordHash = await bcrypt.hash("admin", Number(process.env.SALT_ROUNDS));
             const admin = new Admin({ username: "admin", passwordHash: passwordHash });
             await admin.save();

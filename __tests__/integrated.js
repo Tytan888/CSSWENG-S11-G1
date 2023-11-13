@@ -1,8 +1,6 @@
 //dependencies
 const app = require('../app');
-const supertest = require('supertest');
-const request = supertest(app);
-
+const jwt = require('jsonwebtoken');
 //database models
 const db = require('../server/config/db.js');
 const gfs = require('../server/config/gfs.js');
@@ -15,21 +13,27 @@ const Singleton = require('../server/models/singleton.js');
 const Staff = require('../server/models/staff.js');
 const Trustee = require('../server/models/trustee.js');
 const Admin = require('../server/models/admin.js');
-
-
 //controllers
-const childController = require('../server/controller/child_controller.js');
-const donationController = require('../server/controller/donation_controller.js');
-const eventController = require('../server/controller/event_controller.js');
-const projectController = require('../server/controller/project_controller.js');
-const newsletterController = require('../server/controller/newsletter_controller.js');
 const singletonController = require('../server/controller/singleton_controller.js');
-
+const adminController = require('../server/controller/admin_controller.js');
+//access http request functions
+const supertest = require('supertest');
+const request = supertest(app);
+//mock jsonwebtoken for admin access
+var cookie ="";
 // setup of database connection
-beforeAll(() => {
+beforeAll( async () => {
     db.testConnect();
     gfs.connect(db.conn);
+    await adminController.initializeAdmin();
+    const admin = await db.findMany(Admin,{username: "admin"});
+    console.log("admin "+admin);
+    const res = await request.post('/admin/submit').send({username: "admin", password: "admin"}).expect(200);
+    console.log("res "+res.headers['set-cookie']);
+    cookie = res.headers['set-cookie'];
+    //token = res.body.token;
 });
+
 afterAll(async () => {
     gfs.dropBucket();
     await db.dropAllCollections();
@@ -41,6 +45,49 @@ afterEach(async () => {
   });
 //end of setup for database connection
 //start of tests
+describe("LOGIN ADMIN", () => {
+    test('should login admin', async () => {
+        const response = await request.post('/admin/submit')
+                                        .set('Cookie', cookie)
+                                        .send({username: "admin", password: "admin"}).expect(200);
+        return 1;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "admin", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "wrong username", password: "admin"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "wrong username", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "wrong username", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "admin", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "admin", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+    test('should not login admin', async () => {
+        const res = await request.post('/admin/submit').send({username: "admin", password: "wrong password"}).expect(401);
+        expect(res.body).toEqual({});
+        return res;
+    });
+})
 describe("CRUD Project", () => {
     test('should add project in the database',  async () =>{
         const project = {
@@ -54,7 +101,16 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         }
-        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto).field("id", project.id).field("name", project.name).field("category", project.category).field("description", project.description).field("location", project.location).field("raisedDonations", project.raisedDonations).field("requiredBudget", project.requiredBudget).field("status", project.status).expect(200);
+        await request.post('/admin/project/add').set('Cookie', cookie)
+                                                .attach('mainPhoto', project.mainPhoto)
+                                                .field("name", project.name)
+                                                .field("category", project.category)
+                                                .field("description", project.description)
+                                                .field("location", project.location)
+                                                .field("raisedDonations", project.raisedDonations)
+                                                .field("requiredBudget", project.requiredBudget)
+                                                .field("status", project.status)
+                                                .expect(200);
         const obj =  await db.findOne(Project, {name: "test project"});
         expect(obj.name).toEqual("test project");
         expect(obj.category).toEqual("Education");
@@ -78,28 +134,34 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto)
-                                            .field("name", project.name)
-                                            .field("category", project.category)
-                                            .field("description", project.description)
-                                            .field("location", project.location)
-                                            .field("raisedDonations", project.raisedDonations)
-                                            .field("requiredBudget", project.requiredBudget)
-                                            .field("status", project.status)
-                                            .expect(200);
+        await request.post('/admin/project/add')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', project.mainPhoto)
+                    .field("name", project.name)
+                    .field("category", project.category)
+                    .field("description", project.description)
+                    .field("location", project.location)
+                    .field("raisedDonations", project.raisedDonations)
+                    .field("requiredBudget", project.requiredBudget)
+                    .field("status", project.status)
+                    expect(200);
         var obj =  await db.findOne(Project, {name: "test project"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/admin/project/edit').attach('mainPhoto', project.mainPhoto)
-                                        .field("id", obj.id.toString())
-                                        .field("name","test update name")
-                                        .field("category", "Health")
-                                        .field("description", "test update description")
-                                        .field("location", "test update location")
-                                        .field("raisedDonations", 50)
-                                        .field("requiredBudget", 5000)
-                                        .field("status", "Past")
-                                        .expect(200);
+
+        await request.put('/admin/project/edit')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', project.mainPhoto)
+                    .field("id", obj.id.toString())
+                    .field("name","test update name")
+                    .field("category", "Health")
+                    .field("description", "test update description")
+                    .field("location", "test update location")
+                    .field("raisedDonations", 50)
+                    .field("requiredBudget", 5000)
+                    .field("status", "Past")
+                    .expect(200);
+
         var newobj =  await db.findOne(Project, {name: "test project"});
         expect(newobj).toBeNull();
         obj =  await db.findOne(Project, {name: "test update name"});
@@ -114,7 +176,10 @@ describe("CRUD Project", () => {
         expect(obj._id).toEqual(id);
         obj =  await db.findOne(Project, {name: "test project"});
         expect(obj).toBeNull();
-        await request.get('/imageByName').set("name", mainPhoto).expect(404);
+
+        await request.get('/imageByName')
+                    .set('Cookie', cookie)
+                    .set("name", mainPhoto).expect(404);
         return obj;
     });
     test('should delete project in the database', async () => {
@@ -128,21 +193,28 @@ describe("CRUD Project", () => {
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/admin/project/add').attach('mainPhoto', project.mainPhoto)
-                                            .field("name", project.name)
-                                            .field("category", project.category)
-                                            .field("description", project.description)
-                                            .field("location", project.location)
-                                            .field("raisedDonations", project.raisedDonations)
-                                            .field("requiredBudget", project.requiredBudget)
-                                            .field("status", project.status).expect(200);
+        await request.post('/admin/project/add')
+                    .attach('mainPhoto', project.mainPhoto)
+                    .field("name", project.name)
+                    .field("category", project.category)
+                    .field("description", project.description)
+                    .field("location", project.location)
+                    .field("raisedDonations", project.raisedDonations)
+                    .field("requiredBudget", project.requiredBudget)
+                    .field("status", project.status)
+                    .set('Cookie', cookie)
+                    .expect(200);
         const obj =  await db.findOne(Project, {name: "test project"});
         const mainPhoto = obj.mainPhoto;
        // console.log("deleteid "+obj._id);
-        await request.delete('/admin/project/delete').send({id: obj._id});
+        await request.delete('/admin/project/delete').set('Cookie', cookie).send({id: obj._id});
         const newobj =  await db.findOne(Project, {name: "test project"});
         expect(newobj).toBeNull();
-        const img = await request.get('/imageByName').set("name", mainPhoto).expect(404);
+
+        const img = await request.get('/imageByName')
+                                .set("name", mainPhoto)
+                                .set('Cookie', cookie)
+                                .expect(404);
         return obj;
     });
 });
@@ -156,12 +228,14 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
-                                                    .field("name", child.name)
-                                                    .field("birthdate", child.birthdate)
-                                                    .field("gradelevel", child.gradelevel)
-                                                    .field("location", child.location)
-                                                    .expect(200);
+        await request.post('/admin/child/add')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', child.mainPhoto)
+                    .field("name", child.name)
+                    .field("birthdate", child.birthdate)
+                    .field("gradelevel", child.gradelevel)
+                    .field("location", child.location)
+                    .expect(200);
 
         const res = await db.findOne(Child, {name: "test child"});
         expect(res).toBeTruthy();
@@ -179,7 +253,9 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
+        await request.post('/admin/child/add')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', child.mainPhoto)
                                                     .field("name", child.name)
                                                     .field("birthdate", child.birthdate)
                                                     .field("gradelevel", child.gradelevel)
@@ -188,7 +264,9 @@ describe("CRUD Child", () => {
         var obj = await db.findOne(Child, {name: "test child"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/admin/child/edit').attach('mainPhoto', child.mainPhoto)
+        await request.put('/admin/child/edit')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', child.mainPhoto)
                                                     .field("id", obj.id.toString())
                                                     .field("name", "test update name")
                                                     .field("birthdate", "2021-01-01")
@@ -202,7 +280,10 @@ describe("CRUD Child", () => {
         expect(obj.gradelevel).toEqual("test update gradelevel");
         expect(obj.location).toEqual("test update location");
         expect(obj.mainPhoto).not.toEqual(mainPhoto);
-        await request.get('/imageByName').set("name", mainPhoto).expect(404);
+        await request.get('/imageByName')
+                    .set('Cookie', cookie)
+                    .set("name", mainPhoto)
+                    .expect(404);
         expect(obj._id).toEqual(id);
         obj = await db.findOne(Project, {name: "test child"});
         expect(obj).toBeNull();
@@ -216,7 +297,9 @@ describe("CRUD Child", () => {
             location: "test location",
             mainPhoto : "__tests__/test_assets/image_asset.png",
         };
-        await request.post('/admin/child/add').attach('mainPhoto', child.mainPhoto)
+        await request.post('/admin/child/add')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', child.mainPhoto)
                                                     .field("name", child.name)
                                                     .field("birthdate", child.birthdate)
                                                     .field("gradelevel", child.gradelevel)
@@ -224,10 +307,13 @@ describe("CRUD Child", () => {
                                                     .expect(200);
         const obj = await db.findOne(Child, {name: "test child"});
         const mainPhoto = obj.mainPhoto;
-        await request.delete('/admin/child/delete').send({id: obj._id});
+        await request.delete('/admin/child/delete').set('Cookie', cookie).send({id: obj._id});
         const newobj = await db.findOne(Child, {name: "test child"});
         expect(newobj).toBeNull();
-        await request.get('/imageByName').set("name", mainPhoto).expect(404);
+        await request.get('/imageByName')
+                    .set('Cookie', cookie)
+                    .set("name", mainPhoto)
+                    .expect(404);
         return obj;
     });
 });
@@ -246,14 +332,16 @@ describe("CRUD Event", () => {
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
     //    console.log("enddate "+event.endDate);
-        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
-                                        .field("name", event.name)
-                                        .field("category", event.category)
-                                        .field("status", event.status)
-                                        .field("location", event.location)
-                                        .field("startDate", event.startDate)
-                                        .field("endDate", event.endDate)
-                                        .expect(200);
+        await request.post('/admin/event/add')
+                    .set('Cookie', cookie)
+                    .attach('mainPhoto', event.mainPhoto)
+                    .field("name", event.name)
+                    .field("category", event.category)
+                    .field("status", event.status)
+                    .field("location", event.location)
+                    .field("startDate", event.startDate)
+                    .field("endDate", event.endDate)
+                    .expect(200);
         const obj =  await db.findOne(Event, {name: "test event"});
         expect(obj.name).toBeTruthy();
         expect(obj.id).toBeTruthy();
@@ -279,7 +367,8 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add')
+                    .set('Cookie', cookie).attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -290,7 +379,7 @@ describe("CRUD Event", () => {
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.put('/admin/event/edit').attach('mainPhoto', event.mainPhoto)
+        await request.put('/admin/event/edit').set('Cookie', cookie).attach('mainPhoto', event.mainPhoto)
                                         .field("id", obj.id.toString())
                                         .field("name", "test update name")
                                         .field("category", "Education")
@@ -306,7 +395,7 @@ describe("CRUD Event", () => {
         expect(obj.location).toEqual("test update location");
         expect(obj.mainPhoto).not.toEqual(mainPhoto);
         expect(obj._id).toEqual(id);
-        await request.get('/imageByName').set("name", mainPhoto).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto).expect(404);
         obj = await db.findOne(Event, {name: "test event"});
         expect(obj).toBeNull(); 
         return obj;
@@ -323,7 +412,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').set('Cookie', cookie).attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -334,10 +423,10 @@ describe("CRUD Event", () => {
         var obj =  await db.findOne(Event, {name: "test event"});
         const mainPhoto = obj.mainPhoto;
         const id = obj._id;
-        await request.delete('/admin/event/delete').send({id: id}).expect(200);
+        await request.delete('/admin/event/delete').set('Cookie', cookie).send({id: id}).expect(200);
         obj = await db.findOne(Event, {_id: id});
         expect(obj).toBeNull();
-        await request.get('/imageByName').set("name", mainPhoto).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto).expect(404);
     });
     test('should get Event in the database', async () => {
         return false;
@@ -354,7 +443,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-        await request.post('/admin/event/add').attach('mainPhoto', event.mainPhoto)
+        await request.post('/admin/event/add').set('Cookie', cookie).attach('mainPhoto', event.mainPhoto)
                                         .field("name", event.name)
                                         .field("category", event.category)
                                         .field("status", event.status)
@@ -373,7 +462,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto :"__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').set('Cookie', cookie).attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
                                             .field("status", newsletter.status)
@@ -391,7 +480,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').set('Cookie', cookie).attach('photos', newsletter.mainPhoto)
                                             .attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
@@ -401,7 +490,7 @@ describe("CRUD Newsletter", ()=>{
         const mainPhoto = obj.photos;
         expect(mainPhoto.length).toEqual(2);
         const id = obj._id;
-        await request.put('/admin/newsletter/edit').attach('photos', newsletter.mainPhoto)
+        await request.put('/admin/newsletter/edit').set('Cookie', cookie).attach('photos', newsletter.mainPhoto)
                                             .field("id", obj.id.toString())
                                             .field("name", "test update name")
                                             .field("category", "Health")
@@ -414,8 +503,8 @@ describe("CRUD Newsletter", ()=>{
         expect(obj.photos[0]).not.toEqual(mainPhoto);
         expect(obj.photos[1]).toBeUndefined();
         expect(obj._id).toEqual(id);
-        await request.get('/imageByName').set("name", mainPhoto[1]).expect(404);
-        await request.get('/imageByName').set("name", mainPhoto[0]).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto[1]).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto[0]).expect(404);
     });
 
     test('should delete newsletter in the database', async () => {
@@ -425,7 +514,7 @@ describe("CRUD Newsletter", ()=>{
             status: "Ongoing",
             mainPhoto : "__tests__/test_assets/image_asset.png",     
         };
-        await request.post('/admin/newsletter/add').attach('photos', newsletter.mainPhoto)
+        await request.post('/admin/newsletter/add').set('Cookie', cookie).attach('photos', newsletter.mainPhoto)
                                             .attach('photos', newsletter.mainPhoto)
                                             .field("name", newsletter.name)
                                             .field("category", newsletter.category)
@@ -435,11 +524,11 @@ describe("CRUD Newsletter", ()=>{
         const mainPhoto = obj.photos;
         expect(mainPhoto.length).toEqual(2);
         const id = obj._id;
-        await request.delete('/admin/newsletter/delete').send({id: id}).expect(200);
+        await request.delete('/admin/newsletter/delete').set('Cookie', cookie).send({id: id}).expect(200);
         obj = await db.findOne(Newsletter,{_id:id});
         expect(obj).toBeNull();
-        await request.get('/imageByName').set("name", mainPhoto[1]).expect(404);
-        await request.get('/imageByName').set("name", mainPhoto[0]).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto[1]).expect(404);
+        await request.get('/imageByName').set('Cookie', cookie).set("name", mainPhoto[0]).expect(404);
     });
 });
 
@@ -458,7 +547,7 @@ describe("CRUD Singleton", () => {
         const mainPhoto = "__tests__/test_assets/image_asset.png";
         await singletonController.getIndex();
         //test for first update
-        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').set('Cookie', cookie).attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us')
                                             .field('mission', 'test mission')
                                             .field('vision', 'test vision')
@@ -488,7 +577,7 @@ describe("CRUD Singleton", () => {
         const mainPhoto = "__tests__/test_assets/image_asset.png";
         await singletonController.getIndex();
         //test for first update
-        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').set('Cookie', cookie).attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us')
                                             .field('mission', 'test mission')
                                             .field('vision', 'test vision')
@@ -504,7 +593,7 @@ describe("CRUD Singleton", () => {
         const singleton = await db.findOne(Singleton, {id: "Singleton"});
         const img = singleton.frontpagePhoto;        
         //test for second update
-        await request.put('/admin/other/edit').attach('frontpagePhoto', mainPhoto)
+        await request.put('/admin/other/edit').set('Cookie', cookie).attach('frontpagePhoto', mainPhoto)
                                             .field('aboutUs', 'test about us2')
                                             .field('mission', 'test mission2')
                                             .field('vision', 'test vision2')

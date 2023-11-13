@@ -494,7 +494,6 @@
         })
         {{/includes}}
         {{#includes action "edit"}}
-        console.log("/admin/{{type}}/edit")
         const res = await fetch("/admin/{{type}}/edit", {
             method: "PUT",
             body: formData

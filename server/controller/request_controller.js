@@ -144,9 +144,12 @@ const Req = {
                     res.end();
                 } else {
                     if (type == "newsletter") {
-                        if(req.files.length != 0){
+                        if (req.files.length != 0) {
                             res.locals.id = req.body.id;
                             next();
+                            return;
+                        } else {
+                            res.json(req.body.id);
                             return;
                         }
                     }

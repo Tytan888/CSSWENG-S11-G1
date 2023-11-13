@@ -494,6 +494,7 @@
         })
         {{/includes}}
         {{#includes action "edit"}}
+        console.log("/admin/{{type}}/edit")
         const res = await fetch("/admin/{{type}}/edit", {
             method: "PUT",
             body: formData
@@ -548,6 +549,11 @@
                     case "__v":
                     case "age":
                     case "sponsor":
+                        break;
+                    case "birthdate":
+                    case "startDate":
+                    case "endDate":
+                        document.getElementById(key).value = element[key].split('T')[0];
                         break;
                     default: 
                         document.getElementById(key).value = element[key];

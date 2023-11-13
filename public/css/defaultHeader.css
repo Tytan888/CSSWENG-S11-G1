@@ -389,6 +389,13 @@ nav {
     text-align: center;
 }
 
+.donation-label-small {
+    font-family: "Inter", Helvetica;
+    font-size: 15px;
+    font-weight: 450;
+    text-align: center;
+}
+
 @media (max-width: 576px) {
     .donation-label {
         font-size: 24px;

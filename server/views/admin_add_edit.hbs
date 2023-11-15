@@ -40,7 +40,7 @@
 <h1 class="admin-h1">Configure {{cap type}}s</h1>
 {{/includes}}
 
-<form id="adminForm">
+<form id="adminForm" enctype='multipart/form-data'>
     <div class="container">
         {{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
         <div class="row">
@@ -452,6 +452,7 @@
         e.preventDefault();
 
         let valid = true;
+        let msg = "Please fill in all the required fields properly before submitting...";
         $('[required]').each(function () {
             if ($(this).is(':invalid') || !$(this).val()) {
                 valid = false;
@@ -460,15 +461,18 @@
         {{#includes type "child"}}
         if (document.getElementById("birthdate").value > new Date().toISOString().split('T')[0]) {
             valid = false;
+            msg = "Birthdate cannot be in the future..."
         }
         {{/includes}}
         {{#includes type "event"}}
         if (document.getElementById("startDate").value > document.getElementById("endDate").value) {
             valid = false;
+            msg = "Start date cannot be after end date..."
         }
         {{/includes}}
 
         if (!valid) {
+            document.getElementById("admin-select-modal-required-body").innerHTML = msg;
             $("#admin-select-modal-required").modal("show");
             return;
         }

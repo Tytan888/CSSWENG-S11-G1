@@ -6,7 +6,6 @@ const utilityController = require('../controller/utility_controller.js');
 const singletonController = require('../controller/singleton_controller.js');
 const donationController = require('../controller/donation_controller.js');
 const informationController = require('../controller/information_controller.js');
-const projectController = require('../controller/project_controller.js')
 const adminController = require('../controller/admin_controller.js');
 const file_upload = require('../controller/middleware/file_upload.js');
 

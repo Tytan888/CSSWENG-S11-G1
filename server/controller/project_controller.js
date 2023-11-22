@@ -7,7 +7,6 @@ const Proj = {
     getProject: async function (req, res) {
         if (mongoose.isValidObjectId(req.query.id)) {
             const result = await Project.findOne({ _id: req.query.id });
-            console.log("test project");
             if (result == null) {
                 res.status(400);
                 res.end();

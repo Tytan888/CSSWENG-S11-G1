@@ -6,6 +6,10 @@ const childSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required : true
+    },
     gradelevel: {
         type: String,
         required: true
@@ -21,12 +25,6 @@ const childSchema = new Schema({
     mainPhoto: {
         type: String,
         required: true
-    },
-    sponsor: {
-        name: { type: String},
-        email: { type: String },
-        phone: { type: String },
-        time: { type: Date }
     }
 });
 

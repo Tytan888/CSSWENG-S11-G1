@@ -5,6 +5,11 @@ const donationSchema = new Schema({
     donation: {
         type: Object,
         required: true
+    },
+    deleted: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

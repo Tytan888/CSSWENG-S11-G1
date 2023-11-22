@@ -2,7 +2,6 @@ const Project = require('../models/project.js');
 const Child = require('../models/child.js');
 const Event = require('../models/event.js');
 const Newsletter = require('../models/newsletter.js');
-const Singleton = require('../models/singleton.js');
 const Staff = require('../models/staff.js');
 const Trustee = require('../models/trustee.js');
 const moment = require('moment');

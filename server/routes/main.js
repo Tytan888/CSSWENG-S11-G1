@@ -37,7 +37,6 @@ router.get('/donate/select/:type', donationController.donationSelect);
 router.get('/donate/details/:type/:id', donationController.donationDetails);
 router.post('/donate/submit', donationController.submitDonation);
 router.post('/donate/log', donationController.logDonation);
-router.post('/donate/register', donationController.registerSponsor, requestController.updateSponsor);
 router.get('/donate/thanks', donationController.donationThanks);
 router.get("/donate/fail", donationController.donationFail);
 
@@ -60,8 +59,10 @@ router.put("/admin/:type(newsletter)/edit", file_upload.array('photos', 10), req
 router.put("/admin/:type(trustee|staff)/edit", requestController.updateElement);
 router.put("/admin/:type/edit", file_upload.single('mainPhoto'), requestController.updateElement, imageController.deleteByName);
 
+
 router.delete("/admin/:type(newsletter)/delete", requestController.deleteElement, imageController.deleteByNames);
 router.delete("/admin/:type(trustee|staff)/delete", requestController.deleteElement);
+router.delete("/admin/:type(donation|sponsor)/delete", donationController.deleteDonation);
 router.delete("/admin/:type/delete", requestController.deleteElement, imageController.deleteByName);
 
 router.get('/admin/menu', adminController.adminMenu);

@@ -1,4 +1,4 @@
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+<div class="modal fade" id="donate-details-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true" style="z-index: 10000000000000000;">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -15,27 +15,9 @@
   </div>
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Register to be a sponsor!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="modal-body-2" style="white-space: pre-line">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" id="confirm-button" class="btn btn-primary">Register</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="main-container">
-
     <div class="info-container" style="max-width:100%">
-        {{#if description}}
+        {{#includes type "project"}}
         <div class="row justify-content-center mx-0" style="width:100%">
             <div class="img-container col-xs-12 col-sm-10 col-md-8 col-lg-6 my-3">
                 <img src="/imageByName?name={{mainPhoto}}" class="project-image" style="max-height:50vh;" alt="...">
@@ -45,15 +27,14 @@
                     <h1>{{name}}</h1>
                 </div>
                 <div class="body-container body-container-project">
-                    <p>{{description}}
-                    <p>
+                    <p>{{description}}</p>
                 </div>
             </div>
         </div>
-        {{/if}}
-        {{#if gradelevel}}
+        {{/includes}}
+        {{#includes type "child"}}
         <div class="row justify-content-center mx-4" style="width:80%">
-            <div class="img-container col-xs-10 col-sm-9 col-md-5 col-lg-4 col-xl-3 my-3">
+            <div class="img-container col-xs-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 my-3">
                 <img src="/imageByName?name={{mainPhoto}}" class="project-image" style="max-height:50vh;" alt="...">
             </div>
             <div class="text-container col-xs-10 col-sm-9 col-md-5 col-lg-4 col-lg-3 my-3">
@@ -62,19 +43,24 @@
                         <h1>{{name}}</h1>
                     </div>
                     <div class="body-container">
+                        <p>{{description}}</p>
                         <p>Age: {{age}}<br>Grade: {{gradelevel}}<br>Location: {{location}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        {{/if}}
+        {{/includes}}
     </div>
-    {{#if description}}
     <div class="donation-container">
         <div class="container align-items-center">
             <div class="row justify-content-center mx-4 align-items-center">
                 <label for="amount" class="donation-label col-sm-11">Donation Amount (₱)</label>
+                {{#includes type "project"}}
                 <label for="amount" class="donation-label-small col-sm-11">Please input an amount no less than ₱20.</label>
+                {{/includes}}
+                {{#includes type "child"}}
+                <label for="amount" class="donation-label-small col-sm-11">To officiate your registration as a sponsor, please input an initial donation amount no less than ₱200.</label>
+                {{/includes}}
                 <input type="number" id='amount' class="quantity col-sm-10 col-lg-5" name="quantity" min="0"
                     inputmode="numeric" placeholder="1000.00">
             </div>
@@ -87,49 +73,32 @@
             Proceed to Payment
         </button>
     </div>
-    {{/if}}
-    {{#if gradelevel}}
-    <div class="donation-container">
-        <div class="container align-items-center">
-            <div class="row justify-content-center mx-4 align-items-center">
-                <h1 class="donation-detail-header my-4">Register as a Sponsor!</h1>
-
-                <label for="name" class="donation-label col-sm-11">Full Name</label>
-                <input id="name" type="text" class="name col-sm-10 col-lg-5" name="name" required placeholder="Lastname, Firstname">
-
-                <label for="email" class="donation-label col-sm-11">Email Address</label>
-                <input id="email" type="text" class="email col-sm-10 col-lg-5" name="email" required placeholder="example@mail.com">
-
-                <label for="phone" class="donation-label col-sm-11">Cellphone Number</label>
-                <input id="phone" type="tel" class="phone col-sm-10 col-lg-5" pattern = "(\+?\d{2}?\s?\d{3}\s?\d{3}\s?\d{4})|([0]\d{3}\s?\d{3}\s?\d{4})"
-                    name="phone" inputmode="tel" required placeholder="0917 123 4567">
-
-                <input type="text" id="id" value="{{id}}" hidden>
-                <input type="text" id="description" value="{{name}} ({{id}})" hidden>
-            </div>
-            <div class="button-container">
-                <button class="proceed-button my-3" id="proceed-button">
-                    Confirm Registration
-                </button>
-            </div>
-            {{/if}}
-        </form>
-    </div>
 </div>
+
 <script>
-    {{#if description}}
     document.getElementById('proceed-button').addEventListener('click', async (e) => {
         e.preventDefault();
         const amount = Math.round(document.getElementById('amount').value * 100);
-        if(amount < 2000){
-            let registerModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'), {
+        if(amount < 2000 && "{{type}}" == "project"){
+            let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
-            document.getElementById("modal-body-1").innerHTML = "Please enter an amount greater than ₱20.00!";
+            document.getElementById("modal-body-1").innerHTML = "Please enter an amount no less than ₱20.00!";
+            registerModal.show();
+            return;
+        }else if (amount < 20000 && "{{type}}" == "child"){
+            let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
+                keyboard: false
+            })
+            document.getElementById("modal-body-1").innerHTML = "Please enter an amount no less than ₱200.00!";
             registerModal.show();
             return;
         }
-        const description = "Funding for " + document.getElementById('description').value;
+        let description
+        if("{{type}}" == "project")
+            description = "Project Funding for " + document.getElementById('description').value;
+        else if ("{{type}}" == "child")
+            description = "Initial Sponsorship for " + document.getElementById('description').value;
         const id = document.getElementById('id').value;
         const res = await fetch('/donate/submit', {
             method: 'POST',
@@ -141,53 +110,4 @@
         const data = await res.json();
         window.location.href = data;
     });
-    {{/if}}
-    {{#if gradelevel}}
-            document.getElementById('proceed-button').addEventListener('click', async (e) => {
-                e.preventDefault();
-                if(document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('phone').value == "") {
-                    let registerModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'), {
-                        keyboard: false
-                    })
-                    document.getElementById("modal-body-1").innerHTML = "Please fill out all fields to register as a sponsor!";
-                    registerModal.show();
-                    return;
-                }else if(!document.getElementById('email').value.includes("@") || !document.getElementById('email').value.includes(".")) {
-                    let registerModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'), {
-                        keyboard: false
-                    })
-                    document.getElementById("modal-body-1").innerHTML = "Please enter a valid email address!";
-                    registerModal.show();
-                    return;
-                }else if(/((\+[0-9]{2})|0)[.\- ]?9[0-9]{2}[.\- ]?[0-9]{3}[.\- ]?[0-9]{4}/.test(document.getElementById('phone').value) == false) {
-                    let registerModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'), {
-                        keyboard: false
-                    })
-                    document.getElementById("modal-body-1").innerHTML = "Please enter a valid phone number!";
-                    registerModal.show();
-                    return;
-                }
-                var registerModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
-                    keyboard: false
-                })
-                document.getElementById("modal-body-2").innerHTML = "By clicking the Register button, you agree to be contacted by Pearl S. Buck Foundation Philippines for further details regarding your sponsorship.\n\nFurthermore, please ensure that the following information provided is true and accurate...\nFull Name: " + document.getElementById('name').value + "\nEmail Address: " + document.getElementById('email').value + "\nPhone Number: " + document.getElementById('phone').value + "\n\nIf you agree, click Register and become an official sponsor!";
-                registerModal.show();
-            });
-            document.getElementById("confirm-button").addEventListener('click', async (e) => {
-                e.preventDefault();
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const id = document.getElementById('id').value;
-                const res = await fetch('/donate/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email, phone, id })
-                })
-                const data = await res.json();
-                window.location.href = data;
-            })
-    {{/if}}
 </script>

@@ -1,37 +1,5 @@
-<div class="modal fade" id="admin-select-modal-required" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="admin-select-modal-required-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-required-label">Fields required!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-required-body">
-                Please fill in all the required fields properly before submitting...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="admin-select-modal-error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="admin-select-modal-error-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-error-label">Error occured!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-error-body">
-                It seems that an error has occured. Please try again...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+{{> admin_modal_required}}
+{{> admin_modal_error}}
 
 {{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
 <h1 class="admin-h1">{{cap action}} {{cap type}}</h1>
@@ -66,7 +34,7 @@
             </div>
         </div>
         {{/includes}}
-        {{#includes type "project"}}
+        {{#includes type "project" "child"}}
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="name">Description</label>
@@ -238,7 +206,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="email">Email</label>
+                <label class="h3 admin-h3" for="email">Email Address</label>
             </div>
         </div>
         <div class="row">
@@ -248,7 +216,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="facebook">Facebook</label>
+                <label class="h3 admin-h3" for="facebook">Facebook Link</label>
             </div>
         </div>
         <div class="row">
@@ -258,7 +226,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="instagram">Instagram</label>
+                <label class="h3 admin-h3" for="instagram">Instagram Link</label>
             </div>
         </div>
         <div class="row">
@@ -268,7 +236,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="twitter">Twitter</label>
+                <label class="h3 admin-h3" for="twitter">Twitter Link</label>
             </div>
         </div>
         <div class="row">
@@ -278,7 +246,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label class="h3 admin-h3" for="address">Address</label>
+                <label class="h3 admin-h3" for="address">Physical Address</label>
             </div>
         </div>
         <div class="row">
@@ -374,7 +342,7 @@
             </div>
         </div>
         <div class="row">
-            <label class="h3 admin-h3" for="frontpagePhoto">Photo</label>
+            <label class="h3 admin-h3" for="frontpagePhoto">Frontpage Photo</label>
             <input type="file" id="frontpagePhoto" class="admin-add-edit-input-photo" name="frontpagePhoto" accept="image/*">
         </div>
         <div class="row">

@@ -2,6 +2,7 @@ const Donation = require('../models/donation.js');
 const utilityController = require('../controller/utility_controller.js');
 const singletonController = require('../controller/singleton_controller.js');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 const Don = {
 
@@ -54,7 +55,7 @@ const Don = {
 
         pages.sort()
         res.render('donate_select', {
-            elements, pages, min, max, type: req.params.type, message, noneMessage,
+            elements, pages, min, max, type: req.params.type, message, noneMessage, type: req.params.type,
             foot: await singletonController.getFooter()
         });
     },
@@ -63,19 +64,26 @@ const Don = {
         let id = req.params.id
         let type = req.params.type
         let element = await utilityController.getElementById(type, id)
-        if (element == null || element.sponsor != null) {
+        if (element == null) {
             res.redirect('/404');
             return;
         }
+        if (type == "child") {
+            const sponsored = await utilityController.isChildWithSponsor(element._id);
+            if (sponsored) {
+                res.redirect('/404');
+                return;
+            }
+        }
         if (type == 'project') {
             res.render('donate_details', {
-                name: element.name, description: element.description,
+                name: element.name, description: element.description, type: type,
                 mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter()
             });
         } else if (type == 'child') {
             res.render('donate_details', {
-                name: element.name, age: element.age, gradelevel: element.gradelevel,
-                mainPhoto: element.mainPhoto, id: element._id, location: element.location,
+                name: element.name, age: element.age, gradelevel: element.gradelevel, type: type,
+                mainPhoto: element.mainPhoto, id: element._id, location: element.location, description: element.description,
                 foot: await singletonController.getFooter()
             });
         } else {
@@ -142,17 +150,6 @@ const Don = {
         }
     },
 
-    registerSponsor: async function (req, res, next) {
-        let id = req.body.id;
-        const element = await utilityController.getElementById('child', id);
-        if (element == null) {
-            res.json("/donate/fail");
-            return;
-        } else {
-            next();
-        }
-    },
-
     donationThanks: async function (req, res) {
         res.render('donate_thanks', { foot: await singletonController.getFooter() });
     },
@@ -161,9 +158,45 @@ const Don = {
         res.render('donate_fail', { foot: await singletonController.getFooter() });
     },
 
-    getAllDonations: async function () {
-        const donations = await Donation.find().lean();
-        return donations;
+    getAllDonations: async function (type) {
+        const donations = await Donation.find({ deleted: false }).lean();
+        const projectDonations = [];
+        const childDonations = [];
+        donations.forEach(donation => {
+            if (donation.donation.attributes.data.attributes.description.startsWith('Project Funding')) {
+                projectDonations.push(donation);
+            } else if (donation.donation.attributes.data.attributes.description.startsWith('Initial Sponsorship')) {
+                childDonations.push(donation);
+            };
+        });
+        if (type == 'donation')
+            return projectDonations;
+        else if (type == 'sponsor')
+            return childDonations;
+    },
+    deleteDonation: async function (req, res) {
+        const model = Donation;
+        if (mongoose.isValidObjectId(req.body.id)) {
+            const resultFind = await model.findOne({ _id: req.body.id, deleted: false });
+            if (resultFind == null) {
+                res.status(400);
+                res.end();
+            }
+            else {
+                const result = await model.updateOne({ _id: req.body.id }, { $set: { deleted: true } })
+                if (result == null) {
+                    res.status(400);
+                    res.end();
+                }
+                else {
+                    res.end();
+                    res.status(200);
+                }
+            }
+        } else {
+            res.status(400);
+            res.end();
+        }
     }
 };
 

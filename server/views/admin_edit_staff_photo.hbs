@@ -1,37 +1,5 @@
-<div class="modal fade" id="admin-select-modal-required" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="admin-select-modal-required-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-required-label">Fields required!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-required-body">
-                Please fill in all the required fields properly before submitting...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="admin-select-modal-error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="admin-select-modal-error-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-error-label">Error occured!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-error-body">
-                It seems that an error has occured. Please try again...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+{{> admin_modal_required}}
+{{> admin_modal_error}}
 
 <h1 class="admin-h1">Edit Staff Group Photo</h1>
 <form id="adminForm">

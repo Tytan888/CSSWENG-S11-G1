@@ -9,15 +9,15 @@
                 <img class="selection-img-{{../type}}" src="/imageByName?name={{this.mainPhoto}}" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
-                    {{#if this.description}}
-                    <p class="card-text">{{this.description}}</p>
-                    {{/if}}
-                    {{#if this.gradelevel}}
-                    <p class="card-text"><span class="dark-green">Age:</span> {{age}} | <span
+                    <p class="card-text">
+                        {{this.description}}
+                        {{#includes ../type "child"}}
+                        <br><br><span class="dark-green">Age:</span> {{age}} | <span
                             class="dark-green">Grade:</span> {{gradelevel}} <br><span
                             class="dark-green">Location:</span> {{location}}
+                        {{/includes}}
                     <p></p>
-                    {{/if}}
+                    
                     <a href="/donate/details/{{../type}}/{{this._id}}" class="btn btn-primary">{{../message}}</a>
                 </div>
             </div>

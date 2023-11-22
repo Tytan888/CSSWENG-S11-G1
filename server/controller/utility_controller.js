@@ -2,7 +2,7 @@ const Project = require('../models/project.js');
 const Child = require('../models/child.js');
 const Event = require('../models/event.js');
 const Newsletter = require('../models/newsletter.js');
-const Singleton = require('../models/singleton.js');
+const Donation = require('../models/donation.js');
 const Staff = require('../models/staff.js');
 const Trustee = require('../models/trustee.js');
 const moment = require('moment');
@@ -65,9 +65,17 @@ const Uti = {
             return null;
         }
         let result;
-        if(type == "child"){
-            result = await model.find({sponsor: null}).sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
-        }else{
+        if (type == "child") {
+            result = await model.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
+            let newResult = [];
+            result.forEach(async function (element) {
+                let sponsored = await Uti.isChildWithSponsor(element._id);
+                if(!sponsored){
+                    newResult.push(element);
+                }
+            });
+            result = newResult;
+        } else {
             result = await model.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
         }
         if (type == 'project') {
@@ -118,6 +126,19 @@ const Uti = {
                 element.age = moment().diff(element.birthdate, 'years')
             });
         }
+        return result;
+    },
+    isChildWithSponsor: async function (_id) {
+        let result = false;
+        let id = _id.toString();
+        let donations = await Donation.find({deleted: false}).lean();
+        donations.forEach(donation => {
+            if (donation.donation.attributes.data.attributes.description.startsWith('Initial Sponsorship')) {
+                if (donation.donation.attributes.data.attributes.description.includes(id)) {
+                    result = true;
+                }
+            }
+        });
         return result;
     }
 };

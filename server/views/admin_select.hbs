@@ -1,39 +1,5 @@
-<div class="modal fade" id="admin-select-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="admin-select-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-label">Are you sure you want to delete?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" id="confirm-button" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="admin-select-modal-error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="admin-select-modal-error-label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="admin-select-modal-error-label">Error occured!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="admin-select-modal-error-body">
-                It seems that an error has occured. Please try again...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+{{> admin_modal_confirm}}
+{{> admin_modal_error}}
 
 <h1 class="admin-h1">
     {{#includes type "child"}}
@@ -102,29 +68,33 @@
     search.addEventListener("keyup", function (event) {
         const q = event.target.value.toLowerCase();
         rows.forEach((row) => {
-            (row.querySelector("td").textContent.toLowerCase().startsWith(q) || row.querySelector("th").textContent.toLowerCase().startsWith(q)) ? row.style.display = "table-row" : row.style.display = "none";
+            (row.querySelector("td").textContent.toLowerCase().includes(q) || row.querySelector("th").textContent.toLowerCase().includes(q)) ? row.style.display = "table-row" : row.style.display = "none";
         });
     });
 
     rows.forEach((row) => {
         row.querySelector(".admin-delete-icon").addEventListener("click", function () {
             modalBody.textContent = "Are you sure you want to delete " + row.querySelector("td").textContent + " (Id: " + row.querySelector("th").textContent + ")?";
-            confirmButton.addEventListener("click", async function () {
+            confirmClick = async function (e) {
                 const res = await fetch("/admin/{{type}}/delete", {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ id: row.querySelector("th").textContent })
+                    body: JSON.stringify({ id: row.querySelector("td.donation-id").textContent })
                 });
                 if (res.status === 200) {
                     window.location.reload();
                 } else {
                     modal.hide();
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
                     const modalError = new bootstrap.Modal(document.getElementById("admin-select-modal-error"), {});
                     modalError.show();
                 }
-            });
+                e.target.removeEventListener("click", confirmClick);
+            };
+            confirmButton.addEventListener("click", confirmClick);
             const modal = new bootstrap.Modal(document.getElementById("admin-select-modal"), {});
             modal.show();
         });

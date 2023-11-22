@@ -69,11 +69,8 @@ const Info = {
             case undefined:
                 switch (req.params.type) {
                     case "sponsor":
-                        data = await utilityController.getElementsByFilters("child", { sponsor: { $ne: null } });
-                        res.render('admin_lookup', { layout: "admin", back: "/admin/menu", type: req.params.type, data });
-                        return;
                     case "donation":
-                        data = await donationController.getAllDonations();
+                        data = await donationController.getAllDonations(req.params.type);
                         res.render('admin_lookup', { layout: "admin", back: "/admin/menu", type: req.params.type, data });
                         return;
                 }

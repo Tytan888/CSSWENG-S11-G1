@@ -463,7 +463,7 @@
     const searchValue = searchBox.value.trim().toLowerCase();
     if (searchValue != "") {
       searchElements.forEach((element) => {
-        if (element.querySelector("h3").innerText.toLowerCase().startsWith(searchValue)) {
+        if (element.querySelector("h3").innerText.toLowerCase().includes(searchValue)) {
           element.classList.remove("hidden-search");
         } else {
           element.classList.add("hidden-search");
@@ -509,7 +509,6 @@
           element.classList.add("hidden-filters");
         }
       });
-      console.log(document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)"))
       if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
         document.querySelector(".none-message").style.display = "none";
       } else {

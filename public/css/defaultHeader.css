@@ -1266,3 +1266,7 @@ a:link {
 .bottom-margin {
     margin-bottom: 30px;
 }
+
+.staffPic {
+    text-align: center;
+}

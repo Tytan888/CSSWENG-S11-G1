@@ -23,12 +23,10 @@ var cookie ="";
 beforeAll( async () => {
     db.testConnect();
     gfs.connect(db.conn);
-    //for authorization
+});
+beforeEach(async () => {
     await adminController.initializeAdmin();
-    const admin = await db.findMany(Admin,{username: "admin"});
-    console.log("admin "+admin);
     const res = await request.post('/admin/submit').send({username: "admin", password: "admin"}).expect(200);
-    console.log("res "+res.headers['set-cookie']);
     cookie = res.headers['set-cookie'];
 });
 //clean up database to start with a clean slate when executing a new  test run
@@ -46,10 +44,10 @@ afterEach(async () => {
 //start of tests
 describe("LOGIN ADMIN", () => {
     test('should login admin', async () => {
-        const response = await request.post('/admin/submit')
-                                        .set('Cookie', cookie)
-                                        .send({username: "admin", password: "admin"}).expect(200);
-        return 1;
+        const res = await request.post('/admin/submit').send({username: "admin", password: "admin"}).expect(200);
+        cookie2 = res.headers['set-cookie'];
+        expect(cookie2).not.toEqual(cookie);
+        return res;
     });
     test('should not login admin wrong password', async () => {
         const res = await request.post('/admin/submit').send({username: "admin", password: "wrong password"}).expect(401);
@@ -66,7 +64,7 @@ describe("LOGIN ADMIN", () => {
         expect(res.body).toEqual({});
         return res;
     });
-})
+});
 
 describe("CRUD Project", () => {
     test('should add project in the database',  async () =>{
@@ -186,7 +184,6 @@ describe("CRUD Project", () => {
                     .expect(200);
         const obj =  await db.findOne(Project, {name: "test project"});
         const mainPhoto = obj.mainPhoto;
-       // console.log("deleteid "+obj._id);
         await request.delete('/admin/project/delete').set('Cookie', cookie).send({id: obj._id});
         const newobj =  await db.findOne(Project, {name: "test project"});
         expect(newobj).toBeNull();
@@ -457,7 +454,7 @@ describe("CRUD Event", () => {
         };
         event.startDate = event.startDate.toString();
         event.endDate = event.endDate.toString();
-    //    console.log("enddate "+event.endDate);
+
         await request.post('/admin/event/add')
                     .set('Cookie', cookie)
                     .attach('mainPhoto', event.mainPhoto)
@@ -740,6 +737,7 @@ describe("Unauthorized CRUD Newsletter", () => {
                     .expect(302);
         const obj =  await db.findOne(Newsletter, {name: "test newsletter"});
         expect(obj).toBeNull();
+        return 1;
     });
     test('should not update newsletter in the database', async () => {
         await request.post('/admin/newsletter/add')
@@ -809,10 +807,7 @@ describe("CRUD Singleton", () => {
         await singletonController.getIndex();
         await singletonController.getIndex();
         const singleton = await db.findMany(Singleton, {});
-        expect(singleton.length).toEqual(1);
-        console.log("singleton "+singleton.length);
-
-        
+        expect(singleton.length).toEqual(1);  
     });
     test('should update singleton to database for the first time', async () => {
         const mainPhoto = "__tests__/test_assets/image_asset.png";
@@ -895,7 +890,7 @@ describe("CRUD Singleton", () => {
         await request.get('/imageByName').set("name", img).expect(404);
     });
 
-    test.todo('should update staff photo');
+    //test.todo('should update staff photo');
 });
 describe("Unauthorized CRUD Singleton", () => {
     test('should not update singleton to database', async () => {
@@ -917,7 +912,6 @@ describe("Unauthorized CRUD Singleton", () => {
                                             .expect(302);
         const singleton = await db.findOne(Singleton, {id: "Singleton"});
         expect(singleton).toBeTruthy
-        console.log("singleton "+singleton);
         expect(singleton.id).toEqual("Singleton");
         expect(singleton.aboutUs).not.toEqual('test about us');
         expect(singleton.mission).not.toEqual('test mission');
@@ -971,7 +965,42 @@ describe("CRUD Trustee", () => {
     });
 });
 describe("Unauthorized CRUD Trustee", () => {
-
+    test('should not add trustee to database', async () => {
+        await request.post('/admin/trustee/add')
+                    .send({name: "test name", position: "test position"})
+                    .expect(302);
+        const obj = await db.findOne(Trustee, {});
+        expect(obj).toBeNull();
+    });
+    test('should not update trustee in the database', async () => {
+        await request.post('/admin/trustee/add')
+                    .set('Cookie', cookie)
+                    .send({name: "test name", position: "test position"})
+                    .expect(200);
+        const obj = await db.findOne(Trustee, {});
+        await request.put('/admin/trustee/edit')
+                    .send({id: obj._id, name: "test update name", position: "test update position"})
+                    .expect(302);
+        const newobj = await db.findOne(Trustee, {_id: obj._id});
+        expect(newobj.name).toEqual("test name");
+        expect(newobj.position).toEqual("test position");
+        expect(newobj._id).toEqual(obj._id);
+    });
+    test ('should not delete Trustee in the database', async () => {
+        await request.post('/admin/trustee/add')
+                    .set('Cookie', cookie)
+                    .send({name: "test name", position: "test position"})
+                    .expect(200);
+        const obj = await db.findOne(Trustee, {});
+        await request.delete('/admin/trustee/delete')
+                    .send({id: obj._id})
+                    .expect(302);
+        const newobj = await db.findOne(Trustee, {_id: obj._id});
+        expect(newobj.name).toEqual("test name");
+        expect(newobj.position).toEqual("test position");
+        expect(newobj._id).toEqual(obj._id);
+        
+    });
 });
 
 describe("CRUD Staff", () => {
@@ -1049,43 +1078,5 @@ describe("Unauthorized CRUD Staff", () => {
     expect(newobj.name).toEqual("test name");
     expect(newobj.position).toEqual("test position");
     expect(newobj._id).toEqual(obj._id);
-    });
-});
-describe("Unauthorized CRUD Staff", () => {
-    test('should not add staff to database', async () => {
-        await request.post('/admin/staff/add')
-                    .send({name: "test name", position: "test position"})
-                    .expect(302);
-        const obj = await db.findOne(Staff, {});
-        expect(obj).toBeNull();
-    });
-    test('should not update staff in the database', async () => {
-        await request.post('/admin/staff/add')
-                    .set('Cookie', cookie)
-                    .send({name: "test name", position: "test position"})
-                    .expect(200);
-        const obj = await db.findOne(Staff, {});
-        await request.put('/admin/staff/edit')
-                    .send({id: obj._id, name: "test update name", position: "test update position"})
-                    .expect(302);
-        const newobj = await db.findOne(Staff, {_id: obj._id});
-        expect(newobj.name).toEqual("test name");
-        expect(newobj.position).toEqual("test position");
-        expect(newobj._id).toEqual(obj._id);
-    });
-    test ('should not delete staff in the database', async () => {
-        await request.post('/admin/staff/add')
-                    .set('Cookie', cookie)
-                    .send({name: "test name", position: "test position"})
-                    .expect(200);
-        const obj = await db.findOne(Staff, {});
-        await request.delete('/admin/staff/delete')
-                    .send({id: obj._id})
-                    .expect(302);
-        const newobj = await db.findOne(Staff, {_id: obj._id});
-        expect(newobj.name).toEqual("test name");
-        expect(newobj.position).toEqual("test position");
-        expect(newobj._id).toEqual(obj._id);
-        
     });
 });

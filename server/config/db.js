@@ -52,10 +52,10 @@ const database = {
         //this function is taken from https://www.freecodecamp.org/news/end-point-testing/
         const collections = Object.keys(this.conn.collections);
         for (const collectionName of collections) {
-            if(collectionName != "admins"){
+            //if(collectionName != "admins"){
                 const collection = this.conn.collections[collectionName];
                 await collection.deleteMany();
-            }
+           // }
             
         }
         

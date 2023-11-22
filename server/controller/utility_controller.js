@@ -68,12 +68,12 @@ const Uti = {
         if (type == "child") {
             result = await model.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();
             let newResult = [];
-            result.forEach(async function (element) {
-                let sponsored = await Uti.isChildWithSponsor(element._id);
-                if(!sponsored){
-                    newResult.push(element);
+            for (let i = 0; i < result.length; i++) {
+                const sponsored = await Uti.isChildWithSponsor(result[i]._id);
+                if (!sponsored) {
+                    newResult.push(result[i]);
                 }
-            });
+            }
             result = newResult;
         } else {
             result = await model.find().sort({ $natural: -1 }).skip((page - 1) * limit).limit(limit).lean();

@@ -52,7 +52,6 @@ const Don = {
             res.redirect('/404');
             return;
         }
-
         pages.sort()
         res.render('donate_select', {
             elements, pages, min, max, type: req.params.type, message, noneMessage, type: req.params.type,

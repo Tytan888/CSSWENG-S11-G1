@@ -15,7 +15,7 @@ const Info = {
     },
     adminLogin: async function (req, res) {
         res.clearCookie('token');
-        res.render('admin_login', { layout: "admin", back: "none" });
+        res.render('admin_login', { layout: "admin", back: "/" });
     },
     adminSubmit: async function (req, res) {
         const username = req.body.username;

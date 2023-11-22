@@ -421,7 +421,16 @@
 
         let valid = true;
         let msg = "Please fill in all the required fields properly before submitting...";
+        $('input[type="text"]').each(function(){
+            this.value = $.trim(this.value);
+        });
+        $('textarea').each(function(){
+            this.value = $.trim(this.value);
+        });
         $('[required]').each(function () {
+            if($(this).attr("type") != "file" && typeof($(this).value) == "string"){
+                $(this).val($(this).val().trim());
+            }
             if ($(this).is(':invalid') || !$(this).val()) {
                 valid = false;
             }

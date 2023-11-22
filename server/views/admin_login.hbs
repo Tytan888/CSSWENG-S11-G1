@@ -32,6 +32,12 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
+        $('input[type="text"]').each(function () {
+            this.value = $.trim(this.value);
+        });
+        $('input[type="password"]').each(function () {
+            this.value = $.trim(this.value);
+        });
         let valid = true;
         $('[required]').each(function () {
             if ($(this).is(':invalid') || !$(this).val()) {

@@ -86,7 +86,6 @@ const Don = {
 
     submitDonation: async function (req, res) {
         const fetch = require('node-fetch');
-
         // TODO: Change both urls, success_url and cancel_url, to the actual urls of the website.
         // TODO: Change the authorization key to the actual secret key of the website.
         const url = 'https://api.paymongo.com/v1/checkout_sessions';
@@ -95,7 +94,7 @@ const Don = {
             headers: {
                 accept: 'application/json',
                 'Content-Type': 'application/json',
-                authorization: 'Basic c2tfdGVzdF9ReXByUVNBdXZRcm5zWEtoZDI1SFhybjc6'
+                authorization: 'Basic ' + process.env.PAYMONGO_SECRET_KEY_HASH
             },
             body: JSON.stringify({
                 data: {
@@ -105,9 +104,9 @@ const Don = {
                         show_line_items: true,
                         success_url: process.env.WEBSITE_URL + '/donate/thanks',
                         cancel_url: process.env.WEBSITE_URL + '/donate/fail',
-                        line_items: [{ currency: 'PHP', amount: Number(req.body.amount), name: req.body.description, quantity: 1 }],
+                        line_items: [{ currency: 'PHP', amount: Number(req.body.amount), name: 'Donation for Pearl S. Buck Philippines', quantity: 1 }],
                         payment_method_types: ['card', 'gcash', 'paymaya'],
-                        description: 'Pearl S. Buck Philippines'
+                        description: req.body.description
                     }
                 }
             })

@@ -85,7 +85,13 @@ const Sing = {
             res.status(400);
             res.end();
         } else {
-            next();
+            if (res.locals.name != "N/A") {
+                next();
+            }
+            else {
+                res.end()
+                res.status(200);
+            }
         }
     }
 };

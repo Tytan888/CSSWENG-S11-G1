@@ -5,6 +5,24 @@
 
 
 :moon: ***to run server:*** 
+Create a .env file in the root folder of the repository.
+```
+vim .env
+```
+In the .env file, include all the necessary variables.
+```
+PORT = 'Port number'
+MONGODB_URI = 'mongodb://localhost:27017/pearldb'
+TEST_MONGODB_URI = 'mongodb://localhost:27017/test'
+SALT_ROUNDS = 'can be any number higher than 0'
+SECRET ='Any strong password'
+WEBHOOK_SECRET_KEY = 'The secret key of the paymongo webhook'
+PAYMONGO_SECRET_KEY_HASH = 'The hash key generated from the paymongo secret key'
+WEBSITE_URL = 'https://hostaddress:PORT'
+DONATION_DISABLED = 'true or false'
+```
+
+Then run the server by typing this command in the terminal:
 ```
 node start.js
 ```

@@ -65,15 +65,14 @@ const Sing = {
         else
             return { ourFounder: result.ourFounder, philippineJourney: result.philippineJourney, weBelieve: result.weBelieve, aboutHealth: result.aboutHealth, aboutLivelihood: result.aboutLivelihood, aboutPsychosocial: result.aboutPsychosocial, aboutEducation: result.aboutEducation };
     },
-    getStaffPhoto: async function (req, res) {
+    getStaffPhoto: async function () {
         const result = await Singleton.findOne({ id: "Singleton" });
         if (result == null) {
             await this.initializeSingleton();
-            const result2 = await Singleton.findOne({ id: "Singleton" });
-            res.json({ staffPhoto: result2.staffPhoto});
+            return this.getStaffPhoto();
         }
         else {
-            res.json({ staffPhoto: result.staffPhoto});
+            return result.staffPhoto;
         }
     },
     updateStaffPhoto: async function (req, res, next) {

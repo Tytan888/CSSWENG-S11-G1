@@ -1278,3 +1278,13 @@ a:link {
 .staffPic {
     text-align: center;
 }
+
+.staffImg {
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .staffImg {
+        width: 95%;
+    }
+}

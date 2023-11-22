@@ -19,7 +19,8 @@ const Info = {
             about: await singletonController.getAbout(),
             trustees: await utilityController.getAllElements("trustee"),
             staff: await utilityController.getAllElements("staff"),
-            foot: await singletonController.getFooter()
+            foot: await singletonController.getFooter(),
+            staffPhoto: await singletonController.getStaffPhoto()
         });
     },
     infoExplore: async function (req, res) {

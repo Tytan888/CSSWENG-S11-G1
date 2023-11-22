@@ -1,18 +1,19 @@
-<div class="modal fade" id="donate-details-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true" style="z-index: 10000000000000000;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel2">Register to be a sponsor!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="modal-body-1">
-        Please fill out all fields to register as a sponsor!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
+<div class="modal fade" id="donate-details-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel2" aria-hidden="true" style="z-index: 10000000000000000;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel2">Register to be a sponsor!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body-1">
+                Please fill out all fields to register as a sponsor!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="main-container">
@@ -51,15 +52,26 @@
         </div>
         {{/includes}}
     </div>
+    {{#if disabled}}
+    <div class="donation-container">
+        <div class="container align-items-center">
+            <div class="row justify-content-center mx-4 align-items-center my-0">
+                <label class="donation-label-medium col-sm-11">Sorry, but we are not currently accepting donations, but thank you for showing interest in contributing to our cause! Please check back at a later date!</label>
+            </div>
+        </div>
+    </div>
+    {{else}}
     <div class="donation-container">
         <div class="container align-items-center">
             <div class="row justify-content-center mx-4 align-items-center">
                 <label for="amount" class="donation-label col-sm-11">Donation Amount (₱)</label>
                 {{#includes type "project"}}
-                <label for="amount" class="donation-label-small col-sm-11">Please input an amount no less than ₱20.</label>
+                <label for="amount" class="donation-label-small col-sm-11">Please input an amount no less than
+                    ₱20.</label>
                 {{/includes}}
                 {{#includes type "child"}}
-                <label for="amount" class="donation-label-small col-sm-11">To officiate your registration as a sponsor, please input an initial donation amount no less than ₱200.</label>
+                <label for="amount" class="donation-label-small col-sm-11">To officiate your registration as a sponsor,
+                    please input an initial donation amount no less than ₱200.</label>
                 {{/includes}}
                 <input type="number" id='amount' class="quantity col-sm-10 col-lg-5" name="quantity" min="0"
                     inputmode="numeric" placeholder="1000.00">
@@ -73,20 +85,21 @@
             Proceed to Payment
         </button>
     </div>
+    {{/if}}
 </div>
 
 <script>
     document.getElementById('proceed-button').addEventListener('click', async (e) => {
         e.preventDefault();
         const amount = Math.round(document.getElementById('amount').value * 100);
-        if(amount < 2000 && "{{type}}" == "project"){
+        if (amount < 2000 && "{{type}}" == "project") {
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
             document.getElementById("modal-body-1").innerHTML = "Please enter an amount no less than ₱20.00!";
             registerModal.show();
             return;
-        }else if (amount < 20000 && "{{type}}" == "child"){
+        } else if (amount < 20000 && "{{type}}" == "child") {
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
@@ -95,7 +108,7 @@
             return;
         }
         let description
-        if("{{type}}" == "project")
+        if ("{{type}}" == "project")
             description = "Project Funding for " + document.getElementById('description').value;
         else if ("{{type}}" == "child")
             description = "Initial Sponsorship for " + document.getElementById('description').value;

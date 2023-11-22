@@ -35,7 +35,17 @@ router.get("/donate", donationController.donationRedirect);
 router.get("/donate/type", donationController.donationType);
 router.get('/donate/select/:type', donationController.donationSelect);
 router.get('/donate/details/:type/:id', donationController.donationDetails);
-router.post('/donate/submit', donationController.submitDonation);
+
+let disabled;
+if (process.env.DONATION_DISABLED.toLowerCase() == 'true') {
+    disabled = true;
+} else {
+    disabled = false;
+}
+if (!disabled) {
+    router.post('/donate/submit', donationController.submitDonation);
+}
+
 router.post('/donate/log', donationController.logDonation);
 router.get('/donate/thanks', donationController.donationThanks);
 router.get("/donate/fail", donationController.donationFail);

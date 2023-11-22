@@ -10,10 +10,10 @@
     {{/includes}}
 </h1>
 <div class="row justify-content-center align-items-center admin-lookup-search">
-    <div class="col-md-2 col-sm-4 col-10">
-        <h2 class="admin-h2">Search: </h2>
+    <div class="col-lg-5 col-md-11">
+        <h2 class="admin-h2">Search by column...</h2>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-5 col-10">
+    <div class="col-lg-7 col-md-11">
         <select id="filter" class="admin-lookup-input" name="filter" required>
             {{#includes type "sponsor"}}
             <option value="donation-id">Donation Id</option>
@@ -33,7 +33,10 @@
             {{/includes}}
         </select>
     </div>
-    <div class="col-md-6 col-sm-5 col-8">
+     <div class="col-lg-5 col-md-11">
+        <h2 class="admin-h2">With search term...</h2>
+    </div>
+    <div class="col-lg-7 col-md-11">
         <input class="admin-lookup-input" type="text" id="search" placeholder="Search Here...">
     </div>
 </div>

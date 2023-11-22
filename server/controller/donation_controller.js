@@ -75,16 +75,23 @@ const Don = {
                 return;
             }
         }
+        let disabled;
+        if (process.env.DONATION_DISABLED.toLowerCase() == 'true') {
+            disabled = true;
+        } else {
+            disabled = false;
+        }
         if (type == 'project') {
             res.render('donate_details', {
                 name: element.name, description: element.description, type: type,
-                mainPhoto: element.mainPhoto, id: element._id, foot: await singletonController.getFooter()
+                mainPhoto: element.mainPhoto, id: element._id,
+                foot: await singletonController.getFooter(), disabled
             });
         } else if (type == 'child') {
             res.render('donate_details', {
                 name: element.name, age: element.age, gradelevel: element.gradelevel, type: type,
                 mainPhoto: element.mainPhoto, id: element._id, location: element.location, description: element.description,
-                foot: await singletonController.getFooter()
+                foot: await singletonController.getFooter(), disabled
             });
         } else {
             res.redirect('/404');

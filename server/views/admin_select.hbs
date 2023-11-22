@@ -81,7 +81,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ id: row.querySelector("td.donation-id").textContent })
+                    body: JSON.stringify({ id: row.querySelector("th").textContent })
                 });
                 if (res.status === 200) {
                     window.location.reload();

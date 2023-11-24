@@ -1112,6 +1112,13 @@ a:link {
     color: var(--menu-fg) !important;
 }
 
+.scrollspy-example {
+    position: relative;
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 .scrollspy-example h2,
 .scrollspy-example h4,
 .scrollspy-example h5 {
@@ -1139,7 +1146,7 @@ a:link {
     color: var(--foreground) !important;
 }
 
-#vnm-d h4 {
+.vnm-d h4 {
     text-align: center !important;
 }
 

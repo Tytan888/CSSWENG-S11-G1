@@ -436,12 +436,26 @@
                 valid = false;
             }
         })
+        {{#includes type "project"}}
+        /*
+        if (document.getElementById("raisedDonations").value > document.getElementById("requiredBudget").value) {
+            valid = false;
+            msg = "Raised donations cannot be greater than required budget..."
+        }
+        */
+        if(document.getElementById("raisedDonations").value < 0 || document.getElementById("requiredBudget").value < 0){
+            valid = false;
+            msg = "Raised donations and required budget cannot be negative..."
+        }
+        {{/includes}}
+
         {{#includes type "child"}}
         if (document.getElementById("birthdate").value > new Date().toISOString().split('T')[0]) {
             valid = false;
             msg = "Birthdate cannot be in the future..."
         }
         {{/includes}}
+        
         {{#includes type "event"}}
         if (document.getElementById("startDate").value > document.getElementById("endDate").value) {
             valid = false;

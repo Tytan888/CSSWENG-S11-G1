@@ -1,4 +1,7 @@
+<!-- This partial is used to insert a footer that is used on all user-view pages. -->
+
 <style>
+    /* Set the general styling of the footer. */
     footer {
         min-height: 10vh;
         font-size: 1em;
@@ -14,6 +17,7 @@
 
     }
 
+    /* Set the styling of the brand text. */
     .foot-brand {
         text-decoration: none !important;
         color: var(--blueAccent);
@@ -21,6 +25,7 @@
         font-size: 1.5em;
     }
 
+    /* Set the styling of the brand logo. */
     .foot-logo {
         background-image: url('/images/ico/logo-cropped.png');
         background-size: contain;
@@ -31,6 +36,7 @@
         height: 4em;
     }
 
+    /* Properly position the icons (so that they are not cropped). */
     .socmed {
         min-width: 3em;
         height: 3em;
@@ -52,6 +58,7 @@
         background-position: 35.5% 1%;
     }
 
+    /* Style the div that contains the copyright notice. */
     .copyright {
         background-color: #003764;
         width: 100%;
@@ -63,6 +70,7 @@
         margin: 0 !important;
     }
 
+    /* Position the right side of the footer, and add a border to separate it from the left side. */
     .right-side {
         display: flex;
         align-items: flex-start;
@@ -70,8 +78,8 @@
         flex-direction: column;
     }
 
+    /* Make the footer responsive to mobile devices. */
     @media (max-width: 576px) {
-
         .right-side {
             border-left: none;
         }
@@ -85,17 +93,18 @@
 <footer>
     <div class="container-fluid">
         <div class="row">
+            <!-- Layout the left side of the footer, that contains the contact information and social media links. -->
             <div class="col col-12 col-sm-6" style="text-align: right; padding-right: 2vh;">
-                <span style="font-family: var(--font-logo-text);
-                font-weight: 600; font-size: 1.75em; ">
+                <!-- Add the contact information from the database. -->
+                <span style="font-family: var(--font-logo-text); font-weight: 600; font-size: 1.75em; ">
                     Contact Us
                 </span>
                 <br><br>
-
                 {{email}}<br>
                 {{phone}}<br>
                 <br><br>
 
+                <!-- Add the social media links from the database. -->
                 <a href="{{facebook}}">
                     <div class="socmed" id="ic-fb"></div>
                 </a>
@@ -107,8 +116,10 @@
                 </a>
             </div>
 
+            <!-- Layout the right side of the footer. -->
             <div class="col col-12 col-sm-6 right-side">
 
+                <!-- Layout the brand logo and name. -->
                 <div style="display: flex; align-items: center;">
                     <div class="foot-logo">
                     </div>
@@ -126,16 +137,19 @@
                     </a>
                 </div>
 
+                <!-- Layout the about us text from the database. -->
                 <div class="col" style="margin: 1em; width: 50%;">
                     {{aboutUs}}
                 </div>
             </div>
         </div>
 
+        <!-- Layout the bottom of the footer, that contains the copywrite notice. -->
         <div class="row">
-        <div class="copyright col">
-            &copy; 2023 Pearl S. Buck Philippines, All Rights Reserved
-        </div></div>
+            <div class="copyright col">
+                &copy; 2023 Pearl S. Buck Philippines, All Rights Reserved
+            </div>
+        </div>
     </div>
 
 </footer>

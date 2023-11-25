@@ -1,27 +1,15 @@
-<!DOCTYPE html lang="en">
+<!-- This is the main layout template for the user view that all other templates will extend. -->
+<!DOCTYPE html>
 
-<head>
-    <!--
-            TO DO: USE JAVASCRIPT TO CHECK WHAT DIRECTORY
-            WE'RE IN TO TELL THE HANDLEBAR WHICH CSS
-            FILE WE WANT TO USE BRO
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+<html lang="en">
+    <head>
+        {{> head}}
+    </head>
+    <body>
+        {{> navbar}}
 
-            {{#each css}}
-                <link rel="stylesheet" href="/css/{{this}}">
-            {{/each}}
-            
-        -->
-    {{> head}}
+        {{{body}}}
 
-</head>
-
-<body>
-    {{> navbar}}
-
-    {{{body}}}
-
-    {{> footer foot}}
-</body>
-
+        {{> footer foot}}
+    </body>
 </html>

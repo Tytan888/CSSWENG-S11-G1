@@ -1,35 +1,82 @@
+/**
+ * This module contains all of the functions that are used to handle requests and operations surrounding
+ * the donation pages. In particular, this module handles Epic 2: User Donations and Sponsorships.
+ * @module server/controller/donation_controller
+ * 
+ * @requires {@link module:server/models/admin}
+ * @requires {@link module:server/controller/utility_controller}
+ * @requires {@link module:server/controller/singleton_controller} 
+ * @requires {@link crypto}
+ * @requires {@link mongoose}
+ * @requires {@link node-fetch}
+*/
 const Donation = require('../models/donation.js');
 const utilityController = require('../controller/utility_controller.js');
 const singletonController = require('../controller/singleton_controller.js');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const fetch = require('node-fetch');
 
+/**
+ * This object to be exported contains all of the functions that are used to handle requests to the donation pages.
+ * 
+ * @typedef {object} donationController
+ * @memberof module:server/controller/donation_controller
+ * @inner
+ * 
+ * @property {Function} donationRedirect - Handles GET requests to redirect to the donation type page.
+ * @property {Function} donationType - Handles GET requests to render the donation type page.
+ * @property {Function} donationSelect - Handles GET requests to render the donation select page.
+ * @property {Function} donationDetails - Handles GET requests to render the donation details page.
+ * @property {Function} submitDonation - Handles POST requests to submit the donation form.
+ * @property {Function} logDonation - Handles POST requests to log the donation.
+ *                                      This serves as a webhook for PayMongo to send the details of
+ *                                      donations made through the website.
+ * @property {Function} donationThanks - Handles GET requests to render the donation thanks page.
+ * @property {Function} donationFail - Handles GET requests to render the donation fail page.
+ * @property {Function} getAllDonations - Returns all donations on the database not marked as deleted.
+ * @property {Function} deleteDonation - Handles DELETE requests to delete a donation.
+ */
 const Don = {
 
     donationRedirect: async function (req, res) {
+        /* Redirect to the donation type page. */
         res.redirect('/donate/type');
     },
 
     donationType: async function (req, res) {
+        /* Render the donation type page. */
         res.render('donate_type', { foot: await singletonController.getFooter() });
     },
 
     donationSelect: async function (req, res) {
+        /* Set the limit of elements to display per page. */
         let displayLimit = 12
+
+        /* Get the page number from the request query. */
         let page = parseInt(req.query.page);
+        /* If the page number is not a number or is less than 1, set it to 1. */
         if (Number.isNaN(page) || page < 1) {
             page = 1
         }
+
+        /* Create a list to store the page numbers to be displayed on the pagination. */
         let pages = [page];
+        /* Create boolean variables to store whether the previous and next pages exist. */
         let min, max = false;
 
+        /* Get the elements to be displayed on this page. */
         let elements = await utilityController.getElementsByPage(req.params.type, page, displayLimit);
+
+        /* Check if the previous page exists. */
         let elementsNext = await utilityController.getElementsByPage(req.params.type, page + 1, displayLimit);
         if (elementsNext.length == 0) {
             max = true
         } else {
             pages.push(page + 1)
         }
+
+        /* Check if the next page exists. */
         if (page == 1) {
             min = true;
             let elementNextNext = await utilityController.getElementsByPage(req.params.type, page + 2, displayLimit);
@@ -40,8 +87,8 @@ const Don = {
             pages.push(page - 1)
         }
 
+        /* Set the call to action message and the message to be displayed if there are no elements to be displayed. */
         let message, noneMessage;
-
         if (req.params.type == 'project') {
             message = "Fund this Project!"
             noneMessage = "No projects available for funding at the moment."
@@ -52,6 +99,8 @@ const Don = {
             res.redirect('/404');
             return;
         }
+
+        /* Render the donation select page. */
         pages.sort()
         res.render('donate_select', {
             elements, pages, min, max, type: req.params.type, message, noneMessage, type: req.params.type,
@@ -60,26 +109,37 @@ const Don = {
     },
 
     donationDetails: async function (req, res) {
+        /* Get the element id and type from the route parameters. */
         let id = req.params.id
         let type = req.params.type
+
+        /* Get the element from the database. */
         let element = await utilityController.getElementById(type, id)
         if (element == null) {
+            /* If the element does not exist, redirect to the 404 page. */
             res.redirect('/404');
             return;
         }
+
+        /* Check if the element is a child and if they are sponsored. */
         if (type == "child") {
             const sponsored = await utilityController.isChildWithSponsor(element._id);
             if (sponsored) {
+                /* If the child is sponsored, redirect to the 404 page. */
                 res.redirect('/404');
                 return;
             }
         }
+
+        /* Check if donations are disabled from the .env file. */
         let disabled;
         if (process.env.DONATION_DISABLED.toLowerCase() == 'true') {
             disabled = true;
         } else {
             disabled = false;
         }
+
+        /* Render the donation details page based on the element type, either project or child. */
         if (type == 'project') {
             res.render('donate_details', {
                 name: element.name, description: element.description, type: type,
@@ -93,16 +153,20 @@ const Don = {
                 foot: await singletonController.getFooter(), disabled
             });
         } else {
+            /* If the type is not project or child, redirect to the 404 page. */
             res.redirect('/404');
             return;
         }
     },
 
     submitDonation: async function (req, res) {
-        const fetch = require('node-fetch');
         // TODO: Change both urls, success_url and cancel_url, to the actual urls of the website.
         // TODO: Change the authorization key to the actual secret key of the website.
+
+        /* Create the checkout session. */
         const url = 'https://api.paymongo.com/v1/checkout_sessions';
+
+        /* Create the options for the fetch request using the PayMongo secret key. */
         const options = {
             method: 'POST',
             headers: {
@@ -126,6 +190,7 @@ const Don = {
             })
         };
 
+        /* POST the request to PayMongo and get the checkout url. */
         const checkout = await fetch(url, options)
             .then(ress => ress.json())
             .then(json => { res.json(json.data.attributes.checkout_url) })
@@ -133,18 +198,27 @@ const Don = {
     },
 
     logDonation: async function (req, res) {
-
-        // Verify webhook signature...
         // TODO: Change form te to li on deployment.
+
+        /* Verification process sourced from PayMongo documentation.
+        https://developers.paymongo.com/docs/creating-webhook. */
+
+        /* Get the signature from the request header. */
         const signature = req.get('Paymongo-Signature');
+
+        /* Get the timestamp (t), te, and li from the signature. */
         const t = signature.substring(signature.indexOf("t=") + 2, signature.indexOf(","));
         const te = signature.substring(signature.indexOf("te=") + 3, signature.indexOf(",", signature.indexOf(",") + 1));
         const li = signature.substring(signature.indexOf("li=") + 3);
+
+        /* Create the hmac from the timestamp, body, and secret key. */
         var hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET_KEY);
         data = hmac.update(t + "." + JSON.stringify(req.body));
         gen_hmac = data.digest('hex');
 
+        /* Verify whether signature is valid or not. */
         if (te == gen_hmac) {
+            /* If the signature is valid, save the donation to the database. */
             const donation = new Donation({ donation: req.body.data });
             const donationData = await donation.save();
 
@@ -152,22 +226,30 @@ const Don = {
             res.json({ status: 'OK' });
 
         } else {
+            /* If the signature is invalid, return a 401 error. */
             res.status(401).json({ status: 'Unauthorized Access' });
         }
     },
 
     donationThanks: async function (req, res) {
+        /* Render the donation thanks page. */
         res.render('donate_thanks', { foot: await singletonController.getFooter() });
     },
 
     donationFail: async function (req, res) {
+        /* Render the donation fail page. */
         res.render('donate_fail', { foot: await singletonController.getFooter() });
     },
 
     getAllDonations: async function (type) {
+        /* Get all donations from the database. */
         const donations = await Donation.find({ deleted: false }).lean();
+
+        /* Separate the donations into project donations and child donations. */
         const projectDonations = [];
         const childDonations = [];
+
+        /* Check if the donation is a project donation or a child donation. */
         donations.forEach(donation => {
             if (donation.donation.attributes.data.attributes.description.startsWith('Project Funding')) {
                 projectDonations.push(donation);
@@ -175,35 +257,47 @@ const Don = {
                 childDonations.push(donation);
             };
         });
+
+        /* Return the donations based on the type. */
         if (type == 'donation')
             return projectDonations;
         else if (type == 'sponsor')
             return childDonations;
     },
     deleteDonation: async function (req, res) {
+        /* Delete the donation from the database. */
         const model = Donation;
+
+        /* Check if the id is a valid ObjectId. */
         if (mongoose.isValidObjectId(req.body.id)) {
+            /* Check if the donation exists. */
             const resultFind = await model.findOne({ _id: req.body.id, deleted: false });
             if (resultFind == null) {
+                /* If the donation does not exist, return a 400 error. */
                 res.status(400);
                 res.end();
             }
             else {
+                /* If the donation exists, mark it as deleted. */
                 const result = await model.updateOne({ _id: req.body.id }, { $set: { deleted: true } })
                 if (result == null) {
+                    /* If the donation is not deleted, return a 400 error. */
                     res.status(400);
                     res.end();
                 }
                 else {
+                    /* If the donation is deleted, return a 200 status code. */
                     res.end();
                     res.status(200);
                 }
             }
         } else {
+            /* If the id is not a valid ObjectId, return a 400 error. */
             res.status(400);
             res.end();
         }
     }
 };
 
+/* Export the module. */
 module.exports = Don;

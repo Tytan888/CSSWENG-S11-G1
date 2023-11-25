@@ -1,3 +1,5 @@
+<!-- This partial serves as the head for all admin pages. -->
+
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +9,13 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
-
 <style>
+    /* 
+        This is the main CSS file for the admin view. 
+        It is used to style all admin pages.
+    */
+
+    /* Setting up the CSS variables. */
     :root {
         --blueAccent: #0082CA;
         --menu-fg: #0186BD;
@@ -30,11 +37,12 @@
         --xl: 1400px;
     }
 
-
+    /* Removing the default decoration for links. */
     a:link {
         text-decoration: none !important;
     }
 
+    /* Setting up the green border, as well as the font for the body. */
     body {
         border: 8px solid var(--foreground);
         width: 100vw;
@@ -43,6 +51,7 @@
         font-family: var(--font-body-text) !important;
     }
 
+    /* Setting up the styling for the back button on the admin pages. */
     #back-button {
         width: 40px;
         height: 40px;
@@ -50,17 +59,92 @@
         margin-top: 0px;
     }
 
+    /* Setting up the styling for the several icons used in the admin view. */
+    .admin-add-icon {
+        width: 40px;
+        height: 40px;
+        margin-top: 0px;
+        display: inline-block;
+    }
+    .admin-edit-icon {
+        width: 40px;
+        height: 40px;
+        margin-top: 0px;
+        display: inline-block;
+    }
+    .admin-delete-icon {
+        width: 40px;
+        height: 40px;
+        margin-top: 0px;
+        display: inline-block;
+    }
+
+    /* Setting up the styling for the tables used in the admin view. */
+    .admin-table {
+        margin: 20px 40px !important;
+    }
+    @media (max-width: 576px) {
+        .admin-table {
+            margin: 20px 5px !important;
+            width: 100%;
+        }
+    }
+
+    /* Setting up the styling for the various headers used in the admin view. */
+    .admin-h1 {
+        text-align: center;
+        font-weight: 700;
+    }
+    .admin-h1-login {
+        margin: 30px 0 0;
+    }
+    .admin-h2 {
+        font-weight: 600;
+        margin: 0;
+        color: black;
+        text-align: right;
+    }
+    .admin-h2-center {
+        text-align: center;
+    }
+    @media(max-width: 992px){
+        .admin-h2 {
+            text-align: center;
+        }
+    }
+    .admin-h3 {
+        font-weight: 600 !important;
+        margin: auto 15px;
+        color: black !important;
+    }
+    .admin-h3.admin-h3-no-bottom {
+        margin-bottom: 0px;
+    }
+    .admin-h3-center {
+        text-align: center;
+    }
+    @media (max-width: 576px) {
+        .admin-h3 {
+            font-size: 1.3rem;
+            margin: auto 0;
+        }
+    }
+    .admin-h6 {
+        font-weight: 600 !important;
+        margin: auto 15px;
+        color: black !important;
+    }
+
+    /* Setting up the styling for the main menu of the admin view. */
     .admin-menu-main-container{
         max-width: 60% !important;
         padding: 20px 0;
     }
-
     .admin-menu-outer-container {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
     .admin-menu-container {
         margin: auto;
         display: inline-block;
@@ -71,7 +155,6 @@
         width: 100%;
         padding: 20px 0;
     }
-
     .admin-menu-icon {
         width: 75px;
         height: 75px;
@@ -79,91 +162,16 @@
         display: inline-block;
     }
 
-    .admin-h3-center {
-        text-align: center;
-    }
-
-    .admin-add-icon {
-        width: 40px;
-        height: 40px;
-        margin-top: 0px;
-        display: inline-block;
-    }
-
-    .admin-edit-icon {
-        width: 40px;
-        height: 40px;
-        margin-top: 0px;
-        display: inline-block;
-    }
-
-    .admin-delete-icon {
-        width: 40px;
-        height: 40px;
-        margin-top: 0px;
-        display: inline-block;
-    }
-
-    .admin-h1 {
-        text-align: center;
-        font-weight: 700;
-    }
-
-    .admin-h1-login {
-        margin: 30px 0 0;
-    }
-
-    .admin-h2 {
-        font-weight: 600;
-        margin: 0;
-        color: black;
-        text-align: right;
-    }
-
-    @media(max-width: 992px){
-        .admin-h2 {
-            text-align: center;
-        }
-    }
-
-    .admin-h2-center {
-        text-align: center;
-    }
-
-    .admin-h3 {
-        font-weight: 600 !important;
-        margin: auto 15px;
-        color: black !important;
-    }
-
-    .admin-h3.admin-h3-no-bottom {
-        margin-bottom: 0px;
-    }
-
-    @media (max-width: 576px) {
-        .admin-h3 {
-            font-size: 1.3rem;
-            margin: auto 0;
-        }
-    }
-    
-    .admin-h6 {
-        font-weight: 600 !important;
-        margin: auto 15px;
-        color: black !important;
-    }
-
+    /* Setting up the styling for the select pages present in the admin view. */
     .admin-add-outer-container {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-
     .admin-add-container {
         margin: auto;
         display: inline-block;
     }
-
     .admin-add-inner-container {
         display: flex;
         align-items: center;
@@ -172,11 +180,9 @@
         padding: 5px 10px;
         border-radius: 10px;
     }
-
     .admin-select-search {
         margin: 20px 20px !important;
     }
-
     .admin-select-input {
         border: 2px solid var(--foreground);
         border-radius: 10px;
@@ -188,6 +194,7 @@
         width: 100%;
     }
 
+    /* Setting up the styling for the add and edit pages present in the admin view. */
     .admin-add-edit-input {
         border: 2px solid black;
         background-color: var(--greyish);
@@ -199,17 +206,14 @@
         margin: 0 15px 25px;
         width: 100%;
     }
-
     @media (max-width: 576px) {
         .admin-add-edit-input {
             margin: 0 0 15px;
         }
     }
-
     .admin-add-edit-input.admin-add-edit-input-description {
         padding: 10px 15px;
     }
-
     .admin-add-edit-input-photo {
         padding: 3px 15px;
         font-size: 1.1rem;
@@ -217,31 +221,17 @@
         color: black;
         margin: 0 35px 10px;
         width: 100%;
-
     }
-
     @media (max-width: 576px) {
         .admin-add-edit-input-photo {
             margin: 0 0 20px;
         }
     }
-
-    .admin-select-table {
-        margin: 20px 40px !important;
-    }
-
-    @media (max-width: 576px) {
-        .admin-select-table {
-            margin: 20px 5px !important;
-        }
-    }
-
     .admin-photo-display {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-
     .admin-photo-display img {
         max-width: 80vw;
         max-height: 80vh;
@@ -249,32 +239,22 @@
         border-radius: 5px;
         margin: 15px 0 30px;
     }
-
-    @media (max-width: 576px) {
-        .admin-select-table {
-            width: 100%;
-        }
-    }
-
     .admin-carousel-item {
         max-height: 500px;
         height: 70vh;
         width: auto;
         object-fit: contain;
     }
-
     @media (max-width: 576px) {
         .admin-carousel-item {
             max-height: 300px;
         }
     }
-
     .admin-carousel-container {
         display: flex;
         width: 100%;
         height: 100%;
     }
-
     #admin-carousel img {
         object-fit: contain !important;
         max-height: 100%;
@@ -286,10 +266,10 @@
         transform: scale(0.92);
     }
 
+    /* Setting up the styling for the tracker pages present in the admin view. */
     .admin-lookup-search {
         margin: 20px 20px !important;
     }
-
     .admin-lookup-input {
         border: 2px solid var(--foreground);
         border-radius: 10px;
@@ -300,30 +280,25 @@
         margin: 3px 0;
         width: 100%;
     }
-
     .admin-lookup-table {
         margin: 20px 40px !important;
     }
-    
-    .admin-filter-container{
+    .admin-filter-container {
         max-width: 65% !important;
         margin: 20px auto;
     }
-
-    .admin-filter-label{
+    .admin-filter-label {
         font-weight: 600;
         color: black;
         font-size: large;
     }
-
-    .admin-login-container{
+    .admin-login-container {
         margin: 60px auto;
     }
 
 </style>
-<!-- 
-    Importing BOOTSTRAP
--->
+
+<!-- Importing Bootstrap 5 and jQuery. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -333,10 +308,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
     integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
     crossorigin="anonymous"></script>
-<!--
-    Importing Leaflet
--->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

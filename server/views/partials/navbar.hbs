@@ -1,8 +1,12 @@
+<!-- This partial is used to insert a navbar to be used on all user-view pages. -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Layout for the logo. -->
     <a href="/">
         <div class="nav-logo">
         </div>
     </a>
+
+    <!-- Layout for the brand text. -->
     <a class="navbar-brand" href="/">
         <span style="
         font-family: var(--font-button-text); 
@@ -15,13 +19,17 @@
         </span>
     </a>
 
+    <!-- Layout for the brand text. -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Layout the collapsable navbar. -->
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav navbar-nav ms-auto">
+
+            <!-- Layout the first navbar dropdown item, which is the about us dropdown. -->
             <li class="nav-item active px-2 dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-whoAreWe" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">ABOUT US <span class="sr-only">(current)</span></a>
@@ -36,6 +44,8 @@
                     <li><a class="dropdown-item" href="/about#staff">STAFF</a></li>
                 </ul>
             </li>
+
+            <!-- Layout the second navbar dropdown item, which is the projects dropdown. -->
             <li class="nav-item px-2 dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-whatWeDo" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">PROJECTS</a>
@@ -58,6 +68,8 @@
                     <li><a class="dropdown-item" href="/project/search?filter=upcoming">UPCOMING</a></li>
                 </ul>
             </li>
+
+            <!-- Layout the third navbar dropdown item, which is the newsletters dropdown. -->
             <li class="nav-item px-2 dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-whatWeDo" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">NEWS</a>
@@ -80,6 +92,8 @@
                     <li><a class="dropdown-item" href="/newsletter/search?filter=upcoming">UPCOMING</a></li>
                 </ul>
             </li>
+
+            <!-- Layout the fourth navbar dropdown item, which is the events dropdown. -->
             <li class="nav-item px-2 dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-whatWeDo" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">EVENTS</a>
@@ -102,11 +116,12 @@
                     <li><a class="dropdown-item" href="/event/search?filter=upcoming">UPCOMING</a></li>
                 </ul>
             </li>
+
+            <!-- Layout the final button, which leads to the donate process. -->
             <li class="nav-item nav-donate px-2">
                 <button onclick="window.location.href='/donate/type';" type="button"
                     class="btn btn-primary rounded-pill">💝 DONATE</button>
             </li>
         </ul>
     </div>
-
 </nav>

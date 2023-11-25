@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: server/controller/donation_controller</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: server/controller/donation_controller</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>This module contains all of the functions that are used to handle requests and operations surrounding
+the donation pages. In particular, this module handles Epic 2: User Donations and Sponsorships.</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_controller_donation_controller.js.html">server/controller/donation_controller.js</a>, <a href="server_controller_donation_controller.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="module-server_models_admin.html"><code>module:server/models/admin</code></a></li>
+        
+            <li><a href="module-server_controller_utility_controller.html"><code>module:server/controller/utility_controller</code></a></li>
+        
+            <li><a href="module-server_controller_singleton_controller.html"><code>module:server/controller/singleton_controller</code></a></li>
+        
+            <li><code>crypto</code></li>
+        
+            <li><code>mongoose</code></li>
+        
+            <li><code>node-fetch</code></li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~donationController">donationController</h4>
+
+
+
+
+<div class="description">
+    <p>This object to be exported contains all of the functions that are used to handle requests to the donation pages.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>donationRedirect</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to redirect to the donation type page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>donationType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to render the donation type page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>donationSelect</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to render the donation select page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>donationDetails</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to render the donation details page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>submitDonation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles POST requests to submit the donation form.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logDonation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles POST requests to log the donation.
+This serves as a webhook for PayMongo to send the details of
+donations made through the website.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>donationThanks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to render the donation thanks page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>donationFail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests to render the donation fail page.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>getAllDonations</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Returns all donations on the database not marked as deleted.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteDonation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles DELETE requests to delete a donation.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_controller_donation_controller.js.html">server/controller/donation_controller.js</a>, <a href="server_controller_donation_controller.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-server_controller_admin_controller.html">server/controller/admin_controller</a></li><li><a href="module-server_controller_donation_controller.html">server/controller/donation_controller</a></li><li><a href="module-server_controller_information_controller.html">server/controller/information_controller</a></li><li><a href="module-server_controller_request_controller.html">server/controller/request_controller</a></li><li><a href="module-server_controller_singleton_controller.html">server/controller/singleton_controller</a></li><li><a href="module-server_controller_utility_controller.html">server/controller/utility_controller</a></li><li><a href="module-server_models_admin.html">server/models/admin</a></li><li><a href="module-server_models_child.html">server/models/child</a></li><li><a href="module-server_models_donation.html">server/models/donation</a></li><li><a href="module-server_models_event.html">server/models/event</a></li><li><a href="module-server_models_newsletter.html">server/models/newsletter</a></li><li><a href="module-server_models_project.html">server/models/project</a></li><li><a href="module-server_models_singleton.html">server/models/singleton</a></li><li><a href="module-server_models_staff.html">server/models/staff</a></li><li><a href="module-server_models_trustee.html">server/models/trustee</a></li><li><a href="module-server_routes_main.html">server/routes/main</a></li><li><a href="module-start.html">start</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Nov 26 2023 03:29:41 GMT+0800 (China Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

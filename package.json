@@ -9,7 +9,8 @@
     "test": "jest --verbose --testTimeout=5000  --watchAll --detectOpenHandles --coverage --runInBand",
     "testRunner": "jest-jasmine2",
     "start": "start.js",
-    "dev": "nodemon start.js"
+    "dev": "nodemon start.js",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +26,7 @@
     "gridfs": "^1.0.0",
     "gridfs-stream": "^1.1.1",
     "js-confetti": "^0.11.0",
+    "jsdoc": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "mongoose": "^7.5.3",

@@ -1,27 +1,14 @@
+<!-- This is the main layout template for the admin view that all other templates will extend. -->
 <!DOCTYPE html>
 
-<head>
-    <!--
-            TO DO: USE JAVASCRIPT TO CHECK WHAT DIRECTORY
-            WE'RE IN TO TELL THE HANDLEBAR WHICH CSS
-            FILE WE WANT TO USE BRO
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+<html lang="en">
+    <head>
+        {{> admin_head}}
+    </head>
 
-            {{#each css}}
-                <link rel="stylesheet" href="/css/{{this}}">
-            {{/each}}
-            
-        -->
-    {{> admin_head}}
+    <body>
+        {{> admin_navbar back}}
 
-</head>
-
-<body>
-
-    {{> admin_navbar back}}
-
-    {{{body}}}
-
-</body>
-
+        {{{body}}}
+    </body>
 </html>

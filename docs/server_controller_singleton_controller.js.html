@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server/controller/singleton_controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server/controller/singleton_controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/controller/singleton_controller
+ * 
+ * @requires {@link module:server/models/singleton}
+ */
+const Singleton = require('../models/singleton.js');
+
+/**
+ * This object contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * 
+ * @typedef {object} singletonController
+ * @memberof module:server/controller/singleton_controller
+ * @inner
+ *  
+ * @property {Function} initializeSingleton - Initializes the singleton if it does not exist.
+ * @property {Function} getOthers - Handles GET requests to retrieve the fields for Edit Others page.
+ * @property {Function} updateOthers - Handles PUT requests to update the fields for Edit Others page.
+ * @property {Function} getIndex - Retrieves the fields for the index page.
+ * @property {Function} getFooter - Retrieves the fields for the footer.
+ * @property {Function} getAbout - Retrieves the fields for the about us page.
+ * @property {Function} getStaffPhoto - Retrieves the staff photo.
+ * @property {Function} updateStaffPhoto - Handles PUT requests to update the staff photo.
+ */
+const Sing = {
+    initializeSingleton: async function () {
+        /* Check if the singleton exists. */
+        if (await Singleton.findOne({ id: "Singleton" }) == null)
+            /* If the singleton does not exist, create it. */
+            await Singleton.create({ id: "Singleton" });
+    },
+    getOthers: async function (req, res) {
+        /* Retrieve the fields for the Edit Others page. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+        delete result.staffPhoto;
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, return a 400 error. */
+            res.status(400);
+            res.end();
+        } else {
+            /* If the result is not null, return the result. */
+            res.status(200);
+            res.json(result);
+        }
+    },
+    updateOthers: async function (req, res, next) {
+        /* Retrieve the previous frontpage photo. */
+        const resultFind = await Singleton.findOne({ id: "Singleton" });
+        res.locals.name = resultFind.frontpagePhoto;
+
+        /* Update the fields for the Edit Others page. */
+        let update = req.body;
+        /* Check if the request contains a file. */
+        if (req.file != null) {
+            /* If the request contains a file, set the frontpage photo to the filename of the file. */
+            update.frontpagePhoto = req.file.filename;
+        }
+
+        /* Update the singleton in the database. */
+        const result = await Singleton.updateOne({ id: "Singleton" }, { $set: update });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, return a 400 error. */
+            res.status(400);
+            res.end();
+        } else {
+            /* If the result is not null, check if the previous frontpage photo is not the default photo. */
+            if (req.file != null &amp;&amp; res.locals.name != "N/A") {
+                /* If the previous frontpage photo is not the default photo and the request contains a file, delete the previous frontpage photo. */
+                next();
+            }
+            else {
+                /* If the previous frontpage photo is the default photo or the request does not contain a file, return a 200 status code. */
+                res.end()
+                res.status(200);
+            }
+        }
+    },
+    getIndex: async function () {
+        /* Retrieve the fields for the index page. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, initialize the singleton and return the fields for the index page. */
+            await this.initializeSingleton();
+            return this.getIndex();
+        }
+        else {
+            /* If the result is not null, return the fields for the index page. */
+            return { aboutUs: result.aboutUs, mission: result.mission, vision: result.vision, projectsDescription: result.projectsDescription, newsletterDescription: result.newsletterDescription, frontpagePhoto: result.frontpagePhoto };
+        }
+    },
+    getFooter: async function () {
+        /* Retrieve the fields for the footer. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, initialize the singleton and return the fields for the footer. */
+            await this.initializeSingleton();
+            return this.getFooter();
+        }
+        else {
+            /* If the result is not null, return the fields for the footer. */
+            return { email: result.email, facebook: result.facebook, instagram: result.instagram, twitter: result.twitter, address: result.address, phone: result.phone, aboutUs: result.aboutUs };
+        }
+    },
+    getAbout: async function () {
+        /* Retrieve the fields for the about us page. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, initialize the singleton and return the fields for the about us page. */
+            await this.initializeSingleton();
+            return this.getAbout();
+        }
+        else {
+            /* If the result is not null, return the fields for the about us page. */
+            return { ourFounder: result.ourFounder, philippineJourney: result.philippineJourney, weBelieve: result.weBelieve, aboutHealth: result.aboutHealth, aboutLivelihood: result.aboutLivelihood, aboutPsychosocial: result.aboutPsychosocial, aboutEducation: result.aboutEducation };
+        }
+
+    },
+    getStaffPhoto: async function () {
+        /* Retrieve the staff photo. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, initialize the singleton and return the staff photo. */
+            await this.initializeSingleton();
+            return this.getStaffPhoto();
+        }
+        else {
+            /* If the result is not null, return the staff photo. */
+            return result.staffPhoto;
+        }
+    },
+    updateStaffPhoto: async function (req, res, next) {
+        /* Retrieve the previous staff photo. */
+        const resultFind = await Singleton.findOne({ id: "Singleton" });
+        res.locals.name = resultFind.staffPhoto;
+
+        /* Update the staff photo. */
+        let result = await Singleton.updateOne({ id: "Singleton" }, { $set: { staffPhoto: req.file.filename } })
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, return a 400 error. */
+            res.status(400);
+            res.end();
+        } else {
+            /* If the result is not null, check if the previous staff photo is not the default photo. */
+            if (res.locals.name != "N/A") {
+                /* If the previous staff photo is not the default photo, delete the previous staff photo. */
+                next();
+            }
+            else {
+                /* If the previous staff photo is the default photo, return a 200 status code. */
+                res.end()
+                res.status(200);
+            }
+        }
+    }
+};
+
+/* Export the singletonController object. */
+module.exports = Sing;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-server_controller_admin_controller.html">server/controller/admin_controller</a></li><li><a href="module-server_controller_donation_controller.html">server/controller/donation_controller</a></li><li><a href="module-server_controller_information_controller.html">server/controller/information_controller</a></li><li><a href="module-server_controller_request_controller.html">server/controller/request_controller</a></li><li><a href="module-server_controller_singleton_controller.html">server/controller/singleton_controller</a></li><li><a href="module-server_controller_utility_controller.html">server/controller/utility_controller</a></li><li><a href="module-server_models_admin.html">server/models/admin</a></li><li><a href="module-server_models_child.html">server/models/child</a></li><li><a href="module-server_models_donation.html">server/models/donation</a></li><li><a href="module-server_models_event.html">server/models/event</a></li><li><a href="module-server_models_newsletter.html">server/models/newsletter</a></li><li><a href="module-server_models_project.html">server/models/project</a></li><li><a href="module-server_models_singleton.html">server/models/singleton</a></li><li><a href="module-server_models_staff.html">server/models/staff</a></li><li><a href="module-server_models_trustee.html">server/models/trustee</a></li><li><a href="module-server_routes_main.html">server/routes/main</a></li><li><a href="module-start.html">start</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Nov 26 2023 03:29:41 GMT+0800 (China Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

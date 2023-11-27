@@ -127,19 +127,20 @@ const Sing = {
         }
 
     },
-    getStaffPhoto: async function () {
+    getStaffPhoto: async function (req, res) {
         /* Retrieve the staff photo. */
         const result = await Singleton.findOne({ id: "Singleton" });
 
         /* Check if the result is null. */
         if (result == null) {
-            /* If the result is null, initialize the singleton and return the staff photo. */
-            await this.initializeSingleton();
-            return this.getStaffPhoto();
+            /* If the result is null, return a 400 error. */
+            res.status(400);
+            res.end();
         }
         else {
-            /* If the result is not null, return the staff photo. */
-            return result.staffPhoto;
+            /* If the previous staff photo is the default photo, return a 200 status code. */
+            res.json({staffPhoto: result.staffPhoto});
+            res.status(200);
         }
     },
     updateStaffPhoto: async function (req, res, next) {

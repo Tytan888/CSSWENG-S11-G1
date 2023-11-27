@@ -64,6 +64,7 @@
     fetch(`/admin/staff/get-group`)
         .then(response => response.json())
         .then(element => {
+            console.log(element);
             if(element.staffPhoto != "N/A"){
                 document.getElementById("staffPhotoDisplay").src = `/imageByName?name=${element.staffPhoto}`;
                 document.getElementById("staffPhotoDisplay").style = "";

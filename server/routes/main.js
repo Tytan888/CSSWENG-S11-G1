@@ -66,7 +66,7 @@ router.all('/admin*', adminController.adminAuth);
 
 router.get("/admin/other/get", singletonController.getOthers);
 router.put("/admin/other/edit", file_upload.single('frontpagePhoto'), singletonController.updateOthers, imageController.deleteByName);
-router.get("/admin/staff/get-group", singletonController.getStaffPhoto);
+router.get("/admin/staff/get-group", singletonController.getStaffPhotoRequest);
 router.put("/admin/staff/edit-group", file_upload.single('staffPhoto'), singletonController.updateStaffPhoto, imageController.deleteByName);
 
 router.get("/admin/:type/get", requestController.getElement);

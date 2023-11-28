@@ -56,7 +56,9 @@
     <div class="donation-container">
         <div class="container align-items-center">
             <div class="row justify-content-center mx-4 align-items-center my-0">
-                <label class="donation-label-medium col-sm-11">Sorry, but we are not currently accepting donations, but thank you for showing interest in contributing to our cause! Please check back at a later date!</label>
+                <label class="donation-label-medium col-sm-11">Sorry, but we are not currently accepting donations, but
+                    thank you for showing interest in contributing to our cause! Please check back at a later
+                    date!</label>
             </div>
         </div>
     </div>
@@ -67,11 +69,11 @@
                 <label for="amount" class="donation-label col-sm-11">Donation Amount (₱)</label>
                 {{#includes type "project"}}
                 <label for="amount" class="donation-label-small col-sm-11">Please input an amount no less than
-                    ₱20.</label>
+                    ₱20 and no greater than ₱100,000.</label>
                 {{/includes}}
                 {{#includes type "child"}}
                 <label for="amount" class="donation-label-small col-sm-11">To officiate your registration as a sponsor,
-                    please input an initial donation amount no less than ₱200.</label>
+                    please input an initial donation amount no less than ₱200 and no greater than ₱100,000.</label>
                 {{/includes}}
                 <input type="number" id='amount' class="quantity col-sm-10 col-lg-5" name="quantity" min="0"
                     inputmode="numeric" placeholder="1000.00">
@@ -106,6 +108,23 @@
             })
             document.getElementById("staticBackdropLabel2").innerHTML = "Register to be a sponsor!";
             document.getElementById("modal-body-1").innerHTML = "Please enter an amount no less than ₱200.00!";
+            registerModal.show();
+            return;
+        }
+        if (amount > 10000000 && "{{type}}" == "project") {
+            let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
+                keyboard: false
+            })
+            document.getElementById("staticBackdropLabel2").innerHTML = "Donate to a project!";
+            document.getElementById("modal-body-1").innerHTML = "Please enter an amount no greater than ₱100,000.00!";
+            registerModal.show();
+            return;
+        } else if (amount > 10000000 && "{{type}}" == "child") {
+            let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
+                keyboard: false
+            })
+            document.getElementById("staticBackdropLabel2").innerHTML = "Register to be a sponsor!";
+            document.getElementById("modal-body-1").innerHTML = "Please enter an amount no greater than ₱100,000.00!";
             registerModal.show();
             return;
         }

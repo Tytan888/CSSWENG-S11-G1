@@ -127,7 +127,22 @@ const Sing = {
         }
 
     },
-    getStaffPhoto: async function (req, res) {
+    getStaffPhoto: async function () {
+        /* Retrieve the staff photo. */
+        const result = await Singleton.findOne({ id: "Singleton" });
+
+        /* Check if the result is null. */
+        if (result == null) {
+            /* If the result is null, initialize the singleton and return the staff photo. */
+            await this.initializeSingleton();
+            return this.getStaffPhoto();
+        }
+        else {
+            /* If the result is not null, return the staff photo. */
+            return result.staffPhoto;
+        }
+    },
+    getStaffPhotoRequest: async function (req, res) {
         /* Retrieve the staff photo. */
         const result = await Singleton.findOne({ id: "Singleton" });
 

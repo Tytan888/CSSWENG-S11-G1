@@ -1,7 +1,15 @@
+<!-- This view serves as the main template for the special 'Admin Login' page. -->
+
+<!-- Add the modal for required fields. -->
 {{> admin_modal_required}}
 
+<!-- Add the main headers that displays the page title. -->
 <h1 class="admin-h1 admin-h1-login">Pearl S. Buck Philippines</h1>
 <h3 class="admin-h3 admin-h3-center">Admin Login</h3>
+
+<!-- Add the form that allows the user to login as an admin. -->
+
+<!-- Add the 'Username' input field for the admin username. -->
 <div class="admin-login-container">
     <div class="row admin-login-row">
         <h2 class="admin-h2 admin-h2-center">Username</h2>
@@ -12,6 +20,8 @@
         </div>
     </div>
 </div>
+
+<!-- Add the 'Password' input field for the admin password. -->
 <div class="admin-login-container">
     <div class="row admin-login-row">
         <h2 class="admin-h2 admin-h2-center">Password</h2>
@@ -22,34 +32,47 @@
         </div>
     </div>
 </div>
+
+<!-- Finally, add the submit button. -->
 <div class="row justify-content-center my-3">
     <button id="submit" class="btn btn-success col-6 col-md-4 col-lg-3">Submit</button>
 </div>
+
+<!-- As a precaution, display text that says unauthorized access is prohibited. -->
 <h3 class="admin-h3 admin-h3-center">Unauthorized Access is Prohibited!</h3>
 
 <script>
+    /* Add the event listener for the submit button to send the form data to the server. */
     document.getElementById("submit").addEventListener("click", async function () {
+
+        /* Retrieve the username and password from the input fields. */
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
+        /* Trim the username and password of any leading or trailing whitespace. */
         $('input[type="text"]').each(function () {
             this.value = $.trim(this.value);
         });
         $('input[type="password"]').each(function () {
             this.value = $.trim(this.value);
         });
+
+        /* Check if all required fields are filled. */
         let valid = true;
         $('[required]').each(function () {
             if ($(this).is(':invalid') || !$(this).val()) {
                 valid = false;
             }
         })
+
+        /* If not, display the required fields modal. */
         if (!valid) {
             document.getElementById("admin-select-modal-required-body").innerHTML = "Please fill in all the required fields properly before submitting...";
             $("#admin-select-modal-required").modal("show");
             return;
         }
 
+        /* Otherwise, send the form data to the server. */
         const result = await fetch("/admin/submit", {
             method: "POST",
             headers: {
@@ -60,9 +83,13 @@
                 password
             })
         });
+
+        /* Check if the login was successful. */
         if (result.status == 200) {
+            /* If so, redirect the user to the admin menu. */
             window.location.href = "/admin/menu";
         } else {
+            /* Otherwise, display the invalid username or password modal. */
             document.getElementById("admin-select-modal-required-body").innerHTML = "Invalid username or password!";
             $("#admin-select-modal-required").modal("show");
         }

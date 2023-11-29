@@ -1,11 +1,14 @@
+<!-- This view used as the main template for the 'About Us' page. -->
 <div class="container-fluid py-5 px-5 about">
+
+    <!-- This div serves as the main container of the 'About Us' page. -->
     <div class="row">
 
-        <!-- small navbar to jump and down -->
-
+        <!-- This div serves as the small sidebar to jump up and down throughout the 'About Us' page. -->
         <div class="col-md-3">
             <div id="list-example" class="list-group list-group-flush sticky-top">
 
+                <!-- Listing down all the sidebar options. -->
                 <a class="list-group-item list-group-item-action" href="#founder">Our Founder</a>
                 <div class="list-group list-group-flush my-2 px-4">
                     <a class="list-group-item list-group-item-action" href="#phj-outer">The Philippine Journey</a>
@@ -21,6 +24,7 @@
                     <a class="list-group-item list-group-item-action" href="#staff-outer">Staff</a>
                 </div>
 
+                <!-- Progress bar to show how far the user has scrolled down the page. -->
                 <div class="progress mt-2">
                     <div class="progress-bar bg-info" id="progressbar" role="progressbar" aria-valuenow="0"
                         aria-valuemin="0" aria-valuemax="100"></div>
@@ -29,11 +33,12 @@
             </div>
         </div>
 
+        <!-- This div serves as the main content of the 'About Us' page. -->
         <div class="col-md-9">
             <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example"
                 tabindex="0">
-                <!-- Pearl S. Buck quote -->
 
+                <!-- Showing the quote of Pearl S. Buck. -->
                 <figure class="text-center" id="founder_quote">
                     <blockquote class="blockquote">
                         <img src="images/psbPersonQuote.jpeg" class="img-thumbnail rounded-circle" height="auto"
@@ -45,50 +50,45 @@
                     </figcaption>
                 </figure>
 
-
-                <!-- 
-            Philosophy of Founder
-        -->
+                <!-- Showing the philosophy of Pearl S. Buck. -->
                 <h4 id="founder">Our Founder</h4>
                 <p class="bottom-margin pre-wrap">{{about.ourFounder}}</p>
 
+                <!-- Showing the Philippine Journey of Pearl S. Buck Foundation. -->
                 <div id="phj-outer"></div>
-
                 <h5 class="md-5" class="phj">The Philippine Journey</h5>
                 <p class="bottom-margin pre-wrap">{{about.philippineJourney}}</p>
 
-
+                <!-- Showing the DSWD Registration of Pearl S. Buck Foundation. -->
                 <div id="dswd">
-                <!-- DSWD post -->
-                <iframe
-                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=500"
-                    width="500" height="644" class="py-3 frame-normal"
-                    style=" margin: 0 auto; border:none; overflow:hidden" scrolling="no" frameborder="0"
-                    allowfullscreen="true"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                </iframe>
+                    <iframe
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=500"
+                        width="500" height="644" class="py-3 frame-normal"
+                        style=" margin: 0 auto; border:none; overflow:hidden" scrolling="no" frameborder="0"
+                        allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
 
-                <!-- DSWD post -->
-                <iframe
-                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
-                    width="350" height="465" class="py-3 frame-small"
-                    style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.95) translateX(-5%)"
-                    scrolling="no" frameborder="0" allowfullscreen="true"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                </iframe>
+                    <!-- DSWD post -->
+                    <iframe
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
+                        width="350" height="465" class="py-3 frame-small"
+                        style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.95) translateX(-5%)"
+                        scrolling="no" frameborder="0" allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
 
-                <!-- DSWD post -->
-                <iframe
-                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
-                    width="350" height="465" class="py-3 frame-smaller"
-                    style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.8) translateX(-15%) translateY(-5%);"
-                    scrolling="no" frameborder="0" allowfullscreen="true"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                </iframe>
-                <!--
-            Vision and Mission and General Stuff about them
-        -->
-        </div>
+                    <!-- DSWD post -->
+                    <iframe
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsbph%2Fposts%2Fpfbid02oKP9PiR2peEQSBbb5hsvXkYCuMvAxgouR3sbcdzRtutqDYHpxYpC8fAwcu45bSTZl&show_text=true&width=350"
+                        width="350" height="465" class="py-3 frame-smaller"
+                        style="display: block; margin: 0 auto; border:none; overflow:hidden; transform: scale(0.8) translateX(-15%) translateY(-5%);"
+                        scrolling="no" frameborder="0" allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
+                </div>
+
+                <!-- Showing the vision and mission of Pearl S. Buck Foundation. -->
                 <h4 id="vnm">We Believe</h4>
                 <p class="bottom-margin pre-wrap">{{about.weBelieve}}</p>
                 <div class="row mt-5 vnm-d">
@@ -103,16 +103,17 @@
                         <p>{{index.mission}}</p>
                     </div>
                 </div>
+
+                <!-- Showing the H.E.L.P.++ initiatives of Pearl S. Buck Foundation. -->
                 <div id="helpPP-outer">
                     <h4 class="md-5" id="helpPP">H.E.L.P.++</h4>
-
                     <div class="row mt-3" style="text-align: center;" id="helpPPcontent">
 
+                        <!-- Showing the Health initiatives of Pearl S. Buck Foundation. -->
                         <div class="col col-12 col-md-6 bottom-margin">
                             <h5>HEALTH</h5>
-                            <p>
-                                {{about.aboutHealth}}
-                            </p>
+                            <p>{{about.aboutHealth}}</p>
+
                             <ul style="text-align: left">
                                 <li>Red Cross Accident Insurance</li>
                                 <li>Backyard Gardening</li>
@@ -125,11 +126,10 @@
                             </ul>
                         </div>
 
+                        <!-- Showing the Education initiatives of Pearl S. Buck Foundation. -->
                         <div class="col col-12 col-md-6 bottom-margin">
                             <h5>EDUCATION</h5>
-                            <p>
-                                {{about.aboutEducation}}
-                            </p>
+                            <p>{{about.aboutEducation}}</p>
 
                             <ul style="text-align: left">
                                 <li>School Assistance Support (Cash)</li>
@@ -141,9 +141,9 @@
                             </ul>
                         </div>
 
+                        <!-- Showing the Livelihood initiatives of Pearl S. Buck Foundation. -->
                         <div class="col col-12 col-md-6 bottom-margin">
                             <h5>LIVELIHOOD</h5>
-
                             <p>{{about.aboutLivelihood}}</p>
 
                             <ul style="text-align: left">
@@ -153,9 +153,9 @@
                             </ul>
                         </div>
 
+                        <!-- Showing the Protection initiatives of Pearl S. Buck Foundation. -->
                         <div class="col col-12 col-md-6 bottom-margin">
                             <h5>PSYCHOSOCIAL</h5>
-
                             <p>{{about.aboutPsychosocial}}</p>
 
                             <ul style="text-align: left;">
@@ -174,11 +174,8 @@
                         </div>
                     </div>
                 </div>
-                <!--
-            Board of Trustees
 
-            Might turn this into a carousel later
-        -->
+                <!-- Showing the Board of Trustees of Pearl S. Buck Foundation. -->
                 <div id="trustees-outer">
                     <div class="row BoT">
                         <div class="col">
@@ -192,116 +189,23 @@
                         {{#each trustees}}
                         <div class="col col-lg-4 col-md-6 col-12">
                             <div class="card card-about ">
-                                <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
                                 <div class="card-body card-body-about">
                                     <h5 class="card-title">{{name}}</h5>
                                     <p class="card-text">{{position}}</p>
                                 </div>
+
+                                <!-- Remove comment if you want to add email
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">trustee@gmail.com</li>
-                                </ul>
+                                </ul>  -->
+
                             </div>
                         </div>
                         {{/each}}
                     </div>
                 </div>
-                <!--
-        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Prof. Elizabeth Lorenzana-Diaz</h5>
-                        <p class="card-text">Chairperson</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">chairperson@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/board1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Myrna T. Yao</h5>
-                        <p class="card-text">Chairperson Emeritus</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">chairperson@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row chairs mt-5" style="width: 90%; margin: 0 auto;">
-            <div class="col">
-               <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/board2.jpg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">PBGen. Yolanda G. Tanigue, RSW, Ph.D (Ret)</h5>
-                        <p class="card-text">President</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">president@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/board3.jpg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Anne Marie C. Gordon</h5>
-                        <p class="card-text">Vice President</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">vp@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Lina B. Laigo, Ph.D</h5>
-                        <p class="card-text">Secretary</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">secretary@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row chairs mt-2" style="width: 60%; margin: 0 auto;">
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Dr. Hyacinth C. Manood</h5>
-                        <p class="card-text">Treasurer</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">treasurer@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card card-about" style="width: 18rem; ">
-                    <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body card-body-about">
-                        <h5 class="card-title">Timothy P. Tionson</h5>
-                        <p class="card-text">Auditor</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">auditor@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        -->
-
+                <!-- Showing the Staff of Pearl S. Buck Foundation. -->
                 <div id="staff-outer">
                     <div class="row BoT mt-5">
                         <div class="col">
@@ -315,19 +219,21 @@
                         {{#each staff}}
                         <div class="col col-lg-4 col-md-6 col-12">
                             <div class="card card-about ">
-                                <!-- <img src="/images/psbPersonQuote.jpeg" class="card-img-top" alt="..."> -->
                                 <div class="card-body card-body-about">
                                     <h5 class="card-title">{{name}}</h5>
                                     <p class="card-text">{{position}}</p>
                                 </div>
+
+                                <!-- Remove comment if you want to add email
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">staff@gmail.com</li>
-                                </ul>
+                                </ul> -->
                             </div>
                         </div>
                         {{/each}}
                     </div>
 
+                    <!-- Showing the Group Photo of Staff of Pearl S. Buck Foundation. -->
                     <div class="row staffPic Photo mt-5">
                         <div class="col">
                             <h4 id="staff">Group Photo of Staff</h4>
@@ -338,21 +244,11 @@
             </div>
         </div>
     </div>
-
-</div>
 </div>
 
 
 <script>
-    if (document.getElementsByClassName("index-carousel-item carousel-item-about-newsletter")[0])
-        document.getElementsByClassName("index-carousel-item carousel-item-about-newsletter")[0].classList.add("active");
-    if (document.getElementsByClassName("index-carousel-item carousel-item-about-projects")[0])
-        document.getElementsByClassName("index-carousel-item carousel-item-about-projects")[0].classList.add("active");
-    if (document.getElementsByClassName("index-newsletter-carousel-button")[0])
-        document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
-    if (document.getElementsByClassName("index-projects-carousel-button")[0])
-        document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
-
+    /* Dynmically change the progress bar as the user scrolls down the page. */
     const scrollable = document.querySelector('.scrollspy-example');
     $(scrollable).scroll(function () {
         const s = scrollable.scrollTop;

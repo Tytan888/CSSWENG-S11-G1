@@ -1,6 +1,10 @@
+<!-- This view serves as the main template for all "Admin: Add" and "Admin: Edit" pages on the admin view -->
+
+<!-- Add both modals for required fields and errors. -->
 {{> admin_modal_required}}
 {{> admin_modal_error}}
 
+<!-- Add the top header depending on the type of element being added/edited. -->
 {{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
 <h1 class="admin-h1">{{cap action}} {{cap type}}</h1>
 {{/includes}}
@@ -8,8 +12,11 @@
 <h1 class="admin-h1">Configure {{cap type}}s</h1>
 {{/includes}}
 
+<!-- Add the form for adding/editing the element. -->
 <form id="adminForm" enctype='multipart/form-data'>
     <div class="container">
+
+        <!-- Add the 'Name' field to the form when applicable. -->
         {{#includes type "project" "child" "event" "newsletter" "staff" "trustee"}}
         <div class="row">
             <div class="col-12">
@@ -22,6 +29,9 @@
             </div>
         </div>
         {{/includes}}
+
+        
+        <!-- Add the 'Position' field to the form when applicable. -->
         {{#includes type "staff" "trustee"}}
         <div class="row">
             <div class="col-12">
@@ -34,6 +44,8 @@
             </div>
         </div>
         {{/includes}}
+
+        <!-- Add the 'Description' field to the form when applicable. -->
         {{#includes type "project" "child"}}
         <div class="row">
             <div class="col-12">
@@ -47,6 +59,8 @@
             </div>
         </div>
         {{/includes}}
+
+        <!-- Add the 'Category' and 'Status' fields to the form when applicable. -->
         <div class="row">
             {{#includes type "project" "newsletter" "event"}}
             <div class="col-12 col-md-4">
@@ -67,6 +81,8 @@
                 </select>
             </div>
             {{/includes}}
+
+            <!-- Add the 'Grade Level' field to the form when applicable (only if type is 'Child'). -->
             {{#includes type "child"}}
             <div class="col-12 col-md-4">
                 <label class="h3 admin-h3" for="gradelevel">Grade Level</label>
@@ -77,6 +93,8 @@
                 <input type="date" id="birthdate" class="admin-add-edit-input" name="birthdate" required>
             </div>
             {{/includes}}
+
+            <!-- Add the 'Location' field to the form when applicable. -->
             {{#includes type "project" "child" "event"}}
             <div class="col-12 col-md-4">
                 <label class="h3 admin-h3" for="location">Location</label>
@@ -84,6 +102,8 @@
             </div>
             {{/includes}}
         </div>
+
+        <!-- Add the 'Raised Donations' and 'Required Budget' fields to the form when applicable (only if type is 'Project'). -->
         {{#includes type "project"}}
         <div class="row">
             <div class="col-12 col-sm-6">
@@ -97,6 +117,8 @@
             </div>
         </div>
         {{/includes}}
+
+        <!-- Add the 'Start Date' and 'End Date' fields to the form when applicable (only if type is 'Event'). -->
         {{#includes type "event"}}
         <div class="row">
             <div class="col-12 col-sm-6">
@@ -110,18 +132,23 @@
             </div>
         </div>
         {{/includes}}
+
+        <!-- Add the 'Photo' field to the form when applicable. -->
         {{#includes type "project" "child" "event"}}
         <div class="row">
             <label class="h3 admin-h3" for="mainPhoto">Photo</label>
             <input type="file" id="mainPhoto" class="admin-add-edit-input-photo" name="mainPhoto" accept="image/*"
                 {{#includes action "add"}}required{{/includes}}>
         </div>
+        <!-- Add the preview display of the photo when applicable. -->
         <div class="row">
             <div class="admin-photo-display">
                 <img id="mainPhotoDisplay" style="display: none">
             </div>
         </div>
         {{/includes}}
+
+        <!-- Add the 'Photos' field to the form when applicable (only if type is 'Newsletter'). -->
         {{#includes type "newsletter"}}
         <div class="row">
             <label class="h3 admin-h3 admin-h3-no-bottom" for="photos">Photos</label>
@@ -129,6 +156,7 @@
             <input type="file" id="photos" class="admin-add-edit-input-photo" name="photos" accept="image/*" multiple 
                 {{#includes action "add"}}required{{/includes}}>
         </div>
+        <!-- Add the preview carousel of the photos when applicable. -->
         <div class="row">
             <div id="admin-carousel" class="carousel carousel-dark slide" style="display:none;">
                 <div class="carousel-indicators">
@@ -149,7 +177,11 @@
                 </div>
         </div>
         {{/includes}}
+
+        <!-- Add all fields needed for the 'Other' type. -->
         {{#includes type "other"}}
+
+        <!-- Add 'About Us' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="aboutUs">About Us</label>
@@ -161,6 +193,8 @@
                     name="aboutUs" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Mission' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="mission">Mission</label>
@@ -172,6 +206,8 @@
                     name="mission" rows="1" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Vision' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="vision">Vision</label>
@@ -183,6 +219,8 @@
                     name="vision" rows="1" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Frontpage: Projects Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="projectsDescription">Frontpage: Projects Description</label>
@@ -194,6 +232,8 @@
                     name="projectsDescription" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Frontpage: Events Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="newsletterDescription">Frontpage: Newsletter Description</label>
@@ -205,6 +245,8 @@
                     name="newsletterDescription" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Email Address' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="email">Email Address</label>
@@ -215,6 +257,8 @@
                 <input type="text" id="email" class="admin-add-edit-input" name="email" required>
             </div>
         </div>
+
+        <!-- Add 'Facebook Link' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="facebook">Facebook Link</label>
@@ -225,6 +269,8 @@
                 <input type="text" id="facebook" class="admin-add-edit-input" name="facebook" required>
             </div>
         </div>
+
+        <!-- Add 'Instagram Link' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="instagram">Instagram Link</label>
@@ -235,6 +281,8 @@
                 <input type="text" id="instagram" class="admin-add-edit-input" name="instagram" required>
             </div>
         </div>
+
+        <!-- Add 'Twitter Link' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="twitter">Twitter Link</label>
@@ -245,6 +293,8 @@
                 <input type="text" id="twitter" class="admin-add-edit-input" name="twitter" required>
             </div>
         </div>
+
+        <!-- Add 'Physical Address' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="address">Physical Address</label>
@@ -255,6 +305,8 @@
                 <input type="text" id="address" class="admin-add-edit-input" name="address" required>
             </div>
         </div>
+
+        <!-- Add 'Phone Number' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="phone">Phone Number</label>
@@ -265,6 +317,8 @@
                 <input type="text" id="phone" class="admin-add-edit-input" name="phone" required>
             </div>
         </div>
+
+        <!-- Add 'About Us: Our Founder' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="ourFounder">About Us: Our Founder</label>
@@ -276,6 +330,8 @@
                     name="ourFounder" rows="4" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: The Philippine Journey' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="philippineJourney">About Us: The Philippine Journey</label>
@@ -287,6 +343,8 @@
                     name="philippineJourney" rows="4" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: We Believe' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="weBelieve">About Us: We Believe</label>
@@ -298,6 +356,8 @@
                     name="weBelieve" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: Health Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="aboutHealth">About Us: Health Description</label>
@@ -309,6 +369,8 @@
                     name="aboutHealth" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: Education Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="aboutEducation">About Us: Education Description</label>
@@ -320,6 +382,8 @@
                     name="aboutEducation" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: Livelihood Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="aboutLivelihood">About Us: Livelihood Description</label>
@@ -331,6 +395,8 @@
                     name="aboutLivelihood" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'About Us: Psychosocial Description' field to the form. -->
         <div class="row">
             <div class="col-12">
                 <label class="h3 admin-h3" for="aboutPsychosocial">About Us: Psychosocial Description</label>
@@ -342,6 +408,8 @@
                     name="aboutPsychosocial" rows="2" cols="50" required></textarea>
             </div>
         </div>
+
+        <!-- Add 'Frontpage Photo' field to the form. -->
         <div class="row">
             <label class="h3 admin-h3" for="frontpagePhoto">Frontpage Photo</label>
             <input type="file" id="frontpagePhoto" class="admin-add-edit-input-photo" name="frontpagePhoto" accept="image/*">
@@ -351,17 +419,20 @@
                 <img id="frontpagePhotoDisplay" style="display: none">
             </div>
         </div>
-
         {{/includes}}
+
+        <!-- Finally, add the submit button to the form. -->
         <div class="row justify-content-center">
             <button id="submit" class="btn btn-success col-6 col-md-3 col-lg-2">Submit</button>
         </div>
     </div>
+
+    <!-- Add the hidden ID field to the form. -->
     <input type="text" id="id" name="id" style="display:none">
 </form>
 
-
 <script>
+    /* Add the event listener for the photo input field to display the preview of the photo when applicable. */
     {{#includes type "project" "child" "event"}}
     document.getElementById("mainPhoto").addEventListener("change", function () {
         const file = this.files[0];
@@ -375,6 +446,8 @@
         }
     });
     {{/includes}}
+
+    /* Add the event listener for the frontpage photo input field to display the preview of the photo when applicable. */
     {{#includes type "other"}}
     document.getElementById("frontpagePhoto").addEventListener("change", function () {
         const file = this.files[0];
@@ -388,6 +461,8 @@
         }
     });
     {{/includes}}
+
+    /* Add the event listener for the photos input field to display the preview carousel of the photos when applicable. */
     {{#includes type "newsletter"}}
     document.getElementById("photos").addEventListener("change", function () {
         const files = this.files;
@@ -417,17 +492,23 @@
     });
     {{/includes}}
 
+    /* Add the event listener for the submit button to submit the form. */
     document.getElementById("submit").addEventListener("click", async (e) => {
         e.preventDefault();
 
+        /* Start front-end field validation. */
         let valid = true;
         let msg = "Please fill in all the required fields properly before submitting...";
+
+        /* Trim all text input fields. */
         $('input[type="text"]').each(function(){
             this.value = $.trim(this.value);
         });
         $('textarea').each(function(){
             this.value = $.trim(this.value);
         });
+
+        /* Check if all required fields are filled in. */
         $('[required]').each(function () {
             if($(this).attr("type") != "file" && typeof($(this).value) == "string"){
                 $(this).val($(this).val().trim());
@@ -436,19 +517,16 @@
                 valid = false;
             }
         })
+
+        /* Check if raised donations and required budget are not negative. */
         {{#includes type "project"}}
-        /*
-        if (document.getElementById("raisedDonations").value > document.getElementById("requiredBudget").value) {
-            valid = false;
-            msg = "Raised donations cannot be greater than required budget..."
-        }
-        */
         if(document.getElementById("raisedDonations").value < 0 || document.getElementById("requiredBudget").value < 0){
             valid = false;
             msg = "Raised donations and required budget cannot be negative..."
         }
         {{/includes}}
 
+        /* Check if child's birthdate is not in the future. */
         {{#includes type "child"}}
         if (document.getElementById("birthdate").value > new Date().toISOString().split('T')[0]) {
             valid = false;
@@ -456,6 +534,7 @@
         }
         {{/includes}}
         
+        /* Check if start date is not after end date. */
         {{#includes type "event"}}
         if (document.getElementById("startDate").value > document.getElementById("endDate").value) {
             valid = false;
@@ -463,11 +542,14 @@
         }
         {{/includes}}
 
+        /* If any of the validations failed, show the required fields modal and return. */
         if (!valid) {
             document.getElementById("admin-select-modal-required-body").innerHTML = msg;
             $("#admin-select-modal-required").modal("show");
             return;
         }
+
+        /* If all validations passed, submit the form. */
         {{#includes type "project" "child" "event" "newsletter" "other"}}
         var formData = new FormData(document.getElementById("adminForm"));
         {{/includes}}
@@ -478,6 +560,7 @@
         var formData = JSON.stringify(object);
         {{/includes}}
 
+        /* If action is 'Add', submit the form to the appropriate 'Add' route. */
         {{#includes action "add"}}
         const res = await fetch("/admin/{{type}}/add", {
             method: "POST",
@@ -489,6 +572,8 @@
             {{/includes}}
         })
         {{/includes}}
+
+        /* If action is 'Edit', submit the form to the appropriate 'Edit' route. */
         {{#includes action "edit"}}
         const res = await fetch("/admin/{{type}}/edit", {
             method: "PUT",
@@ -500,22 +585,30 @@
             {{/includes}}
         })
         {{/includes}}
+
+        /* Check the response status of the form submission. */
         if (res.status == 200) {
+        /* If response status is 200, redirect to the appropriate 'Select' route. */
             {{#includes type "other"}}
             window.location.replace("/admin/menu");
             {{else}}
             window.location.replace("/admin/{{type}}/select");
             {{/includes}}
         } else {
+        /* If response status is not 200, show the error modal. */
             $("#admin-select-modal-error").modal("show");
         }
     })
+
+    /* Before the page loads fully, if action is 'Edit', fetch the element's data and populate the form. */
     {{#includes action "edit"}}
     fetch(`/admin/{{type}}/get?id={{id}}`)
         .then(response => response.json())
         .then(element => {
+            /* Populate the form with the retrieved element's data. */
             Object.keys(element).forEach(key => {
                 switch(key){
+                    /* If the key is 'mainPhoto', 'frontpagePhoto', or 'photos', display the photo(s) in the preview. */
                     case "mainPhoto":
                     case "frontpagePhoto":
                         if(element[key] != "N/A"){
@@ -537,19 +630,27 @@
                         }
                         document.getElementById("admin-carousel").style = "";
                         break;
+
+                    /* If the key is '_id', set the value of the hidden ID field. */
                     case "_id":
                         document.getElementById("id").value = element[key];
                         break;
+
+                    /* If the key is 'staffPhoto', '__v', 'age', or 'sponsor', do nothing. */
                     case "staffPhoto":
                     case "__v":
                     case "age":
                     case "sponsor":
                         break;
+
+                    /* If the key is 'startDate', 'endDate', or 'birthdate', split the date from the time and display only the date. */
                     case "birthdate":
                     case "startDate":
                     case "endDate":
                         document.getElementById(key).value = element[key].split('T')[0];
                         break;
+
+                    /* Otherwise, normally display the value of the key. */
                     default: 
                         document.getElementById(key).value = element[key];
                         break;

@@ -1,28 +1,42 @@
+<!-- This view serves as the main template for the special s Group Photo' page. -->
+
+<!-- Add both modals for required fields and errors. -->
 {{> admin_modal_required}}
 {{> admin_modal_error}}
 
+<!-- Add the main header that displays the page title. -->
 <h1 class="admin-h1">Edit Staff Group Photo</h1>
+
+<!-- Add the form that allows the user to edit the staff group photo. -->
 <form id="adminForm">
     <div class="container">
+        <!-- Add the 'Group Photo' input field for the staff group photo. -->
         <div class="row">
             <label class="h3 admin-h3" for="staffPhoto">Group Photo</label>
             <input type="file" id="staffPhoto" class="admin-add-edit-input-photo" name="staffPhoto" accept="image/*"
                 required>
         </div>
+
+        <!-- Add the preview display of the staff group photo. -->
         <div class="row">
             <div class="admin-photo-display">
                 <img id="staffPhotoDisplay" style="display: none">
             </div>
         </div>
+
+        <!-- Finally, add the submit button. -->
         <div class="row justify-content-center">
             <button id="submit" class="btn btn-success col-6 col-md-3 col-lg-2">Submit</button>
         </div>
     </div>
+
+    <!-- Add the hidden input field for the staff group photo ID. -->
     <input type="text" id="id" name="id" style="display:none">
 </form>
 
-
 <script>
+    
+    /* Add the event listener for the staff group photo input field to display the preview of the photo. */
     document.getElementById("staffPhoto").addEventListener("change", function () {
         const file = this.files[0];
         if (file) {
@@ -35,9 +49,11 @@
         }
     });
 
+    /* Add the event listener for the submit button to send the form data to the server. */
     document.getElementById("submit").addEventListener("click", async (e) => {
         e.preventDefault();
 
+        /* Check if all required fields are filled. */
         let valid = true;
         $('[required]').each(function () {
             if ($(this).is(':invalid') || !$(this).val()) {
@@ -45,22 +61,30 @@
             }
         })
 
+        /* If not, display the required fields modal. */
         if (!valid) {
             $("#admin-select-modal-required").modal("show");
             return;
         }
+
+        /* Otherwise, send the form data to the server. */
         var formData = new FormData(document.getElementById("adminForm"));
         const res = await fetch("/admin/staff/edit-group", {
             method: "PUT",
             body: formData
         })
 
+        /* Check the response status code. */
         if (res.status == 200) {
+        /* If the server returns a 200 status code, redirect the user to the staff select page. */
             window.location.replace("/admin/staff/select");
         } else {
+            /* Otherwise, display the error modal. */
             $("#admin-select-modal-error").modal("show");
         }
     })
+    
+    /* Before the page loads fully, fetch the staff group photo and display it. */
     fetch(`/admin/staff/get-group`)
         .then(response => response.json())
         .then(element => {

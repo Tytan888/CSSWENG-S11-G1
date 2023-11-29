@@ -1,3 +1,6 @@
+<!-- This view serves as the main template for the 'Donation Details' page of the user view. -->
+
+<!-- Add the modal to warn the user about required fields. -->
 <div class="modal fade" id="donate-details-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel2" aria-hidden="true" style="z-index: 10000000000000000;">
     <div class="modal-dialog">
@@ -16,33 +19,54 @@
     </div>
 </div>
 
+<!-- Add the div that holds the main container. -->
 <div class="main-container">
     <div class="info-container" style="max-width:100%">
+
+        <!-- If type if 'Project', display relevant information about the project in question. -->
         {{#includes type "project"}}
         <div class="row justify-content-center mx-0" style="width:100%">
+
+            <!-- Add the image container that holds the main photo of the project. -->
             <div class="img-container col-xs-12 col-sm-10 col-md-8 col-lg-6 my-3">
                 <img src="/imageByName?name={{mainPhoto}}" class="project-image" style="max-height:50vh;" alt="...">
             </div>
+
+            <!-- Add the text container that holds the name and description of the project. -->
             <div class="text-container col-xs-12 col-sm-10 col-md-8 col-lg-4 my-3">
+
+                <!-- Add the title container that holds the name of the project. -->
                 <div class="title-container">
                     <h1>{{name}}</h1>
                 </div>
+
+                <!-- Add the body container that holds the description of the project. -->
                 <div class="body-container body-container-project">
                     <p>{{description}}</p>
                 </div>
             </div>
         </div>
         {{/includes}}
+
+        <!-- If type if 'Child', display relevant information about the child in question. -->
         {{#includes type "child"}}
         <div class="row justify-content-center mx-4" style="width:80%">
+
+            <!-- Add the image container that holds the main photo of the child. -->
             <div class="img-container col-xs-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 my-3">
                 <img src="/imageByName?name={{mainPhoto}}" class="project-image" style="max-height:50vh;" alt="...">
             </div>
+
+            <!-- Add the text container that holds the name and description of the child. -->
             <div class="text-container col-xs-10 col-sm-9 col-md-5 col-lg-4 col-lg-3 my-3">
                 <div>
+
+                    <!-- Add the title container that holds the name of the child. -->
                     <div class="title-container">
                         <h1>{{name}}</h1>
                     </div>
+
+                    <!-- Add the body container that holds the description, age, grade level, and location of the child. -->
                     <div class="body-container">
                         <p>{{description}}</p>
                         <p>Age: {{age}}<br>Grade: {{gradelevel}}<br>Location: {{location}}</p>
@@ -52,7 +76,10 @@
         </div>
         {{/includes}}
     </div>
+
+    <!-- Check if donations are disabled. -->
     {{#if disabled}}
+    <!-- If donations are disabled, display a message saying so. -->
     <div class="donation-container">
         <div class="container align-items-center">
             <div class="row justify-content-center mx-4 align-items-center my-0">
@@ -63,9 +90,12 @@
         </div>
     </div>
     {{else}}
+    <!-- If donations are enabled, display the donation form. -->
     <div class="donation-container">
         <div class="container align-items-center">
             <div class="row justify-content-center mx-4 align-items-center">
+
+                <!-- Add the main label and sub-label for the donation amount. -->
                 <label for="amount" class="donation-label col-sm-11">Donation Amount (₱)</label>
                 {{#includes type "project"}}
                 <label for="amount" class="donation-label-small col-sm-11">Please input an amount no less than
@@ -75,13 +105,19 @@
                 <label for="amount" class="donation-label-small col-sm-11">To officiate your registration as a sponsor,
                     please input an initial donation amount no less than ₱200 and no greater than ₱100,000.</label>
                 {{/includes}}
+
+                <!-- Add the input field for the donation amount. -->
                 <input type="number" id='amount' class="quantity col-sm-10 col-lg-5" name="quantity" min="0"
                     inputmode="numeric" placeholder="1000.00">
             </div>
+
+            <!-- Add the hidden input fields for the project/child ID and name. -->
             <input type="text" id="id" value="{{id}}" hidden></input>
             <input type="text" id="description" value="{{name}} ({{id}})" hidden></input>
         </div>
     </div>
+
+    <!-- Finally, add the submit button that leads to PayMongo's checkout page. -->
     <div class="button-container">
         <button class="proceed-button my-3" id="proceed-button">
             Proceed to Payment
@@ -91,10 +127,17 @@
 </div>
 
 <script>
+
+    /* Add the event listener for the submit button to send the form data to the server. */
     document.getElementById('proceed-button').addEventListener('click', async (e) => {
         e.preventDefault();
+
+        /* Calculate the donation amount in centavos. */
         const amount = Math.round(document.getElementById('amount').value * 100);
+
+        /* Check if the donation amount is valid. */
         if (amount < 2000 && "{{type}}" == "project") {
+            /* If type is 'Project' and the donation amount is less than ₱20, display the error modal. */
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
@@ -103,6 +146,7 @@
             registerModal.show();
             return;
         } else if (amount < 20000 && "{{type}}" == "child") {
+            /* If type is 'Child' and the donation amount is less than ₱200, display the error modal. */
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
@@ -112,6 +156,7 @@
             return;
         }
         if (amount > 10000000 && "{{type}}" == "project") {
+            /* If type is 'Project' and the donation amount is greater than ₱100,000, display the error modal. */
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
@@ -120,6 +165,7 @@
             registerModal.show();
             return;
         } else if (amount > 10000000 && "{{type}}" == "child") {
+            /* If type is 'Child' and the donation amount is greater than ₱100,000, display the error modal. */
             let registerModal = new bootstrap.Modal(document.getElementById('donate-details-modal'), {
                 keyboard: false
             })
@@ -128,12 +174,16 @@
             registerModal.show();
             return;
         }
-        let description
+
+        /* Set the description to be displayed on PayMongo's checkout page. */
+        let description;
         if ("{{type}}" == "project")
             description = "Project Funding for " + document.getElementById('description').value;
         else if ("{{type}}" == "child")
             description = "Initial Sponsorship for " + document.getElementById('description').value;
         const id = document.getElementById('id').value;
+
+        /* Send the form data to the server to generate a PayMongo checkout page. */
         const res = await fetch('/donate/submit', {
             method: 'POST',
             headers: {
@@ -141,6 +191,8 @@
             },
             body: JSON.stringify({ amount, description })
         })
+
+        /* Retrieve the response data and redirect the user to PayMongo's checkout page. */
         const data = await res.json();
         window.location.href = data;
     });

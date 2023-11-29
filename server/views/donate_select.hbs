@@ -1,16 +1,26 @@
+<!-- This view serves as the main template for the 'Donate: Select' page of the user view. -->
 <div class="container selection-container my-3">
     <div class="row">
+
+        <!-- If there are no elements to display, display a message saying so. -->
         {{#unless elements}}
         <h2 class="explore-past-h2 my-5">{{noneMessage}}</h2>
         {{/unless}}
+
+        <!-- Otherwise, display the elements. -->
         {{#each elements}}
         <div class="col-xl-3 col-lg-4 col-md-6 my-3">
             <div class="card selection-animation">
                 <img class="selection-img-{{../type}}" src="/imageByName?name={{this.mainPhoto}}" alt="...">
                 <div class="card-body">
+                    <!-- Display the element's name. -->
                     <h5 class="card-title">{{this.name}}</h5>
+
                     <p class="card-text">
+                        <!-- Display the element's description. -->
                         {{this.description}}
+
+                        <!-- If the element is a child, display the child's age, grade level, and location. -->
                         {{#includes ../type "child"}}
                         <br><br><span class="dark-green">Age:</span> {{age}} | <span
                             class="dark-green">Grade:</span> {{gradelevel}} <br><span
@@ -18,6 +28,7 @@
                         {{/includes}}
                     <p></p>
                     
+                    <!-- Display the button that leads to that element's 'Donation Details' page. -->
                     <a href="/donate/details/{{../type}}/{{this._id}}" class="btn btn-primary">{{../message}}</a>
                 </div>
             </div>
@@ -26,23 +37,31 @@
     </div>
 </div>
 
+<!-- Display the pagination links right below the main content. -->
 <nav aria-label="Page navigation example justify-content-center">
     <ul class="pagination justify-content-center ">
+
+        <!-- iF the current page is not the first page, add the 'Previous' button. -->
         {{#unless min}}
         <li class="page-item"><a class="page-link" href="/donate/select/{{type}}?page={{pages.[0]}}">Previous</a>
         </li>
         {{/unless}}
+        <!-- If the current page is the first page, disable the 'Previous' button. -->
         {{#if min}}
         <li class="page-item disabled"><a class="page-link"
                 href="/donate/select/{{type}}?page={{pages.[0]}}">Previous</a></li>
         {{/if}}
+
+        <!-- Add the page number buttons. -->
         {{#each pages}}
         <li class="page-item"><a class="page-link" href="/donate/select/{{../type}}?page={{this}}">{{this}}</a></li>
         {{/each}}
 
+        <!-- If the current page is not the last page, add the 'Next' button. -->
         {{#unless max}}
         <li class="page-item"><a class="page-link" href="/donate/select/{{type}}?page={{last pages}}">Next</a></li>
         {{/unless}}
+        <!-- If the current page is the last page, disable the 'Next' button. -->
         {{#if max}}
         <li class="page-item disabled"><a class="page-link"
                 href="/donate/select/{{type}}?page={{last pages}}">Next</a></li>

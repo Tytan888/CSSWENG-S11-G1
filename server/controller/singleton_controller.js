@@ -21,7 +21,8 @@ const Singleton = require('../models/singleton.js');
  * @property {Function} getIndex - Retrieves the fields for the index page.
  * @property {Function} getFooter - Retrieves the fields for the footer.
  * @property {Function} getAbout - Retrieves the fields for the about us page.
- * @property {Function} getStaffPhoto - Retrieves the staff photo.
+ * @property {Function} getStaffPhoto - Retrieves the staff photo and returns it normally.
+ * @property {Function} getStaffPhotoRequest - Handles GET requests to retrieve the staff photo.
  * @property {Function} updateStaffPhoto - Handles PUT requests to update the staff photo.
  */
 const Sing = {

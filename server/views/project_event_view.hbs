@@ -1,6 +1,10 @@
+<!-- This view serves as the main template for all 'Project View' and 'Event View' pages of the user view. -->
+
+<!-- Add the div that displays all the project's or event's details. -->
 <div class="project-view-bg"
   style="background: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{element.mainPhoto}}') center center/cover no-repeat;">
 
+  <!-- Display the project's or event's name, category, location, and status. -->
   <div class="row">
     <h1 class="project-name my-4">{{element.name}}</h1>
   </div>
@@ -13,6 +17,8 @@
   <div class="row">
     <h2 class="project-detail my-0">Status: {{element.status}}</h2>
   </div>
+
+  <!-- If the type is 'Project', then also display a progress bar and the amount of donations raised. -->
   {{#includes type "project"}}
   <div class="row my-4"></div>
   <div class="container">
@@ -28,6 +34,8 @@
     <h3 class="project-small my-0">₱{{element.raisedDonations}} / ₱{{element.requiredBudget}} Raised</h3>
   </div>
   {{/includes}}
+
+  <!-- If the type is 'Event', then also display the event's range of dates. -->
   {{#includes type "event"}}
   <div class="row my-4"></div>
   <div class="row">
@@ -36,6 +44,7 @@
   {{/includes}}
 </div>
 
+<!-- If the type is 'Project', then also display a button that leads to that project's 'Donation Details' page. -->
 {{#includes type "project"}}
 <div class="background-green p-5">
   <h3 class="project-description mx-lg-5 mx-sm-2">{{element.description}}</h3>
@@ -43,12 +52,11 @@
       href="/donate/details/{{type}}/{{element._id}}"
       class="col-xl-3 col-lg-3 col-md-5 col-sm-6 col-6 btn btn-light explore-ongoing-see my-4">Donate to this project!</a></div>
 </div>
-
 {{/includes}}
 
 <script>
+  // If the type is 'Project', then also display the progress bar after 100 milliseconds.
   {{#includes type "project"}}
   setTimeout(() => { document.getElementById('prog-bar').style.width = '{{element.progress}}%' }, 100)
   {{/includes}}
-
 </script>

@@ -1,9 +1,11 @@
 <style>
+  /* Set default margin and paddings to none. */
   * {
     margin: 0;
     padding: 0;
   }
 
+  /* Set background color for entire search panel. */
   .search-panel {
     background-color: #007F55;
     padding: 2%;
@@ -11,6 +13,7 @@
     overflow: hidden;
   }
 
+  /* Set styling for all buttons in the search panel. */
   .all-btn {
     width: 100%;
     background: white;
@@ -60,76 +63,24 @@
     transition: all 200ms linear;
   }
 
-
-  .zoom {
-    transition: transform .2s;
-    /* Animation */
-    width: 80%;
-    height: 80%;
-    margin: auto;
-  }
-
-  .zoom:hover {
-    transform: scale(1);
-  }
-
-  #page-numbers {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .page-number {
-    background-color: #555;
-    /* Set the background color of the page number */
-    color: #fff;
-    /* Set the text color of the page number */
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-
-  .page-number:hover {
-    background-color: #777;
-    /* Set the hover background color */
-  }
-
-  #next-page {
+  .all-btn.active {
+    background: #0093e1;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
     text-decoration: none;
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
   }
 
-  #next-page:hover {
-    background-color: #555;
-    /* Set the hover background color */
-  }
-
-  .search-box {
-    width: 100%;
-    background: #fff;
-    border-radius: 5px;
-  }
-
-  .search-row {
-    display: flex;
-    align-items: center;
-    margin: 15px 0;
-    padding: 0px 20px;
-  }
-
-
-  .form-control {
-    width: 200%;
-    flex: 1;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    color: #333;
+  .sub-btns.active {
+    background: #0093e1;
+    border: 1px solid rgba(#000, .05);
+    box-shadow: 1px 1px 2px rgba(#fff, .2);
+    color: white;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 darken(blue, 9.5%);
+    transition: all 200ms linear;
   }
 
   button {
@@ -145,42 +96,34 @@
     flex: 1;
   }
 
+  /* Set styling for the search box. */
+  .search-box {
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+  }
+
+  .search-row {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    padding: 0px 20px;
+  }
+
+  .form-control {
+    width: 200%;
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #333;
+  }
+
   .search-row .col:last-child {
     text-align: end;
   }
 
-  ::placeholer {
-    color: #555;
-  }
-
-  .result-box ul {
-    border-top: 1px solid #999;
-    padding: 15px 10px;
-  }
-
-  .result-box ul li {
-    list-style: none;
-    border-radius: 3px;
-    padding: 15px 10px;
-    cursor: pointer;
-  }
-
-  .result-box ul li:hover {
-    background: #e9f3ff;
-  }
-
-
-  .search-green {
-    background-color: #007F55;
-    width: 100%;
-  }
-
-  .inner-green {
-    width: 80%;
-    padding-top: 5%;
-    margin: auto;
-  }
-
+  /* Set styling for the elements to the displayed. */
   .search-white {
     width: 80%;
     margin: auto;
@@ -285,6 +228,7 @@
     }
   }
 
+  /* Set general styling for each row. */
   .row {
     display: flex;
   }
@@ -304,11 +248,13 @@
     }
   }
 
+  /* Set styling for input box. */
   #input-box,
   #input-box::placeholder {
     font-size: 18px;
   }
 
+  /* Hide elements that are not selected by the search and filters. */
   .hidden-search {
     display: none !important;
   }
@@ -317,26 +263,7 @@
     display: none !important;
   }
 
-  .all-btn.active {
-    background: #0093e1;
-    border: 1px solid rgba(#000, .05);
-    box-shadow: 1px 1px 2px rgba(#fff, .2);
-    color: white;
-    text-decoration: none;
-    text-shadow: -1px -1px 0 darken(blue, 9.5%);
-    transition: all 200ms linear;
-  }
-
-  .sub-btns.active {
-    background: #0093e1;
-    border: 1px solid rgba(#000, .05);
-    box-shadow: 1px 1px 2px rgba(#fff, .2);
-    color: white;
-    text-decoration: none;
-    text-shadow: -1px -1px 0 darken(blue, 9.5%);
-    transition: all 200ms linear;
-  }
-
+  /* Set styling for the none message. */
   .none-message {
     animation: fadeInLeft 0.5s ease-in-out;
     color: var(--foreground);
@@ -349,6 +276,7 @@
     display: none;
   }
 
+  /* Define the animations for the page. */
   @keyframes fadeInLeft {
     from {
       opacity: 0;
@@ -363,18 +291,19 @@
 
 <script src="https://kit.fontawesome.com/98624a6b57.js" crossorigin="anonymous"></script>
 
-
-<!--- UPPER SECTION THAT DISPLAYS THE BUTTONS TO SELECT WHAT EVENTS WANTED TO SEE -->
+<!-- Upper section that displays the filter buttons and searchbar. -->
 <section class="search-panel">
   <div class="container">
     <div class="row align-items-center justify-content-center">
       <div class="col-md-9">
+        <!-- Add the 'All' button. -->
         <div class="row">
           <div class="col btn-col">
             <button class="btn all-btn">All {{cap type}}s</button>
           </div>
         </div>
 
+        <!-- Add the 'Ongoing', 'Past', and 'Upcoming' buttons. -->
         <div class="row row-bottom">
           <div class="col btn-col">
             <button class="btn sub-btns">Ongoing</button>
@@ -387,6 +316,7 @@
           </div>
         </div>
 
+        <!-- Add the 'Education' and 'Health' buttons. -->
         <div class="row row-bottom">
           <div class="col btn-col">
             <button class="btn sub-btns">Education</button>
@@ -395,6 +325,7 @@
             <button class="btn sub-btns">Health</button>
           </div>
         </div>
+        <!-- Add the 'Livelihood' and 'Psychosocial' buttons. -->
         <div class="row row-bottom">
           <div class="col btn-col">
             <button class="btn sub-btns">Livelihood</button>
@@ -404,8 +335,9 @@
           </div>
         </div>
       </div>
-      <!--- SEARCH BAR -->
     </div>
+
+    <!-- Add the search bar. -->
     <div class="row justify-content-center align-items-center">
       <div class="col-md-8">
         <div class="search-box">
@@ -425,12 +357,16 @@
   </div>
 </section>
 
+<!-- Lower section that displays the search results. -->
 <section class="search-white">
   <div class="container">
     <div class="row row-element">
+      <!-- Display a card for each element from the database. -->
       {{#each data}}
       <div class="search-col col-md-6 col-xl-4 search-element {{small category}} {{small status}}">
         <a href="/{{../type}}/view/{{_id}}">
+
+          <!-- If the type is 'Project' or 'Event', display the main photo. -->
           {{#includes ../type "project" "event"}}
           <div class="layer" style="background-image: url('/imageByName?name={{mainPhoto}}');">
             <div class="overlay">
@@ -438,6 +374,7 @@
             </div>
           </div>
           {{else}}
+          <!-- If the type is 'Newsletter', display the first photo. -->
           <div class="layer" style="background-image: url('/imageByName?name={{photos.[0]}}');">
             <div class="overlay">
               <h3>{{name}}</h3>
@@ -448,6 +385,8 @@
       </div>
       {{/each}}
     </div>
+
+    <!-- Display a message if there are no elements to display. -->
     <h2 class="none-message">No {{cap type}}s to Display...</h2>
   </div>
 </section>
@@ -459,9 +398,14 @@
     searchElements = document.querySelectorAll(".search-element"),
     filterBtns = document.querySelectorAll(".sub-btns, .all-btn");
 
+  /* Add the search functionality into the searchbox. */
   function search(e) {
+    /* First, trim the search term and convert to all lowercase. */
     const searchValue = searchBox.value.trim().toLowerCase();
+
+    /* Check if search term is empty. */
     if (searchValue != "") {
+      /* If search term is not empty, hide elements that do not match the search term. */
       searchElements.forEach((element) => {
         if (element.querySelector("h3").innerText.toLowerCase().includes(searchValue)) {
           element.classList.remove("hidden-search");
@@ -470,10 +414,13 @@
         }
       });
     } else {
+      /* If search term is empty, display all elements. */ 
       searchElements.forEach((element) => {
         element.classList.remove("hidden-search");
       });
     }
+
+    /* Toggle the none message depending on whether there are elements to display. */
     if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
       document.querySelector(".none-message").style.display = "none";
     } else {
@@ -483,13 +430,20 @@
   searchBox.addEventListener("keyup", search);
   searchBtn.addEventListener("click", search);
 
+  /* Add the filter functionality into the filter buttons. */
   function filter(e) {
+    /* First, convert the filter value to all lowercase. */
     const filterValue = e.target.innerText.toLowerCase();
+
+    /* Check if the filter button is already active. */
     if (e.target.classList.contains("active")) {
+      /* If filter button is already active, remove the active class and display all elements. */
       e.target.classList.remove("active");
       searchElements.forEach((element) => {
         element.classList.remove("hidden-filters");
       });
+
+      /* Toggle the none message depending on whether there are elements to display. */
       if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
         document.querySelector(".none-message").style.display = "none";
       } else {
@@ -497,11 +451,16 @@
       }
       return;
     }
+
+    /* If filter button is not active, remove the active class from all buttons and add it to the clicked button. */
     filterBtns.forEach((btn) => {
       btn.classList.remove("active");
     });
     e.target.classList.add("active");
+
+    /* Check if the filter value is not 'all'. */
     if (!filterValue.startsWith("all")) {
+      /* If filter value is not 'all', hide elements that do not match the filter value. */
       searchElements.forEach((element) => {
         if (element.classList.contains(filterValue)) {
           element.classList.remove("hidden-filters");
@@ -509,15 +468,20 @@
           element.classList.add("hidden-filters");
         }
       });
+
+      /* Toggle the none message depending on whether there are elements to display. */
       if (document.querySelector(".search-element:not(.hidden-search):not(.hidden-filters)") != null) {
         document.querySelector(".none-message").style.display = "none";
       } else {
         document.querySelector(".none-message").style.display = "block";
       }
     } else {
+      /* If filter value is 'all', display all elements. */
       searchElements.forEach((element) => {
         element.classList.remove("hidden-filters");
       });
+
+      /* Toggle the none message depending on whether there are elements to display. */
       if (document.querySelector(".search-element:not(.hidden-search), .search-element:not(.hidden-filters)") != null) {
         document.querySelector(".none-message").style.display = "none";
       } else {
@@ -529,9 +493,11 @@
     btn.addEventListener("click", filter);
   });
 
+  /* Check if there is a filter query in the URL. */
   const urlParams = new URLSearchParams(window.location.search);
   const filterQuery = urlParams.get('filter');
 
+  /* If there is a filter query in the URL, click the corresponding filter button. */
   if (filterQuery) {
     filterBtns.forEach((btn) => {
       if (btn.innerText.toLowerCase().startsWith(filterQuery)) {

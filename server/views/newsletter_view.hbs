@@ -1,3 +1,6 @@
+<!-- This view serves as the main template for all 'Newsletter View' pages of the user view. -->
+
+<!-- Add the div that displays the newsletter's name, category, and status. -->
 <div class="container newsletter-view-bg">
   <div class="row">
     <h1 class="newsletter-name my-4">{{element.name}}</h1>
@@ -10,16 +13,21 @@
   </div>
 </div>
 
+<!-- Add the div that contains all the newsletter's photos. -->
 <div class="background-green py-4 px-2">
+
+  <!-- Add the carousel that displays the newsletter's photos. -->
   <div id="newsletter-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
+      <!-- For each photo, add a bottom button on the carousel for that photo. -->
       {{#each element.photos}}
       <button class="carousel-button" type="button" data-bs-target="#newsletter-carousel" data-bs-slide-to="{{@index}}"
         aria-label="Slide {{inc @index}}"></button>
       {{/each}}
-
     </div>
+
     <div class="carousel-inner rounded-5">
+      <!-- For each photo, add a carousel item that displays the photo. -->
       {{#each element.photos}}
       <div class="carousel-item newsletter-carousel-item">
         <div class="newsletter-carousel-item-container">
@@ -28,6 +36,8 @@
       </div>
       {{/each}}
     </div>
+
+    <!-- Add the carousel controls, which allow the user to navigate through the carousel. -->
     <button class="carousel-control-prev" type="button" data-bs-target="#newsletter-carousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
@@ -40,6 +50,7 @@
 </div>
 
 <script>
+  /* Add the 'active' class to the first carousel item and button. */
   document.getElementsByClassName('carousel-item')[0].classList.add('active')
   document.getElementsByClassName('carousel-button')[0].classList.add('active')
   document.getElementsByClassName('carousel-button')[0].setAttribute('aria-current', 'true')

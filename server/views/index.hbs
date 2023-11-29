@@ -1,18 +1,27 @@
-<div class="landing-bg" style="background-image: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{index.frontpagePhoto}}')">
+<!-- This view serves as the main template for the special Landing Page of the user view. -->
+
+<!-- Display the landing photo, as well as the landing title. -->
+<div class="landing-bg"
+    style="background-image: linear-gradient(to bottom, rgba(0, 42, 62, 0.65), rgba(0, 56, 38, 0.8)), url('/imageByName?name={{index.frontpagePhoto}}')">
     <h1 id="landing-title">Realizing Dreams. Changing Lives.</h1>
 </div>
 
+<!-- Display the about us, mission, and vision sections. -->
 <div class="landing-about" style="">
+
+    <!-- Display the about us section. -->
     <div class="row">
         <div class="col">
             <h1>About Us</h1>
             <p>{{index.aboutUs}}</p>
         </div>
     </div>
+
+    <!-- Display the mission and vision sections. -->
     <div class="row">
         <div class="col">
             <h1>Mission</h1>
-             <p>{{index.mission}}</p>
+            <p>{{index.mission}}</p>
         </div>
         <div class="col">
             <h1>Vision</h1>
@@ -21,24 +30,37 @@
     </div>
 </div>
 
+<!-- Display the latest news section. -->
 <div class="landing-news">
     <div class="row index-row align-items-center">
+
+        <!-- Create a div for one half of this news section. -->
         <div class="col-md-5 col-12" style="margin:auto">
+
+            <!-- Display the header and text that denotes that this is the latest news section. -->
             <h1 style="margin-top:20px">Latest News</h1>
-             <p>{{index.newsletterDescription}}</p>
+            <p>{{index.newsletterDescription}}</p>
             <br>
+
+            <!-- Display the button that leads to the 'Newsletter Explore' page. -->
             <a class="btn btn-light" href="/newsletter/explore" style="margin-bottom:15px;">Explore Our Newsletter!</a>
         </div>
 
+        <!-- Create a div for the other half of this news section. -->
         <div class="col-md-7 col-12">
+
+            <!-- Display the carousel that displays the latest newsletters. -->
             <div id="index-newsletter-carousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
+                    <!-- For each newsletter, add a bottom button on the carousel for that newsletter. -->
                     {{#each newsletter}}
-                    <button class="carousel-button index-newsletter-carousel-button" type="button" data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
-                    aria-label="Slide {{inc @index}}"></button>
+                    <button class="carousel-button index-newsletter-carousel-button" type="button"
+                        data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
+                        aria-label="Slide {{inc @index}}"></button>
                     {{/each}}
                 </div>
                 <div class="carousel-inner rounded-5">
+                    <!-- For each newsletter, add a carousel item that displays the newsletter's main photo. -->
                     {{#each newsletter}}
                     <div class="carousel-item index-carousel-item index-carousel-item-newsletter">
                         <div class="index-carousel-item-container">
@@ -47,6 +69,8 @@
                     </div>
                     {{/each}}
                 </div>
+
+                <!-- Add the carousel controls, which allow the user to navigate through the carousel. -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#index-newsletter-carousel"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -62,18 +86,25 @@
     </div>
 </div>
 
+<!-- Display the current projects section. -->
 <div class="landing-about" style="width: 100% !important; text-align: right;">
-
     <div class="row index-row align-items-center">
+
+        <!-- Create a div for one half of this current projects section. -->
         <div class="col-md-7 col-12">
+
+            <!-- Display the carousel that displays the current projects. -->
             <div id="carouselExampleIndicators1" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
+                    <!-- For each project, add a bottom button on the carousel for that project. -->
                     {{#each projects}}
-                    <button class="carousel-button index-projects-carousel-button" type="button" data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
-                    aria-label="Slide {{inc @index}}"></button>
+                    <button class="carousel-button index-projects-carousel-button" type="button"
+                        data-bs-target="#index-newsletter-carousel" data-bs-slide-to="{{@index}}"
+                        aria-label="Slide {{inc @index}}"></button>
                     {{/each}}
                 </div>
                 <div class="carousel-inner rounded-5">
+                    <!-- For each project, add a carousel item that displays the project's main photo. -->
                     {{#each projects}}
                     <div class="carousel-item index-carousel-item index-carousel-item-projects">
                         <div class="index-carousel-item-container">
@@ -82,6 +113,8 @@
                     </div>
                     {{/each}}
                 </div>
+
+                <!-- Add the carousel controls, which allow the user to navigate through the carousel. -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -95,22 +128,28 @@
             </div>
         </div>
 
+        <!-- Create a div for the other half of this current projects section. -->
         <div class="col-md-5 col-12 index-text-left" style="margin:auto">
+
+            <!-- Display the header and text that denotes that this is the current projects section. -->
             <h1>Current Projects</h1>
             <p>{{index.projectsDescription}}</p>
             <br>
+
+            <!-- Display the button that leads to the 'Project Explore' page. -->
             <a class="btn btn-primary" href="/project/explore">Explore Our Projects!</a>
         </div>
     </div>
 </div>
 
 <script>
-    if(document.getElementsByClassName("index-carousel-item-newsletter")[0])
-       document.getElementsByClassName("index-carousel-item-newsletter")[0].classList.add("active");
-    if(document.getElementsByClassName("index-carousel-item-projects")[0])
+    /* Activate the carousel for the latest newsletters and current projects. */
+    if (document.getElementsByClassName("index-carousel-item-newsletter")[0])
+        document.getElementsByClassName("index-carousel-item-newsletter")[0].classList.add("active");
+    if (document.getElementsByClassName("index-carousel-item-projects")[0])
         document.getElementsByClassName("index-carousel-item-projects")[0].classList.add("active");
-    if(document.getElementsByClassName("index-newsletter-carousel-button")[0])
+    if (document.getElementsByClassName("index-newsletter-carousel-button")[0])
         document.getElementsByClassName("index-newsletter-carousel-button")[0].classList.add("active");
-    if(document.getElementsByClassName("index-projects-carousel-button")[0])
+    if (document.getElementsByClassName("index-projects-carousel-button")[0])
         document.getElementsByClassName("index-projects-carousel-button")[0].classList.add("active");
 </script>

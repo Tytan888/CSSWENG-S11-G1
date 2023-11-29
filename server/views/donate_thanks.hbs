@@ -1,3 +1,4 @@
+<!-- This view is rendered to the user whenever a donation is successful. -->
 <div class="confirmation-container">
     <div class="confirmation-text">
         Thank you for helping us make a change!
@@ -6,8 +7,11 @@
         Back to Home
     </button>
 </div>
+
+<!-- Add the confetti script. -->
 <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 <script>
+    /* Add the confetti animation. */
     const jsConfetti = new JSConfetti()
     jsConfetti.addConfetti({
         confettiRadius: 3,

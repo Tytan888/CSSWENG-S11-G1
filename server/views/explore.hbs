@@ -1,6 +1,11 @@
+<!-- This view serves as the main template for all 'Explore' pages. -->
+
+<!-- Add the main header that displays the page title. -->
 <div>
   <h1 class="explore-h1">Our {{cap type}}s</h1>
 </div>
+
+<!-- Add the header that reads 'Explore by Category'. -->
 <div class="row p-0 m-0" style=" max-width:100vw;">
   <div class="col-xl-1 col-lg-1 col-sm-0 p-0"></div>
   <div class="col-xl-4 col-lg-4 col-sm-12 p-0">
@@ -9,8 +14,11 @@
   <div class="col-xl-7 col-lg-7 col-sm-0 p-0"></div>
 </div>
 
+<!-- Add the four category buttons. -->
 <div class="container-fluid w-75 explore-container my-2">
   <div class="row g-xl-5 g-lg-4 g-md-3 g-sm-3 g-3 p-md-0 p-lg-2 ">
+
+    <!-- Add the 'Education' category button. -->
     <div class="col-lg-6 col-md-12">
       <a href="/{{type}}/search?filter=education">
         <div class="explore-category"
@@ -19,6 +27,8 @@
         </div>
       </a>
     </div>
+
+    <!-- Add the 'Health' category button. -->
     <div class="col-lg-6 col-md-12">
       <a href="/{{type}}/search?filter=health">
         <div class="explore-category"
@@ -27,6 +37,8 @@
         </div>
       </a>
     </div>
+
+    <!-- Add the 'Livelihood' category button. -->
     <div class="col-lg-6 col-md-12">
       <a href="/{{type}}/search?filter=livelihood">
         <div class="explore-category"
@@ -35,6 +47,8 @@
         </div>
       </a>
     </div>
+
+    <!-- Add the 'Psychosocial' category button. -->
     <div class="col-lg-6 col-md-12">
       <a href="/{{type}}/search?filter=psychosocial">
         <div class="explore-category"
@@ -46,33 +60,50 @@
   </div>
 </div>
 
+<!-- Add the div that displays elements of the 'Ongoing' status. -->
 <div class="explore-ongoing">
+
+  <!-- Add the header that denotes the 'Ongoing' status of the elements. -->
   <h1 class="explore-ongoing-h1">Ongoing {{cap type}}s</h1>
+
+  <!-- Add the container that holds all cards representing the elements. -->
   <div class="container w-75">
     <div class="row gx-5">
 
+      <!-- For each ongoing element, add a card that displays the element's information. -->
       {{#each ongoing}}
       <div class="col-lg-{{tw_len ../ongoing}} col-md-12 my-sm-12 my-12">
         <div class="card selection-animation explore-card my-3 my-md-5">
+
+          <!-- Display the element's main photo. -->
           {{#if this.mainPhoto}}
           <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
           {{/if}}
           {{#if this.photos}}
           <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
           {{/if}}
+
+          <!-- Add the card body. -->
           <div class="card-body">
+          <!-- Display the element's name and description, when applicable. -->
             <h5 class="card-title">{{this.name}}</h5>
             {{#if this.description}}
             <p class="card-text">{{this.description}}</p>
             {{/if}}
+
+            <!-- Add the button that leads to that element's 'View' page. -->
             <a href="/{{../type}}/view/{{this._id}}" class="btn btn-primary">Read More...</a>
           </div>
         </div>
       </div>
       {{/each}}
+
+      <!-- If there are no 'Ongoing' elements, display a message saying so. -->
       {{#unless ongoing}}<h2 class="explore-ongoing-h2">No Ongoing {{cap type}}s Right Now...</h2>{{/unless}}
     </div>
   </div>
+
+  <!-- If there are 'Ongoing' elements, add the 'See More...' button. -->
   {{#if ongoing}}
   <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;"><a
       href="/{{type}}/search?filter=ongoing"
@@ -80,33 +111,51 @@
   {{/if}}
 </div>
 
+<!-- Add the div that displays elements of the 'Past' status. -->
 <div class="explore-past">
+
+  <!-- Add the header that denotes the 'Past' status of the elements. -->
   <h1 class="explore-past-h1">Past {{cap type}}s</h1>
+
+  <!-- Add the container that holds all cards representing the elements. -->
   <div class="container w-75">
     <div class="row gx-5">
 
+      <!-- For each past element, add a card that displays the element's information. -->
       {{#each past}}
       <div class="col-lg-{{tw_len ../past}} col-md-12 my-sm-12 my-12">
         <div class="card selection-animation explore-card my-3 my-md-5 explore-past-card">
+
+          <!-- Display the element's main photo. -->
           {{#if this.mainPhoto}}
           <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
           {{/if}}
           {{#if this.photos}}
           <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
           {{/if}}
+
+          <!-- Add the card body. -->
           <div class="card-body">
+
+            <!-- Display the element's name and description, when applicable. -->
             <h5 class="card-title">{{this.name}}</h5>
             {{#if this.description}}
             <p class="card-text">{{this.description}}</p>
             {{/if}}
+
+            <!-- Add the button that leads to that element's 'View' page. -->
             <a href="/{{../type}}/view/{{this._id}}" class="btn btn-light">Read More...</a>
           </div>
         </div>
       </div>
       {{/each}}
+
+      <!-- If there are no 'Past' elements, display a message saying so. -->
       {{#unless past}}<h2 class="explore-past-h2">No Past {{cap type}}s Right Now...</h2>{{/unless}}
     </div>
   </div>
+
+  <!-- If there are 'Past' elements, add the 'See More...' button. -->
   {{#if past}}
   <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;">
     <a href="/{{type}}/search?filter=past"
@@ -115,33 +164,51 @@
   {{/if}}
 </div>
 
+<!-- Add the div that displays elements of the 'Upcoming' status. -->
 <div class="explore-ongoing">
+
+  <!-- Add the header that denotes the 'Upcoming' status of the elements. -->
   <h1 class="explore-ongoing-h1">Upcoming {{cap type}}s</h1>
+
+  <!-- Add the container that holds all cards representing the elements. -->
   <div class="container w-75">
     <div class="row gx-5">
 
+      <!-- For each upcoming element, add a card that displays the element's information. -->
       {{#each upcoming}}
       <div class="col-lg-{{tw_len ../upcoming}} col-md-12 my-sm-12 my-12">
         <div class="card selection-animation explore-card my-3 my-md-5">
+
+          <!-- Display the element's main photo. -->
           {{#if this.mainPhoto}}
           <img class="status-img" src="/imageByName?name={{this.mainPhoto}}" alt="...">
           {{/if}}
           {{#if this.photos}}
           <img class="status-img" src="/imageByName?name={{this.photos.[0]}}" alt="...">
           {{/if}}
+
+          <!-- Add the card body. -->
           <div class="card-body">
+
+            <!-- Display the element's name and description, when applicable. -->
             <h5 class="card-title">{{this.name}}</h5>
             {{#if this.description}}
             <p class="card-text">{{this.description}}</p>
             {{/if}}
+
+            <!-- Add the button that leads to that element's 'View' page. -->
             <a href="/{{../type}}/view/{{this._id}}" class="btn btn-primary">Read More...</a>
           </div>
         </div>
       </div>
       {{/each}}
+
+      <!-- If there are no 'Upcoming' elements, display a message saying so. -->
       {{#unless upcoming}}<h2 class="explore-ongoing-h2">No Upcoming {{cap type}}s Right Now...</h2>{{/unless}}
     </div>
   </div>
+
+  <!-- If there are 'Upcoming' elements, add the 'See More...' button. -->
   {{#if upcoming}}
   <div class="row justify-content-center align-items-center p-0 m-0" style=" max-width:100vw;"><a
       href="/{{type}}/search?filter=upcoming"

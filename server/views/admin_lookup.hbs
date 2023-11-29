@@ -1,7 +1,11 @@
-{{> admin_modal_confirm}}
+<!-- This view serves as the main template for the the "Admin: Donations" and "Admin: Sponsors" pages. -->
 
+
+<!-- Add both modals for confirmation and errors. -->
+{{> admin_modal_confirm}}
 {{> admin_modal_error}}
 
+<!-- Add the main header that displays the page title. -->
 <h1 class="admin-h1">
     {{#includes type "child"}}
     Children
@@ -9,7 +13,10 @@
     {{cap type}}s
     {{/includes}}
 </h1>
+
+<!-- Add search functionality. -->
 <div class="row justify-content-center align-items-center admin-lookup-search">
+    <!-- Add the dropdown to select the column to search by. -->
     <div class="col-lg-5 col-md-11">
         <h2 class="admin-h2">Search by column...</h2>
     </div>
@@ -33,6 +40,8 @@
             {{/includes}}
         </select>
     </div>
+
+    <!-- Add the search bar to search by a specific term. -->
      <div class="col-lg-5 col-md-11">
         <h2 class="admin-h2">With search term...</h2>
     </div>
@@ -46,8 +55,12 @@
         <h2 class="admin-h2 admin-h2-center">Display Details For...</h2>
     </div>
 </div>
+
+<!-- Add the checkboxes to select the columns to display. -->
 <div class="container admin-filter-container">
     <div class="row">
+
+        <!-- If type is 'Sponsor', display all relevant columns for the selected type. -->
         {{#includes type "sponsor"}}
         <div class="form-check form-switch col-xl-4 col-md-6 col-12">
             <input type="checkbox" class="sponsor-name form-check-input" name="sponsor-name" value="sponsor-name"
@@ -91,6 +104,8 @@
             <label for="child-name" class="form-check-label admin-filter-label">Child Name</label>
         </div>
         {{/includes}}
+
+        <!-- If type is 'Donation', display all relevant columns for the selected type. -->
         {{#includes type "donation"}}
         <div class="form-check form-switch col-xl-4 col-md-6 col-12">
             <input type="checkbox" class="donor-name form-check-input" name="donor-name" value="donor-name" checked>
@@ -136,8 +151,11 @@
     </div>
 </div>
 
+<!-- Add the table to display the data. -->
 <div class="admin-table table-responsive-xxl">
     <table class="table table-striped table-hover">
+
+        <!-- Add the table headers based on type. -->
         <thead>
             <tr>
                 {{#includes type "sponsor"}}
@@ -168,8 +186,12 @@
                 {{/includes}}
             </tr>
         </thead>
+
+        <!-- Add the table body based on type. -->
         <tbody>
             {{#includes type "sponsor"}}
+
+            <!-- For each sponsored child, add a row with the relevant data. -->
             {{#each data}}
             <tr>
                 <td scope="row" class="align-middle donation-id">{{_id}}</td>
@@ -192,6 +214,8 @@
             </tr>
             {{/each}}
             {{/includes}}
+
+            <!-- For each donation, add a row with the relevant data. -->
             {{#includes type "donation"}}
             {{#each data}}
             <tr>
@@ -227,17 +251,21 @@
     const modalBody = document.getElementById("admin-select-modal-body");
     const confirmButton = document.getElementById("confirm-button");
 
+    /* Add functionality to search by column and search by term. */
     const searchEvent = (event) => {
+        /* First, retrieve the search term and make it lowercase. */
         const q = document.getElementById("search").value.toLowerCase();
+
+        /* Then, filter all rows by the selected column and display only the rows that contain the search term. */
         rows.forEach((row) => {
             const filter = document.getElementById("filter").value;
             row.querySelector("td." + filter).textContent.toLowerCase().includes(q) ? row.style.display = "table-row" : row.style.display = "none";
         });
     }
-
     search.addEventListener("keyup", searchEvent);
     filter.addEventListener("change", searchEvent);
 
+    /* Add functionality to select which columns to display. */
     const checkboxes = document.querySelectorAll("input[type=checkbox]");
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", (event) => {
@@ -254,15 +282,23 @@
             }
         });
     });
+
+    /* Add functionality to delete a row. */
     rows.forEach((row) => {
         row.querySelector(".admin-delete-icon").addEventListener("click", function () {
+
+            /* Configure the modal to display the correct message based on type. */
             const type = "{{type}}";
             if (type == "sponsor") {
                 modalBody.textContent = "Are you sure you want to delete sponsorship from " + row.querySelector("td.sponsor-name").textContent + " to " + row.querySelector("td.child-name").textContent + " (Id: " + row.querySelector("td.donation-id").textContent + ")?";
             } else if (type == "donation") {
                 modalBody.textContent = "Are you sure you want to delete donation from " + row.querySelector("td.donor-name").textContent + " to " + row.querySelector("td.project-name").textContent + " (Id: " + row.querySelector("td.donation-id").textContent + ")?";
             }
+
+            /* Add the event listener for the confirm button to send the delete request to the server. */
             confirmClick = async function (e) {
+
+                /* Send the delete request to the server. */
                 const res = await fetch("/admin/{{type}}/delete", {
                     method: "DELETE",
                     headers: {
@@ -270,9 +306,13 @@
                     },
                     body: JSON.stringify({ id: row.querySelector("td.donation-id").textContent })
                 });
+
+                /* Check the response status. */
                 if (res.status === 200) {
+                    /* If the delete request was successful, reload the page. */
                     window.location.reload();
                 } else {
+                    /* Otherwise, display the error modal. */
                     modal.hide();
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();

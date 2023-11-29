@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: server/routes/main</title>
+    <title>JSDoc: Module: server/controller/image_controller</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: server/routes/main</h1>
+    <h1 class="page-title">Module: server/controller/image_controller</h1>
 
     
 
@@ -34,7 +34,8 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>This file serves as the main router for the application, handling all routes for the application.</p></div>
+            <div class="description"><p>This module contains all of the functions that are used to handle requests
+and operations related to the singleton schema.</p></div>
         
 
         
@@ -69,7 +70,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_routes_main.js.html">server/routes/main.js</a>, <a href="server_routes_main.js.html#line1">line 1</a>
+        <a href="server_controller_image_controller.js.html">server/controller/image_controller.js</a>, <a href="server_controller_image_controller.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -91,21 +92,7 @@
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li><code>express</code></li>
-        
-            <li><a href="module-server_controller_image_controller.html"><code>module:server/controller/image_controller</code></a></li>
-        
-            <li><a href="module-server_controller_request_controller.html"><code>module:server/controller/request_controller</code></a></li>
-        
-            <li><a href="module-server_controller_singleton_controller.html"><code>module:server/controller/singleton_controller</code></a></li>
-        
-            <li><a href="module-server_controller_donation_controller.html"><code>module:server/controller/donation_controller</code></a></li>
-        
-            <li><a href="module-server_controller_information_controller.html"><code>module:server/controller/information_controller</code></a></li>
-        
-            <li><a href="module-server_controller_admin_controller.html"><code>module:server/controller/admin_controller</code></a></li>
-        
-            <li><a href="module-server_controller_middleware_file_upload.html"><code>module:server/controller/middleware/file_upload</code></a></li>
+            <li><a href="module-server_config_gfs.html"><code>module:server/config/gfs</code></a></li>
         </ul>
     
 
@@ -121,6 +108,180 @@
 
     
 
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~Img">Img</h4>
+
+
+
+
+<div class="description">
+    <p>This object to be exported contains all of the functions that are used to render or delete images.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>getByName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles GET requests ro render an image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteByName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles DELETE requests to delete one image given a filename.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteByNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles DELETE requests to delete multiple images given an array of filenames.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_controller_image_controller.js.html">server/controller/image_controller.js</a>, <a href="server_controller_image_controller.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
     
 
     

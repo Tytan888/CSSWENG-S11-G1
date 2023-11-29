@@ -1,7 +1,23 @@
+/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/controller/image_controller
+ * 
+ * @requires {@link module:server/config/gfs}
+ */
 const gfs = require('../config/gfs.js');
-
+/**
+ * This object to be exported contains all of the functions that are used to render or delete images.
+ * 
+ * @typedef {object} Img
+ * @memberof module:server/controller/image_controller
+ * @inner
+ * 
+ * @property {Function} getByName - Handles GET requests ro render an image.
+ * @property {Function} deleteByName - Handles DELETE requests to delete one image given a filename.
+ * @property {Function} deleteByNames - Handles DELETE requests to delete multiple images given an array of filenames.
+*/
 const Img = {
-
   getByName: async function (req, res) {
     try {
       // Find the file by filename...
@@ -17,6 +33,7 @@ const Img = {
 
       // Set appropriate headers for image response
       res.set('Content-Type', file.contentType);
+      //file data can only be streamed, not sent
       readStream.pipe(res);
     } catch (err) {
       console.error('Error:', err);

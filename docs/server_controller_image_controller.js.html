@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server/controller/image_controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server/controller/image_controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/controller/image_controller
+ * 
+ * @requires {@link module:server/config/gfs}
+ */
+const gfs = require('../config/gfs.js');
+/**
+ * This object to be exported contains all of the functions that are used to render or delete images.
+ * 
+ * @typedef {object} Img
+ * @memberof module:server/controller/image_controller
+ * @inner
+ * 
+ * @property {Function} getByName - Handles GET requests ro render an image.
+ * @property {Function} deleteByName - Handles DELETE requests to delete one image given a filename.
+ * @property {Function} deleteByNames - Handles DELETE requests to delete multiple images given an array of filenames.
+*/
+const Img = {
+  getByName: async function (req, res) {
+    try {
+      // Find the file by filename...
+      const filename = req.query.name;
+
+      const file = await gfs.findOne({ filename: filename });
+      if (!file) {
+        return res.status(404).send('File not found');
+      }
+
+      // Now we have the ObjectId of the file.
+      const readStream = await gfs.createReadStream(file._id);
+
+      // Set appropriate headers for image response
+      res.set('Content-Type', file.contentType);
+      //file data can only be streamed, not sent
+      readStream.pipe(res);
+    } catch (err) {
+      console.error('Error:', err);
+      res.status(500).send('Server Error');
+    }
+
+  },
+  //get image filename associated with event
+
+  deleteByName: async function (req, res) {
+    try {
+      const filename = res.locals.name;
+      const file = await gfs.findOne({ filename: filename });
+
+      if (!file) {
+        return res.status(404).send('File not found');
+      }
+
+      await gfs.delete(file._id);
+      res.status(200)
+      if (res.locals.id != null) {
+        res.json(res.locals.id);
+      } else {
+        res.end();
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      res.status(500).send('Server Error');
+    }
+  },
+  deleteByNames: async function (req, res) {
+    try {
+      for (let filename of res.locals.names) {
+        const file = await gfs.findOne({ filename: filename });
+        if (!file) {
+          return res.status(404).send('File not found');
+        }
+        await gfs.delete(file._id);
+      }
+
+      res.status(200)
+
+      if (res.locals.id != null) {
+        res.json(res.locals.id);
+      } else {
+        res.end();
+      }
+
+    } catch (err) {
+      console.error('Error:', err);
+      res.status(500).send('Server Error');
+    }
+  }
+};
+
+module.exports = Img;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-server_config_db.html">server/config/db</a></li><li><a href="module-server_config_gfs.html">server/config/gfs</a></li><li><a href="module-server_controller_admin_controller.html">server/controller/admin_controller</a></li><li><a href="module-server_controller_donation_controller.html">server/controller/donation_controller</a></li><li><a href="module-server_controller_image_controller.html">server/controller/image_controller</a></li><li><a href="module-server_controller_information_controller.html">server/controller/information_controller</a></li><li><a href="module-server_controller_middleware_file_upload.html">server/controller/middleware/file_upload</a></li><li><a href="module-server_controller_request_controller.html">server/controller/request_controller</a></li><li><a href="module-server_controller_singleton_controller.html">server/controller/singleton_controller</a></li><li><a href="module-server_controller_utility_controller.html">server/controller/utility_controller</a></li><li><a href="module-server_models_admin.html">server/models/admin</a></li><li><a href="module-server_models_child.html">server/models/child</a></li><li><a href="module-server_models_donation.html">server/models/donation</a></li><li><a href="module-server_models_event.html">server/models/event</a></li><li><a href="module-server_models_newsletter.html">server/models/newsletter</a></li><li><a href="module-server_models_project.html">server/models/project</a></li><li><a href="module-server_models_singleton.html">server/models/singleton</a></li><li><a href="module-server_models_staff.html">server/models/staff</a></li><li><a href="module-server_models_trustee.html">server/models/trustee</a></li><li><a href="module-server_routes_main.html">server/routes/main</a></li><li><a href="module-start.html">start</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 23:16:40 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

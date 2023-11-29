@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: server/models/project.js</title>
+    <title>JSDoc: Source: server/config/gfs.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: server/models/project.js</h1>
+    <h1 class="page-title">Source: server/config/gfs.js</h1>
 
     
 
@@ -26,68 +26,84 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * The module that defines the project schema in the database through mongoose.
- * @module server/models/project
+            <pre class="prettyprint source linenums"><code>/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/config/gfs
+ * 
+ * @requires {@link gridfs-stream}
  * @requires {@link mongoose}
  */
-
-/* Import mongoose and define any variables needed to create the schema */
+const fs = require('gridfs-stream');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
 /**
- * This schema represents a project in the database. All of the properties are required. 
- * @type {Schema}
+ * This object contains all of the functions that are used to parse file types 
+ * (the webapp only accepts image type) and upload files on the database.
  * 
- * @property {String} name - The name of the project.
- * @property {String} description - The description of the project.
- * @property {String} category - The category of the project, can be Education, Health, Livelihood, or Psychosocial.
- * @property {String} status - The status of the project, can be Past, Ongoing, or Upcoming.
- * @property {String} location - The location of the project.
- * @property {Number} raisedDonations - The amount of money raised for the project, cannot be negative.
- * @property {Number} requiredBudget - The amount of money required for the project, cannot be negative.
- * @property {String} mainPhoto - The filename of the main photo of the project.
- */
-const projectSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        enum: ['Education', 'Health', 'Livelihood', 'Psychosocial'],
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ['Past', 'Ongoing', 'Upcoming'],
-        required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    raisedDonations: {
-        type: Number,
-        required: true
-    },
-    requiredBudget: {
-        type: Number,
-        required: true
-    },
-    mainPhoto: {
-        type: String,
-        required: true
-    }
-});
+ * @typedef {object} Grid
+ * @memberof module:server/config/gfs
+ * @inner
+ * 
+ * @property {Function} connect - connects to the database and creates a gridfsBucket instance which stores the file uploads.
+ * @property {Object} gfs - Saves the connection information.
+ * @property {Object} stream - saves the gridfsBucket instance
+ * @property {Object} grid - saves the collection uploads of the gridfsBucket instance
+ * @property {Function} findOne - Searches for a single document in the database.
+ * @property {Function} delete - Deletes a single document in the database.
+ * @property {Function} deleteFiles - Deletes all documents in the database.
+ * @property {Function} dropBucket - Drops the collection from the database. This is used in testing.
+ * @property {Function} createReadStream - Creates a read stream for the file for rendering images stored in the database.
+ * 
 
-/* Export the schema. */
-module.exports = mongoose.model('Project', projectSchema);</code></pre>
+*/
+const Grid = {
+    connect: async function (conn) {
+        let gfs;
+
+        await conn.once('open', () => {
+            // Init Stream
+
+            gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+                bucketName: 'uploads'
+            });
+
+            this.gfs = fs(conn.db, mongoose.mongo);
+            this.stream = gridfsBucket;
+            this.grid = this.gfs.collection('uploads');
+        });
+    },
+
+    gfs: null,
+    grid: null,
+    stream: null,
+
+    findOne: async function (query) {
+        return await this.grid.findOne(query);
+    },
+
+    delete: async function (query) {
+        return await this.stream.delete(query);
+    },
+    deleteFiles: async function (query) {
+        const cursor =  this.stream.find({});
+        var files = [];
+        for await(const doc of cursor) {
+            files.push(doc.filename);
+            await this.delete(doc._id);
+        }
+
+    },
+    dropBucket: async function () {
+        return await this.stream.drop();
+    },
+
+    createReadStream: async function (query) {
+        return await this.stream.openDownloadStream(query);
+    }
+}
+
+module.exports = Grid;
+</code></pre>
         </article>
     </section>
 
@@ -103,7 +119,7 @@ module.exports = mongoose.model('Project', projectSchema);</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 23:16:41 GMT+0800 (Philippine Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 23:16:40 GMT+0800 (Philippine Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

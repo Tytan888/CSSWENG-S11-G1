@@ -1,8 +1,27 @@
-
+/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/controller/middleware/file_upload
+ * 
+ * @requires {@link multer-gridfs-storage}
+ * @requires {@link multer}
+ * @requires {@link path}
+ */
 const multer = require('multer');
 const path = require('path');
 const { GridFsStorage } = require('multer-gridfs-storage');
-
+/**
+ * This object contains all of the functions that are used to parse file types 
+ * (the webapp only accepts image type) and upload files on the database.
+ * 
+ * @typedef {object} upload
+ * @memberof module:server/controller/middleware/file_upload
+ * @inner
+ * 
+ * @property {Function} storage - Connects to the database and formats the filename of the image.
+ * @property {Function} limits - Sets the maximum size in bytes for the image upload.
+ * @property {Function} fileFilter - Filters out non image type files and prevents them from being uploaded in the database.
+*/
 
 storage = new GridFsStorage({
   url:  process.env.MONGODB_URI,

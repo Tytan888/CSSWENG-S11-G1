@@ -1,6 +1,33 @@
+/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/config/gfs
+ * 
+ * @requires {@link gridfs-stream}
+ * @requires {@link mongoose}
+ */
 const fs = require('gridfs-stream');
 const mongoose = require('mongoose');
+/**
+ * This object contains all of the functions that are used to parse file types 
+ * (the webapp only accepts image type) and upload files on the database.
+ * 
+ * @typedef {object} Grid
+ * @memberof module:server/config/gfs
+ * @inner
+ * 
+ * @property {Function} connect - connects to the database and creates a gridfsBucket instance which stores the file uploads.
+ * @property {Object} gfs - Saves the connection information.
+ * @property {Object} stream - saves the gridfsBucket instance
+ * @property {Object} grid - saves the collection uploads of the gridfsBucket instance
+ * @property {Function} findOne - Searches for a single document in the database.
+ * @property {Function} delete - Deletes a single document in the database.
+ * @property {Function} deleteFiles - Deletes all documents in the database.
+ * @property {Function} dropBucket - Drops the collection from the database. This is used in testing.
+ * @property {Function} createReadStream - Creates a read stream for the file for rendering images stored in the database.
+ * 
 
+*/
 const Grid = {
     connect: async function (conn) {
         let gfs;

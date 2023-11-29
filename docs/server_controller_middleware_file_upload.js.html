@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: server/models/project.js</title>
+    <title>JSDoc: Source: server/controller/middleware/file_upload.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: server/models/project.js</h1>
+    <h1 class="page-title">Source: server/controller/middleware/file_upload.js</h1>
 
     
 
@@ -26,68 +26,79 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * The module that defines the project schema in the database through mongoose.
- * @module server/models/project
- * @requires {@link mongoose}
- */
-
-/* Import mongoose and define any variables needed to create the schema */
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-/**
- * This schema represents a project in the database. All of the properties are required. 
- * @type {Schema}
+            <pre class="prettyprint source linenums"><code>/**
+ * This module contains all of the functions that are used to handle requests
+ * and operations related to the singleton schema.
+ * @module server/controller/middleware/file_upload
  * 
- * @property {String} name - The name of the project.
- * @property {String} description - The description of the project.
- * @property {String} category - The category of the project, can be Education, Health, Livelihood, or Psychosocial.
- * @property {String} status - The status of the project, can be Past, Ongoing, or Upcoming.
- * @property {String} location - The location of the project.
- * @property {Number} raisedDonations - The amount of money raised for the project, cannot be negative.
- * @property {Number} requiredBudget - The amount of money required for the project, cannot be negative.
- * @property {String} mainPhoto - The filename of the main photo of the project.
+ * @requires {@link multer-gridfs-storage}
+ * @requires {@link multer}
+ * @requires {@link path}
  */
-const projectSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        enum: ['Education', 'Health', 'Livelihood', 'Psychosocial'],
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ['Past', 'Ongoing', 'Upcoming'],
-        required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    raisedDonations: {
-        type: Number,
-        required: true
-    },
-    requiredBudget: {
-        type: Number,
-        required: true
-    },
-    mainPhoto: {
-        type: String,
-        required: true
+const multer = require('multer');
+const path = require('path');
+const { GridFsStorage } = require('multer-gridfs-storage');
+/**
+ * This object contains all of the functions that are used to parse file types 
+ * (the webapp only accepts image type) and upload files on the database.
+ * 
+ * @typedef {object} upload
+ * @memberof module:server/controller/middleware/file_upload
+ * @inner
+ * 
+ * @property {Function} storage - Connects to the database and formats the filename of the image.
+ * @property {Function} limits - Sets the maximum size in bytes for the image upload.
+ * @property {Function} fileFilter - Filters out non image type files and prevents them from being uploaded in the database.
+*/
+
+storage = new GridFsStorage({
+  url:  process.env.MONGODB_URI,
+  //url:   process.env.TEST_MONGODB_URI,
+  file: (req, file) => {
+      return new Promise((resolve, reject) => {
+      const filename = file.originalname;
+      const fileInfo = {
+
+          //can change filename to something more appropriate
+
+          filename: file.fieldname + "_" + Date.now() + "_" + filename,
+          bucketName: 'uploads'
+      };
+      resolve(fileInfo);
+      });
+  }
+});
+const checkFileType = function (file, cb) {
+  //Allowed file extensions
+  if (file != null) {
+    const fileTypes = /jpeg|jpg|png|gif|svg/;
+
+    //check extension names
+    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+
+    const mimeType = fileTypes.test(file.mimetype);
+
+    if (mimeType &amp;&amp; extName) {
+      return cb(null, true);
+    } else {
+      cb("Error: You can Only Upload Images!!", false);
     }
+  } else {
+    cb("No file uploaded", false);
+  }
+};
+
+// Create the multer instance
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10000000 },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
 });
 
-/* Export the schema. */
-module.exports = mongoose.model('Project', projectSchema);</code></pre>
+module.exports = upload;
+</code></pre>
         </article>
     </section>
 
@@ -103,7 +114,7 @@ module.exports = mongoose.model('Project', projectSchema);</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 23:16:41 GMT+0800 (Philippine Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 23:16:40 GMT+0800 (Philippine Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

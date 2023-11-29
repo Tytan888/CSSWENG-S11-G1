@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: server/controller/admin_controller</title>
+    <title>JSDoc: Module: server/config/db</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: server/controller/admin_controller</h1>
+    <h1 class="page-title">Module: server/config/db</h1>
 
     
 
@@ -34,8 +34,8 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>This module contains all of the functions that are used to handle requests and operations surrounding
-the admin pages. In particular, this module handles Epic 3: Admin Control and Epic 4: Admin Tracker.</p></div>
+            <div class="description"><p>This module contains all of the functions that are used to handle requests
+and operations related to the singleton schema.</p></div>
         
 
         
@@ -70,7 +70,7 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_controller_admin_controller.js.html">server/controller/admin_controller.js</a>, <a href="server_controller_admin_controller.js.html#line1">line 1</a>
+        <a href="server_config_db.js.html">server/config/db.js</a>, <a href="server_config_db.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -92,15 +92,7 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li><a href="module-server_models_admin.html"><code>module:server/models/admin</code></a></li>
-        
-            <li><a href="module-server_controller_donation_controller.html"><code>module:server/controller/donation_controller</code></a></li>
-        
-            <li><a href="module-server_controller_utility_controller.html"><code>module:server/controller/utility_controller</code></a></li>
-        
-            <li><code>bcrypt</code></li>
-        
-            <li><code>jsonwebtoken</code></li>
+            <li><code>mongoose</code></li>
         </ul>
     
 
@@ -121,13 +113,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
         
                 
-<h4 class="name" id="~adminController">adminController</h4>
+<h4 class="name" id="~database">database</h4>
 
 
 
 
 <div class="description">
-    <p>This object to be exported contains all of the functions that are used to handle requests to the admin pages.</p>
+    <p>This object contains all of the functions that are used to parse file types
+(the webapp only accepts image type) and upload files on the database.</p>
 </div>
 
 
@@ -172,7 +165,7 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
         <tr>
             
-                <td class="name"><code>initializeAdmin</code></td>
+                <td class="name"><code>conn</code></td>
             
 
             <td class="type">
@@ -188,14 +181,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Initializes the admin account if it does not exist.</p></td>
+            <td class="description last"><p>saves the connection to the database to access it in other files.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>adminLogin</code></td>
+                <td class="name"><code>connect</code></td>
             
 
             <td class="type">
@@ -211,14 +204,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Handles GET requests to render the admin login page.</p></td>
+            <td class="description last"><p>connects to the database.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>adminSubmit</code></td>
+                <td class="name"><code>testConnect</code></td>
             
 
             <td class="type">
@@ -234,14 +227,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Handles POST requests to submit the admin login form, checks if the username and password are correct.</p></td>
+            <td class="description last"><p>connects to the test database.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>adminAuth</code></td>
+                <td class="name"><code>dropAllCollections</code></td>
             
 
             <td class="type">
@@ -257,14 +250,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Serves as middleware to check if the admin is logged in.</p></td>
+            <td class="description last"><p>Drops the collection from the database. This is used in testing.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>adminMenu</code></td>
+                <td class="name"><code>removeAllCollections</code></td>
             
 
             <td class="type">
@@ -280,14 +273,14 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Handles GET requests to render the admin menu page.</p></td>
+            <td class="description last"><p>Removes all documents from the collection. This is used in testing.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>adminMain</code></td>
+                <td class="name"><code>insertOne</code></td>
             
 
             <td class="type">
@@ -303,7 +296,168 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
 
             
 
-            <td class="description last"><p>Handles GET requests to render pages based on the type of action and type of element.</p></td>
+            <td class="description last"><p>Inserts a single document to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>insertMany</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Inserts multiple documents to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>findOne</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Searches for a single document in the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>findMany</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Searches for multiple documents in the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateOne</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Updates a single document in the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateMany</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Updates multiple documents in the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteOne</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Deletes a single document in the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleteMany</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Deletes multiple documents in the database.</p></td>
         </tr>
 
     
@@ -342,7 +496,7 @@ the admin pages. In particular, this module handles Epic 3: Admin Control and Ep
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_controller_admin_controller.js.html">server/controller/admin_controller.js</a>, <a href="server_controller_admin_controller.js.html#line18">line 18</a>
+        <a href="server_config_db.js.html">server/config/db.js</a>, <a href="server_config_db.js.html#line10">line 10</a>
     </li></ul></dd>
     
 

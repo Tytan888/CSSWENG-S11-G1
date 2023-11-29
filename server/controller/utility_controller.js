@@ -152,6 +152,13 @@ const Uti = {
             result.forEach(element => {
                 element.age = moment().diff(element.birthdate, 'years')
             });
+            /* If the type is chlid, cut off the description if it is too long. */
+            const cutoffLength = 140;
+            result.forEach(element => {
+                if (element.description.length > cutoffLength) {
+                    element.description = element.description.substring(0, cutoffLength) + "...";
+                }
+            });
         }
 
         /* Return the result. */

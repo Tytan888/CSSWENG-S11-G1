@@ -1,6 +1,5 @@
 /**
- * This module contains all of the functions that are used to handle requests
- * and operations related to the singleton schema.
+ * This module contains all of the functions to connect to the database and perform CRUD operations.
  * @module server/config/db
  * 
  * @requires {@link mongoose}
@@ -15,9 +14,9 @@ const mongoose = require('mongoose');
  * @memberof module:server/config/db
  * @inner
  * 
- * @property {Function} conn - saves the connection to the database to access it in other files.
- * @property {Function} connect - connects to the database.
- * @property {Function} testConnect - connects to the test database.
+ * @property {Function} conn - Saves the connection to the database to access it in other files.
+ * @property {Function} connect - Connects to the database.
+ * @property {Function} testConnect - Connects to the test database.
  * @property {Function} dropAllCollections - Drops the collection from the database. This is used in testing.
  * @property {Function} removeAllCollections - Removes all documents from the collection. This is used in testing.
  * @property {Function} insertOne   - Inserts a single document to the database.
@@ -30,8 +29,7 @@ const mongoose = require('mongoose');
  * @property {Function} deleteMany - Deletes multiple documents in the database.
 */
 
-
-// Additional Connection Options
+/* Simply some additional connection options. */
 const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true
@@ -56,39 +54,37 @@ const database = {
         this.conn = conn;
     },
 
-    dropAllCollections: async function() {
-        //this function is taken from https://www.freecodecamp.org/news/end-point-testing/
-    
+    dropAllCollections: async function () {
+        /* This function is taken from https://www.freecodecamp.org/news/end-point-testing/ */
+
         const collections = Object.keys(this.conn.collections);
         for (const collectionName of collections) {
-          const collection = this.conn.collections[collectionName];
-          try {
-            await collection.drop();
-          } catch (error) {
-            // This error happens when you try to drop a collection that's already dropped. Happens infrequently.
-            // Safe to ignore.
-            if (error.message === "ns not found") return;
-      
-            // This error happens when you use it.todo.
-            // Safe to ignore.
-            if (error.message.includes("a background operation is currently running"))
-              return;
-    
-            console.log(error.message);
-          }
+            const collection = this.conn.collections[collectionName];
+            try {
+                await collection.drop();
+            } catch (error) {
+                /* This error happens when you try to drop a collection that's already dropped. 
+                Happens infrequently. Safe to ignore. */
+                if (error.message === "Collection not found.") return;
+
+                if (error.message.includes("A background operation is currently running."))
+                    return;
+
+                console.log(error.message);
+            }
         }
     },
     removeAllCollections: async function () {
-        //this function is taken from https://www.freecodecamp.org/news/end-point-testing/
+        /* This function is taken from https://www.freecodecamp.org/news/end-point-testing/ */
         const collections = Object.keys(this.conn.collections);
         for (const collectionName of collections) {
-            if(collectionName != "admins"){
+            if (collectionName != "admins") {
                 const collection = this.conn.collections[collectionName];
                 await collection.deleteMany();
             }
-            
+
         }
-        
+
     },
     /*
         This function inserts a single `doc` to the database based on the model `model`.

@@ -29,9 +29,7 @@ nav {
     z-index: 99999;
 }
 
-
 /* Define animations to be used throughout the website. */
-
 @keyframes fadeIn {
     from {
         opacity: 0;
